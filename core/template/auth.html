@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <!-- Set the viewport width to device width for mobile -->
+    <meta name="viewport" content="width=device-width" />
+    <meta name="renderer" content="webkit" />
+    <title>美天保养</title>
+    <!--[if lte IE 8]><meta http-equiv="refresh" content="0;url=/browser_suggestion"><![endif]-->
+    <meta property="qc:admins" content="1372006411416736377" />
+    <meta property="wb:webmaster" content="39112a789e850a04" />
+
+<style>
+a,a:hover{
+    color:rgba(255,255,255,0.6);
+    text-decoration: none;
+}
+#header{
+    height: 120px;
+    position: fixed;
+    top: 0;
+    left: 10px;
+}
+
+#header #nav{
+    width: 1200px;
+    margin: auto;
+}
+
+#logo{
+    background-image: url(/static/img/logo_show_update.png);
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 184px;
+    height: 81px;
+    position: relative;
+    float:left;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+#bg {
+    height: 100%;
+    width: 100%;
+    background: url(/static/img/new-index-bg-new-update.jpg);
+    background-size: cover;
+    background-position: center center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -100;
+}
+
+#body {
+    height: 100%;
+    width: 100%;
+    -webkit-transform: translate3d(0,0,0);
+}
+
+.show_panel {
+    background-position: top center;
+    background-repeat: no-repeat;
+    text-align: center;
+    padding: 20px;
+    width: 306px;
+    margin: 120px auto 0 auto;
+}
+
+.show_panel div{
+    float: left;
+    font-size: 25px;
+    margin: 3px 3px;
+    padding: 0px 3px;
+    line-height: 30px;
+    background-color: black;
+    color: white;
+    clear: both;
+}
+
+.auth_panel {
+    /*background-color: #E6EAE7;*/
+    background-position: top center;
+    background-repeat: no-repeat;
+    text-align: center;
+    padding: 20px;
+    /*border: solid 2px white;*/
+    border-radius: 5px;
+    opacity: 0.9;
+    width: 300px;
+    margin: auto;
+    margin: 160px auto 100px auto;
+}
+
+.clk {
+    cursor: pointer;
+}
+
+.clk:hover {
+    /*text-decoration: underline;*/
+}
+
+#signup_button {
+  width: 216px;
+  height: 41px;
+  font-weight: bold;
+  line-height: 36px;
+  margin: 30px auto 30px auto;
+  /*border: solid 2px white;*/
+  /*border-radius: 5px;*/
+  font-size:20px;
+  cursor: pointer;
+}
+
+.lg_button {
+  width: 216px;
+  height: 41px;
+  font-weight: bold;
+  line-height: 36px;
+  margin: 30px auto 30px auto;
+  /*border: solid 2px white;*/
+  /*border-radius: 5px;*/
+  font-size:20px;
+  cursor: pointer;
+}
+.md_button {
+  width: 216px;
+  height: 41px;
+  font-weight: normal;
+  line-height: 36px;
+  margin: 30px auto 30px auto;
+  /*border: solid 2px white;*/
+  /*border-radius: 5px;*/
+  font-size:20px;
+  cursor: pointer;
+}
+
+#signup_login,#signup_invitecode,#signup_password,#signup_password2,#login,#password {
+    margin: 6px 0;
+}
+
+.signup_open,.login_open,.qrcode_open {
+    width: 120px;
+    height: 36px;
+    font-weight: bold;
+    line-height: 36px;
+    border:solid 2px white;
+    margin: 10px auto;
+    border-radius: 3px;
+    font-size:20px;
+    cursor: pointer;
+}
+
+.auth_panel label{
+    float: left;
+    margin-top: 8px;
+    width: 73px;
+    text-align: right;
+    clear:both;
+}
+
+.auth_panel input{
+    width: 150px;
+    border: solid 1px gray;
+    height: 20px;
+}
+
+#login_check{
+    font-size:12px;
+    margin-top:2px;
+    margin-bottom:0px;
+    color:red;
+    display:none;
+}
+
+#signup_check{
+    font-size:12px;
+    margin-top:2px;
+    margin-bottom:4px;
+    color:red;
+    display:none;
+}
+
+#signup_mobile{
+    font-size:12px;
+    margin-top:2px;
+    margin-bottom:4px;
+}
+
+#footer{
+    position: fixed;
+    bottom: 0;
+    left: 20px;
+    width: 100%;
+}
+#qrcode_hint{
+    width: 180px;
+    height: 18px;
+    background-image: url(/static/img/page4-weichat-qr-code.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: 152px 18px;
+}
+.qrcode{
+    width: 160px;
+    height: 160px;
+}
+/*453+180=633*/
+#qrcode_panel{
+    width: 160px;
+}
+.desc_now{
+    color: white;
+    text-shadow: 0px 0px 6px rgba(0,0,0,0.7);
+}
+input{
+  color: rgba(0,0,0,0.5);
+}
+.btn {
+  width: 140px;
+  height: 36px;
+  border-radius: 3px;
+  border: 1px solid #000000;
+  background: white;
+  font-size: 16px;
+  color: black;
+  cursor: pointer;
+}
+.btn-gray {
+  border: 1px solid #ccc;
+  background: #eee;
+  color: gray;
+}
+.btn-cyan {
+  border: 1px solid black;
+  background: white;
+  color: black;
+}
+.btn-cyan:hover {
+    background: black;
+    border-color: rgba(0,0,0,0.8);
+    color: #fff;
+}
+.now_center{
+  width: 100%;
+  min-height: 20px;
+}
+.index_info_area_class_a{
+    position:relative;
+    width:100%;
+    min-width:710px;
+    height:100%;
+    background:white;
+    color:rgba(0,0,0,0.6);
+    font-size:40px;
+    /*font-weight:bold;*/
+}
+.index_info_area_class_b{
+    position:relative;
+    width:100%;
+    min-width:710px;
+    height:100%;
+    background:rgba(0,0,0,0.3);
+    color:white;
+    font-size:40px;
+    font-weight:bold;
+}
+.left_line{
+    margin-right: 40px;
+    width: 40px;
+    height: 2px;
+    background:white;
+    position: absolute;
+    left: 1px;
+    transform:rotate(17deg);
+    -ms-transform:rotate(17deg);     /* IE 9 */
+    -moz-transform:rotate(17deg);    /* Firefox */
+    -webkit-transform:rotate(17deg); /* Safari 和 Chrome */
+    -o-transform:rotate(17deg);  /* Opera */
+}
+.right_line{
+    margin-left: 40px;
+    width: 40px;
+    height: 2px;
+    background:white;
+    position: absolute;
+    right: 1px;
+    transform:rotate(-17deg);
+    -ms-transform:rotate(-17deg);     /* IE 9 */
+    -moz-transform:rotate(-17deg);    /* Firefox */
+    -webkit-transform:rotate(-17deg); /* Safari 和 Chrome */
+    -o-transform:rotate(-17deg);  /* Opera */
+}
+#back_qrcode_line1{
+  position: absolute;
+  top: 18px;
+  width: 16px;
+  height: 2px;
+  background: black;
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  -moz-transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+#back_qrcode_line2{
+  position: absolute;
+  top: 8px;
+  width: 16px;
+  height: 2px;
+  background: black;
+  transform: rotate(-45deg);
+  -ms-transform: rotate(-45deg);
+  -moz-transform: rotate(-45deg);
+  -webkit-transform: rotate(-45deg);
+}
+#start_now_btn{
+  width: 120px;
+  height: 30px;
+  line-height: 30px;
+  color: white;
+  border-radius: 3px;
+  border: 1px solid white;
+  font-size: 16px;
+  cursor: pointer;
+}
+#start_now_btn:hover{
+  color: black;
+  background: white;
+}
+</style>
+
+</head>
+<body style="height:100%;background:white;">
+
+<div id="bg">
+</div>
+
+<div id="header">
+    <div id="nav">
+        <div id="logo" style="display:none;cursor:pointer;"></div>
+    </div>
+</div>
+
+<div id="body" align="center">
+    <div id="qrcode_panel" class="">
+        <div align="center">
+            <div id="qrcode_div" style="padding:10px;width:140px;height:140px;background:white;border-radius:6px;overflow:hidden;display:none;">
+            </div>
+            <div id="qrcode_src" style="padding:10px;width:140px;height:140px;background:white;border-radius:6px;overflow:hidden;">
+                <img id="qrcode" width="140px" height="140px" />
+            </div>
+        </div>
+        <div id="qrcode_scanned" style="display:none; color:white;text-shadow:0px 0px 3px rgba(0,0,0,0.7);">二维码已被扫描</div>
+        <div style="">微信二维码扫一扫</div>
+    </div>
+
+    <div id="footer" style="display:none;">
+        <div style="width:100%; margin: 10px auto auto auto; color: rgba(210,210,210,0.6);font-size:10px; text-align:center;">
+            ©2013-2015 沪ICP备14022508号 <a href="/term" style="color: rgba(210,210,210,0.6);">用户条款</a>
+        </div>
+    </div>
+
+</body>
+
+<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery.qrcode.min.js"></script>
+<script type="text/javascript">
+uuid4 = function(){
+    return 'xxxxxxxxxxxx4xxxyxxxxxxxxxxxxxxx'.replace(/[xy]/g, function(c){
+        u = Math.random() * 16 | 0;
+        if(c == 'y'){
+            u = u & 0x3 | 0x8;
+        }
+        return u.toString(16)
+    });
+}
+
+$(function(){
+    qrcode_waiting = function(){
+        $("#qrcode").show();
+        secret = uuid4();
+        $("#qrcode_div").empty();
+        $("#qrcode_div").qrcode('http://'+window.location.host+'/login_qrcode?secret='+secret);
+        $("#qrcode").attr('src', $("#qrcode_div").children()[0].toDataURL());
+        qrcode_xhr = $.ajax({
+            "url": "/api/login_qrcode_waiting",
+            "type": "POST",
+            "data":{
+                "secret": secret
+            },
+            "success": function(data){
+                if(data["status"] == "scanned"){
+                    $("#qrcode_hint").addClass("hide");
+                    $("#qrcode_scanned").removeClass("hide");
+                    $("#qrcode_div").empty();
+                    $("#qrcode").addClass("hide");
+                    i = window.location.search.indexOf("redirect=");
+                    window.location.href = decodeURIComponent(window.location.search.substr(i+9) || "/manager");
+                }
+            },
+            "error": function(data){
+                setTimeout(function(){
+                    $("#qrcode").hide();
+                    qrcode_waiting();
+                }, 500);
+            }
+        });
+
+    }
+    qrcode_waiting();
+});
+
+</script>
+</html>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!-- saved from url=(0067)http://ionicframework.com/docs/v2/api/components/datetime/DateTime/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style type="text/css">@charset "UTF-8";[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}ng\:form{display:block;}.ng-animate-shim{visibility:hidden;}.ng-anchor{position:absolute;}</style>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Ionic makes it incredibly easy to build beautiful and interactive mobile apps using HTML5 and AngularJS.">
+<meta name="keywords" content="html5,javascript,mobile,drifty,ionic,hybrid,phonegap,cordova,native,ios,android,angularjs">
+<meta name="author" content="Drifty">
+<meta property="og:image" content="http://ionicframework.com/img/ionic-logo-blog.png">
+
+<link href="./pc/v2.css" rel="stylesheet">
+
+
+
+    
+      <title>一块走</title>
+    
+  </head>
+  <body id="docs-page-datetime" class="v2 docs page-datetime ng-scope" data-spy="scroll" data-offset="100" data-target="#components-index" ng-app="IonicDocs">
+	  <!--
+    <nav class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" id="collapse-toggle" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <i class="ion-md-more"></i>
+      </button>
+      <button type="button" class="sidebar-toggle collapsed" id="sidebar-toggle">
+        <span class="sr-only">Toggle sidebar</span>
+        <i class="ion-md-menu"></i>
+        <i class="ion-md-close"></i>
+      </button>
+      <a class="navbar-brand" href="http://ionicframework.com/docs/v2">
+        <img src="./pc/ionic-docs-logo-sm.png" id="ionic-docs-logo">
+      </a>
+    </div>
+
+
+    <div class="collapse navbar-collapse" id="navbar-collapse">
+      
+      <form class="navbar-form navbar-left ng-pristine ng-valid" role="search" data-searchpos="header">
+        <div class="form-group">
+          <input type="text" class="form-control search-input ng-pristine ng-untouched ng-valid" placeholder="Search" data-searchpos="header" ng-model="searchTerm">
+        </div>
+      </form>
+      
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="http://ionicframework.com/docs/v2/getting-started/installation/">Getting Started</a></li>
+        <li class="active"><a href="http://ionicframework.com/docs/v2/">Docs</a></li>
+        <li><a href="http://blog.ionic.io/?utm_source=framework&amp;utm_medium=navbar&amp;utm_campaign=blog%20CTA">Blog</a></li>
+        <li class="hide-sm"><a href="https://forum.ionicframework.com/?utm_source=framework&amp;utm_medium=navbar&amp;utm_campaign=forum%20CTA">Forum</a></li>
+        <li><a target="_blank" href="http://ionic.io/enterprise?utm_source=framework&amp;utm_medium=navbar&amp;utm_campaign=enterprise%20CTA">Enterprise</a></li>
+        <li class="dropdown">
+          <a href="http://ionicframework.com/docs/v2/api/components/datetime/DateTime/#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            More <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a target="_blank" href="http://ionic.io/?utm_source=framework&amp;utm_medium=navbar&amp;utm_campaign=platform%20CTA">
+              Ionic Cloud</a></li>
+            <li><a target="_blank" href="http://showcase.ionicframework.com/">
+              Showcase</a></li>
+            <li><a target="_blank" href="http://jobs.ionic.io/">
+              Job Board</a></li>
+            <li><a target="_blank" href="http://market.ionic.io/">
+              Market</a></li>
+            <li><a target="_blank" href="http://ionicworldwide.herokuapp.com/">
+              Ionic Worldwide</a></li>
+            <li><a target="_blank" href="http://play.ionic.io/">
+              Playground</a></li>
+            <li><a target="_blank" href="http://creator.ionic.io/">
+              Creator</a></li>
+            <li><a target="_blank" href="http://shop.ionic.io/">Shop</a></li>
+            <li><a target="_blank" href="https://ionic.io/trusted-partners">
+              Trusted Partners</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
+-->
+
+    <div class="docs-container ng-scope" ng-controller="APIDemoCtrl">
+      <nav class="side-nav" id="side-nav">
+        <form class="form-group search ng-pristine ng-valid" role="search">
+          <input type="text" class="form-control search-input ng-pristine ng-untouched ng-valid" placeholder="Search" data-searchpos="sidebar" ng-model="searchTerm">
+        </form>
+        
+     
+<ul ng-controller="DocsNavCtrl" class="ng-scope">
+  
+	<!--
+<li class="capitalize ">
+  <a href="http://ionicframework.com/docs/v2/api/components/action-sheet/ActionSheetController">ActionSheetController</a>
+</li>
+	-->
+
+</ul>
+
+      </nav>
+      
+	  <!--
+      <aside id="platform-preview" class="platform-preview fixey">
+	  
+	  
+        
+        
+      </aside>
+	  -->
+      
+      <main  class="platform-preview fixey">
+	  
+	  <div id="demo-device-ios" ng-class="previewPlatform" ng-show="iosActive" class="ios" style="">
+          <iframe id="demo-ios" src="http://www.yikuaizou.net:8080/myapp/www/" frameborder="0">
+          </iframe>
+        </div>
+        <div id="demo-device-android" ng-class="previewPlatform" ng-show="androidActive" class="ng-hide ios">
+          <iframe id="demo-android" src="./pc/saved_resource(1).html" frameborder="0">
+          </iframe>
+        </div>
+        <div id="demo-device-windows" ng-class="previewPlatform" ng-show="windowsActive" class="ng-hide ios">
+          <iframe id="demo-windows" src="./pc/saved_resource(2).html" frameborder="0">
+          </iframe>
+        </div>
+
+<!-- related link -->
+<!-- end content block -->
+
+<!-- end body block -->
+
+
+      </main>
+    </div>
+    
+    <div id="search-results">
+      <div id="results-api">
+        <h3>API</h3>
+        <ul></ul>
+      </div>
+      <div id="results-native">
+        <h3>Native</h3>
+        <ul></ul>
+      </div>
+      <div id="results-other">
+        <h3>General</h3>
+        <ul></ul>
+      </div>
+    </div>
+    <script async="" src="./pc/analytics.js"></script><script src="./pc/jquery.min.js"></script>
+<script src="./pc/bootstrap.min.js"></script>
+<script src="./pc/angular.min.js"></script>
+<script src="./pc/angular-animate.min.js"></script>
+<script src="./pc/ionic-docs.js"></script>
+
+
+  
+
+<!--
+<script language="javascript" type="text/javascript" src="./pc/chartbeat.js"></script>
+-->
+
+
+</body></html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+  <meta name="renderer" content="webkit" />
+  <title>预约</title>
+
+<style>
+</style>
+<link rel="stylesheet" href="/static/jquery-ui-1.12.0.custom/jquery-ui.min.css">
+
+</head>
+<body>
+
+<p align="center">
+  <br>
+  {% if handler.tasks %}
+  当前已经预约<br><br>
+  {% for task in handler.tasks %}
+  <div align="center">
+    车牌 {{ task["license"]}}<br>
+    语音信息 {{ task["voice"]}}<br>
+    其它信息 {{ task["content"]}}<br>
+    下次用车时间 {{ task["datetime"] or "" }}<br><br>
+
+    <span style="font-size:12px;">下次用车日期</span><br>
+    <input type="text" class="datepicker" style="color: white; width:280px; height:30px; font-size: 20px; background-color: gray; border:0; border-radius:5px;" value='{{ unicode(task["datetime"] or "")[:10] }}'>
+    <br><br>
+
+    <span style="font-size:12px;">时间</span><br>
+    <select name="time" class="time" style="color: white; width:280px; height:30px; font-size: 20px; background-color: gray;">
+      <option value=" 07:00:00" selected="selected">早上 7:00</option>
+      <option value=" 08:00:00">8:00</option>
+      <option value=" 09:00:00">9:00</option>
+      <option value=" 10:00:00">10:00</option>
+      <option value=" 11:00:00">中午 11:00</option>
+      <option value=" 12:00:00">12:00</option>
+      <option value=" 13:00:00">13:00</option>
+      <option value=" 14:00:00">14:00</option>
+      <option value=" 15:00:00">15:00</option>
+      <option value=" 16:00:00">傍晚 16:00</option>
+      <option value=" 17:00:00">17:00</option>
+      <option value=" 18:00:00">18:00</option>
+    </select>
+    <br><br>
+
+    <span style="font-size:12px;">车辆</span><br>
+    <select name="car" class="car" style="color: white; width:280px; height:30px; font-size: 20px; background-color: gray;">
+      {% for car in handler.users_dict.get(task["user_id"], {}).get("cars", []) %}
+      <option value="{{ car['license'] }}" {{ 'selected="selected"' if car['license'] == task['license'] else ''}}>{{ car['license'] }} {{ car['description'] }}</option>
+      {% end for %}
+    </select>
+    <br><br><br>
+
+    <button class="confirm" style="background-color:gray; width: 100px;" task_id="{{ task['id'] }}">确认</button><br><br>
+  <div>
+  {% end for %}
+  {% end if %}
+  <br>
+</p>
+
+<p align="center">
+  <br>
+  {% if handler.confirmed_tasks %}
+  当前已经确认<br><br>
+  {% for task in handler.confirmed_tasks %}
+  车牌 {{ task["content"]}}<br>
+  下次用车时间 {{ task["datetime"] }}<br><br>
+
+  <button class="finish" style="background-color:gray; width: 100px;" task_id="{{ task['id'] }}">完成</button><br><br>
+  {% end for %}
+  {% end if %}
+  <br>
+</p>
+
+<p align="center">
+  <br>
+  {% if handler.finished_tasks %}
+  当前已经完成<br><br>
+  {% for task in handler.finished_tasks %}
+  车牌 {{ task["content"]}}<br>
+  下次用车时间 {{ task["datetime"] }}<br><br>
+  {% end for %}
+  {% end if %}
+  <br>
+</p>
+
+</body>
+<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/static/jquery-ui-1.12.0.custom/jquery-ui.min.js"></script>
+<script type="text/javascript">
+$(function(){
+  $(".datepicker").datepicker({minDate: 0, maxDate: "+12M +10D", dateFormat: "yy-mm-dd"});
+
+  $(".confirm").click(function(evt){
+    if(!$(evt.target).parent().find(".datepicker").val()){
+      return;
+    }
+    license = $(evt.target).parent().find(".car").val();
+    content = $(evt.target).parent().find(".car option").get($(evt.target).parent().find(".car")[0].selectedIndex).text;
+    $.post("/api/confirm_task", {
+      "task_id": $(evt.target).attr("task_id"),
+      "license": license,
+      "content": content,
+      "datetime": $(evt.target).parent().find(".datepicker").val()+$(evt.target).parent().find(".time").val()
+    }, function(){
+      $(evt.target).text("成功确认");
+    });
+  });
+
+  $(".finish").click(function(evt){
+    $.post("/api/finish_task", {
+      "task_id": $(evt.target).attr("task_id"),
+    }, function(){
+      $(evt.target).text("成功完成");
+    });
+  });
+
+});
+</script>
+
+</html>

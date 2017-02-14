@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>  <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>  <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<!-- Set the viewport width to device width for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit" />
+<title>约吗？</title>
+
+<style>
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: #eeeeee;
+  color: #333;
+  margin: 0;
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti !important;
+}
+
+/*a{
+  text-decoration: none;
+  color: #333;
+  display: block;
+}*/
+#go_out,#come_home{
+    width: 120px;
+    font-size: 20px;
+    /*border-radius: 3px;*/
+    color: blue;
+}
+#schedure,#price,#from_address,#to_address,#home,#seats,#mobile {
+  width: 170px;
+  height: 30px;
+  font-size:20px;
+  text-align: center;
+}
+
+#save,#cancel{
+    font-size:20px; line-height:20px; border: 1px solid gray; margin:auto; padding:5px; width:120px; color: white; background-color:#333;
+}
+
+.hide {
+    display: none;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}
+
+</style>
+</head>
+<body>
+    <div id="status"></div>
+    <div id="info" style="display:none; width:280px; height:300px; margin:auto; position:relative; top:30px; padding: 10px;text-align: center;">
+        <!-- <label>单人收费:</label><br/>
+        <input id="price" /><br/> -->
+        <button id="go_out">上班</button>
+        <button id="come_home" style="display:none;">回家</button> < 点这里切换<br/>
+        <input id="to_address" />
+        <input id="from_address" style="display:none;" /><br/><br/>
+        <label>小区</label><br/>
+        <input id="home" value="{{ handler.community.get('name', '') }}"/><br/><br/>
+        <label>座位数</label><br/>
+        <input id="seats" value="3"/><br/><br/>
+        <label>出发时间</label><br/>
+        <input id="schedure" value="在线等"/><br/><br/>
+        <label>联系电话</label><br/>
+        <input id="mobile" value="{{ handler.user.get('mobile', '') }}"/><br/><br/>
+        <button id="save">准备走</button>
+        <!-- <button id="go_home">回家</button> -->
+    </div>
+    <div id="info_cancel" style="display:none; width:280px; height:300px; margin:auto; position:relative; top:30px; padding: 10px;text-align: center;">
+        <button id="cancel">关闭</div>
+    </div>
+    <!-- <button id="confirm">提交</div> -->
+</body>
+<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+var USER_ID = "{{ handler.user_id }}";
+// var statuses = {
+//     "0":"等待确认",
+//     "1":"确认罩车",
+//     "2":"罩车完成",
+//     "3":"确认摘车罩",
+//     "4":"车罩已摘",
+//     "5":"车主自己摘车罩"
+// };
+
+function show_order(order){
+    var html;
+    if(order["from_address"]){
+        html = order["schedure"]+" "+order["from_address"]+" >>> "+order["home"]+" "+order["to_address"]+"<br> "+order["seats"]+"个座位 电话 <a href='mobile:"+order["mobile"]+"'>"+order["mobile"]+"</a>";
+    }else{
+        html = order["schedure"]+" "+order["from_address"]+" "+order["home"]+" >>> "+order["to_address"]+"<br> "+order["seats"]+"个座位 电话 <a href='mobile:"+order["mobile"]+"'>"+order["mobile"]+"</a>";
+    }
+    html = "<div style='padding:10px;background-color:white;'>"+html+"</div>"
+    if($("#"+order["order_id"]).length == 0){
+        $("#status").prepend("<div class='order' id='"+order["order_id"]+"' user_id='"+order["user_id"]+"'>"+html+"</div>");
+    }else{
+        $("#"+order["order_id"]).html(html);
+    }
+}
+
+$(function(){
+    var timestamp = "";
+    var xhr = null;
+    var polling = function(){
+        xhr = $.ajax({
+            "url": "/api/order/status?timestamp="+timestamp,
+            "type": "POST",
+            "dataType": "json",
+            "success": function(data){
+                timestamp = data["timestamp"];
+                if(data["orders"]){
+                    for(var index in data["orders"]){
+                        var order = data["orders"][index];
+                        show_order(order);
+                    }
+                    var did = $("[user_id="+USER_ID+"]").length > 0;
+                    if(did){
+                        $("#info_cancel").show();
+                        $("#info").hide();
+                    }else{
+                        $("#info_cancel").hide();
+                        $("#info").show();
+                    }
+                }else if(data["order_to_cancel"]) {
+                    // console.log(data["order_to_cancel"]);
+                    $("#"+data["order_to_cancel"]["order_id"]).remove();
+                    if(USER_ID == data["order_to_cancel"]["user_id"]){
+                        $("#info_cancel").hide();
+                        $("#info").show();
+                    }
+                }
+            },
+            "complete": function(data){
+                setTimeout(polling, 500);
+            }
+        });
+    }
+    polling();
+
+    $("#save").click(function(){
+        $.post("/api/order/new", {
+            "schedure":$("#schedure").val(),
+            "seats":$("#seats").val(),
+            // "price":$("#price").val(),
+            "from_address":$("#from_address").val(),
+            "to_address":$("#to_address").val(),
+            "home":$("#home").val(),
+            "mobile":$("#mobile").val()
+        }, function(data){
+            if(xhr)xhr.abort();
+            // console.log(data);
+            if(data)
+                show_order(data);
+        });
+    });
+
+    $("#cancel").click(function(){
+        $.post("/api/order/cancel", function(data){
+            if(xhr)xhr.abort();
+            // console.log(data);
+        });
+    });
+
+    $("#go_out").click(function(){
+        $("#go_out").hide();
+        $("#to_address").hide();
+        $("#come_home").show();
+        $("#from_address").show();
+
+        address = $("#to_address").val();
+        $("#from_address").val(address);
+        $("#to_address").val("");
+    });
+
+    $("#come_home").click(function(){
+        $("#go_out").show();
+        $("#to_address").show();
+        $("#come_home").hide();
+        $("#from_address").hide();
+
+        address = $("#from_address").val();
+        $("#to_address").val(address);
+        $("#from_address").val("");
+    });
+
+});
+</script>
+
+</html>

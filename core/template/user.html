@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+  <meta name="renderer" content="webkit" />
+  <title>用户</title>
+
+<style>
+</style>
+<link rel="stylesheet" href="/static/jquery-ui-1.12.0.custom/jquery-ui.min.css">
+
+</head>
+<body>
+输入用户号 <input id="go_user" value='{{ handler.get_argument("user_id", "0") }}'><br>
+
+<p align="center">
+{% if handler.user %}
+  用户号 {{ handler.user_digital_id }}
+  <br><br>
+  真实姓名<br>
+  <input id="name" value="{{ handler.user.get("name", "") }}"><br>
+
+  手机号码<br>
+  <input id="mobile" value="{{ handler.user.get("mobile", "") }}"><br>
+
+  家庭住址<br>
+  <input id="address" value="{{ handler.user.get("address", "") }}"><br>
+
+  小区<br>
+  <select id="community">
+    {% for community in handler.communities %}
+    <option value="{{ community['id'] }}" selected>{{ community['name'] }}</option>
+    {% end for %}
+  </select><br><br>
+
+  {% for car in handler.user.get("cars", []) %}
+  <br>
+  车牌<br>
+  <input class='license' value="{{ car.get('license', '') }}"><br>
+  品牌／型号／颜色<br>
+  <input class='description' value="{{ car.get('description', '') }}"><br>
+  {% end for %}
+
+  <br><br>
+  增加新车辆<br>
+  车牌<br>
+  <input id="new_license" value=""><br>
+  品牌／型号／颜色<br>
+  <input id="new_description" value=""><br>
+
+  <br><br>
+  <button id="save">保存</button>
+{% else %}
+  用户号 {{ handler.get_argument("user_id", "0") }} 不存在
+{% end if %}
+</p>
+</body>
+<script type="text/javascript" src="/static/js/json2.js"></script>
+<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/static/jquery-ui-1.12.0.custom/jquery-ui.min.js"></script>
+<script type="text/javascript">
+$(function(){
+  $("#go_user").keyup(function(evt){
+    if(evt.keyCode == 13){
+      window.location.href = "/user?user_id="+evt.target.value;
+    }
+  });
+
+
+{% if handler.user %}
+  $("#save").click(function(){
+    cars = [];
+    for(i = 0; i < $(".license").length; i++){
+      if($(".license")[i].value) cars.push({"license":$(".license")[i].value, "description":$(".description")[i].value});
+    }
+    if($("#new_license").val()) cars.push({"license": $("#new_license").val(), "description":$("#new_description").val()});
+
+    $.post("/api/update_user", {
+      "user_id": '{{ handler.user_hex_id }}',
+      "name": $("#name").val(),
+      "mobile": $("#mobile").val(),
+      "address": $("#address").val(),
+      "community_id": $("#community").val(),
+      "cars": JSON.stringify(cars)
+    }, function(res){
+      alert("保存成功");
+    });
+  });
+{% end if %}
+});
+</script>
+
+</html>

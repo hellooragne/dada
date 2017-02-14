@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+  <meta name="renderer" content="webkit" />
+  <title>管理</title>
+
+<style>
+.order{
+  background-color: #F1F1F1;
+  padding: 3px;
+  margin: 2px;
+}
+</style>
+
+</head>
+<body>
+
+</body>
+<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+function show_order(order){
+  if($("#"+order["order_id"]).length == 0){
+    $("body").prepend("<div class='order' id='"+order["order_id"]+"'></div>");
+  }
+  html  = "<select id='status'>";
+  html += "<option value='0'>等待确认</option>";
+  html += "<option value='1'>确认罩车</option>";
+  html += "<option value='2'>罩车完成</option>";
+  html += "<option value='3'>确认摘车罩</option>";
+  html += "<option value='4'>车罩已摘</option>";
+  html += "<option value='5'>车主自己摘车罩</option>";
+  html += "</select> ";
+  html += order["menu"]+" "+order["add"]+" <a href='tel:"+order["tel"]+"'>"+order["tel"]+"</a>";
+  $("#"+order["order_id"]).html(html);
+  $("#"+order["order_id"]+" #status").val(order["status"]).change(function(evt){
+    $.post("/api/order/dashboard_change", {
+      "order_id": order["order_id"],
+      "status": evt.target.value,
+    });
+  });
+}
+
+$(function(){
+  var timestamp = "";
+  var polling = function(){
+    $.ajax({
+      "url": "/api/order/dashboard_status?timestamp="+timestamp,
+      "type": "POST",
+      "dataType": "json",
+      "success": function(data){
+        timestamp = data["timestamp"];
+        for(index in data["orders"]){
+          order = data["orders"][index];
+          show_order(order);
+        }
+      },
+      "complete": function(data){
+        setTimeout(polling, 300);
+      }
+    });
+  }
+  polling();
+});
+</script>
+
+</html>

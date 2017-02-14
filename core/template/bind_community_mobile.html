@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>  <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>  <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+<meta charset="utf-8" />
+<!-- Set the viewport width to device width for mobile -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="renderer" content="webkit" />
+<title>绑定手机</title>
+
+<style>
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: #eeeeee;
+  color: #333;
+  margin: 0;
+  font-family: "Helvetica Neue", "Luxi Sans", "DejaVu Sans", Tahoma, "Hiragino Sans GB", STHeiti !important;
+}
+
+a{
+  text-decoration: none;
+  color: #333;
+  display: block;
+}
+
+div#community_or_mobile_box {
+  width:280px;
+  margin:auto;
+  position:relative;
+  top:30px;
+  padding: 10px;
+  text-align: center;
+}
+
+#mobile {
+  width: 170px;
+  height: 30px;
+  font-size:20px;
+}
+
+.community{
+    float:left;
+    padding:5px 10px;
+    margin:5px;
+    background-color:#ccc;
+}
+.community_selected{
+    background-color: white;
+}
+
+.hide {
+    display: none;
+}
+
+.pull-right {
+    float: right;
+}
+
+.pull-left {
+    float: left;
+}
+
+</style>
+</head>
+<body>
+
+<div id="community_or_mobile_box">
+
+    <div>
+        请选择您的小区
+        <br />
+        (找不到可以跳过，往下拉，填一下手机号码)
+        <br /><br />
+
+        {% for i in handler.communities %}
+        <div class="community {{'community_selected' if str(i['id']) == handler.user.get('community_id') else '' }}" value='{{ i["id"] }}'>{{ i["name"]}}</div>
+        {% end for %}
+    </div>
+    <div style="clear:both;"></div>
+    <br /><br />
+
+    <div>
+        请输入手机号码
+        <br />
+        (记得保存哦！)
+        <br /><br />
+
+        <input type="text" id="mobile" style="text-align:center;" value="{{ handler.user.get('mobile', '') }}"/>
+    </div>
+    <br /><br />
+    <div style="font-size:20px; line-height:20px; border: 1px solid gray; margin:auto; padding:5px; width:120px; color: white; background-color:#333;" id="save_mobile">保存</div>
+    <br /><br /><br />
+</div>
+
+<script type="text/javascript" src="/static/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript">
+$(function(){
+    $("#save_mobile").click(function(){
+        $.post("/api/save_mobile", {
+            "mobile":$("#mobile").val()
+        }, function(data){
+            location.href = "/order?user_id={{ handler.user_id }}";
+        });
+    });
+
+    $(".community").click(function(evt){
+        $.post("/api/save_community", {
+            "community_id":$(evt.target).attr("value")
+        }, function(data){
+            $(".community_selected").removeClass("community_selected");
+            $(evt.target).addClass("community_selected");
+        });
+    });
+});
+</script>
+
+</body>
+</html>
