@@ -1,0 +1,52 @@
+<ion-view view-title="活动详情">
+  <ion-content>
+
+		<div class="list">
+
+		<div class="list card">
+               <div class="item item-avatar">
+                   <img src="{{playlist.picture}}">
+                   <h2>{{playlist.bill_name}}</h2>
+				   <p>
+				   时间 {{playlist.start_time}}
+					</p>
+				   <p>
+				   出发地 {{playlist.s_from}}
+                   </p>
+				   <p>
+                   目的地 {{playlist.s_to}}
+                   </p>
+					
+					<p>
+                   人数 {{playlist.seat_number}}
+                   </p>
+			   
+               </div>
+
+
+			   <a ng-class='{"item item-avatar highlight":true}' href="" ng-repeat="t in bill_join_list  track by $index">
+				    <img src="{{t.picture}}">
+				    <h2>{{t.username}}</h2>
+				    <p class="">{{t.create_time}}</p>
+				    <p>{{t.phone_id}}</p>
+
+				</a>
+
+
+
+			   <a class="item item-icon-left assertive" >
+
+				   <i class="icon ion-heart"></i>
+				   <button class="button button-block button-positive" ng-click="bill_join()">
+					   加入活动
+					 </button>
+				   <!--
+				   <i class="icon ion-music-note"></i>
+				   加入活动
+				   -->
+			   </a>
+		</div>
+		</div>
+
+  </ion-content>
+</ion-view>

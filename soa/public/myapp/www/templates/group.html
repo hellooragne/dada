@@ -1,0 +1,15 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">选择地点</h1>
+    <div class="buttons">
+      <button class="button button-stable" ng-click="close_group()">关闭</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+     <ion-list>
+	  <ion-radio ng-model="bill.group_id" ng-value="'1'" ng-click="close_group_set_name('淞虹路')">淞虹路</ion-radio>
+	  <ion-radio ng-model="bill.group_id" ng-value="'2'" ng-click="close_group_set_name('漕河泾')">漕河泾</ion-radio>
+	  <ion-radio ng-model="bill.group_id" ng-value="'3'" ng-click="close_group_set_name('虹桥')">虹桥</ion-radio>
+	 </ion-list> 
+  </ion-content>
+</ion-modal-view>

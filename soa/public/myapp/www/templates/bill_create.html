@@ -1,0 +1,42 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">创建活动</h1>
+    <div class="buttons">
+      <button class="button button-stable" ng-click="closeBill()">关闭</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+    <form ng-submit="create_bill_on()">
+      <div class="list">
+        <label class="item item-input">
+          <span class="input-label">名称</span>
+          <input type="text" ng-model="bill.order_name">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">出发地</span>
+          <input type="text" ng-model="bill.s_from">
+        </label>
+		<label class="item item-input">
+          <span class="input-label">目的地</span>
+          <input type="text" ng-model="bill.s_to">
+        </label>
+		<label class="item item-input">
+          <span class="input-label">出发时间</span>
+          <input type="datetime-local" ng-model="bill.start_time">
+        </label>
+		<label class="item item-input">
+          <span class="input-label">人数</span>
+          <input type="tel" ng-model="bill.seat_number">
+        </label>
+        <label class="item">
+          <button class="button button-block button-positive" type="submit">确定</button>
+        </label>
+
+		<ion-list ng-show='create_result != ""'>
+			<ion-item>{{create_result}}</ion-item>
+		</ion-list>
+
+      </div>
+    </form>
+  </ion-content>
+</ion-modal-view>

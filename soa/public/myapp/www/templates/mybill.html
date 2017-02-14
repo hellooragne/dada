@@ -1,0 +1,85 @@
+<ion-view view-title="我的活动">
+  <ion-content>
+
+
+  </ion-content>
+   <ion-tabs class="tabs-striped tabs-top" ng-show="Islogin == 1">
+
+	     <ion-tab title="我的发布">
+
+		 	<header class="bar bar-header ">
+			</header>
+			<ion-content has-header="true">
+			
+			<ion-list>
+			<ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.bill_id}}">
+			<div class="row">
+				名称：{{playlist.bill_name}}  
+			</div>
+
+			<div class="row">
+				出发地：{{playlist.s_from}} 目的地：{{playlist.s_to}}
+			</div>
+
+			<div class="row">
+				出发时间:{{playlist.start_time}}
+			</div>
+
+			<div class="row">
+				车位：{{playlist.seat_number}}
+			</div>
+			</ion-item>
+			</ion-list>
+
+		 </ion-tab>
+
+		 
+		 <ion-tab title="我的加入">
+
+		 
+		    <header class="bar bar-header ">
+			</header>
+			<ion-content has-header="true">
+			
+			<ion-list>
+			<ion-item ng-repeat="playlist in bill_join" href="#/app/playlists/{{playlist.bill_id}}">
+			<div class="row">
+				名称：{{playlist.bill_name}}  
+			</div>
+
+			<div class="row">
+				出发地：{{playlist.s_from}} 目的地：{{playlist.s_to}}
+			</div>
+
+			<div class="row">
+				出发时间:{{playlist.start_time}}
+			</div>
+
+			<div class="row">
+				车位：{{playlist.seat_number}}
+			</div>
+			</ion-item>
+			</ion-list>
+
+		 </ion-tab>
+
+	</ion-tabs>
+    
+	<!--
+	<ion-infinite-scroll
+		on-infinite="loadMore()"
+		distance="1%">
+	</ion-infinite-scroll>
+	-->
+
+  <!--
+<div class="bar bar-footer">
+	<button class="button button-clear">添加</button>
+</div>
+	-->
+
+<ion-footer-bar align-title="left" class="bar-positive">
+	<h3 class="title">我的活动</h3>
+	
+</ion-footer-bar>
+</ion-view>
