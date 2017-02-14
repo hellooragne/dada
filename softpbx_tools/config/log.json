@@ -1,0 +1,16 @@
+{
+	"appenders" : [
+		{ 
+			"type" : "console"
+		},
+		{ 
+			"type" : "dateFile", 
+			"filename" : "logs/DID",
+			"pattern" : "_yyyy-MM-dd.log",
+			"alwaysIncludePattern" : true
+		}
+	],
+	"levels" : {
+		"[all]" : "TRACE"
+	}
+}

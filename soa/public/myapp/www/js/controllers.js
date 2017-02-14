@@ -199,6 +199,7 @@ angular.module('starter.controllers', [])
 	 	console.log("fake login");
 		console.log(data);
 
+		$rootScope.user_id = "7bfeff73c95b43fbabdd0c098e229bcc";
 	  	$rootScope.Islogin  = 1;
   	});
 
@@ -416,6 +417,26 @@ angular.module('starter.controllers', [])
 			});
 
 		}
+	};
+
+	$scope.cancel_bill = function(order_id) {
+
+		if ($rootScope.Islogin != 1) {
+			$rootScope.login();
+		} else {
+
+			var post_data = {
+				order_join_id : order_id,
+			};
+
+			$http.post("/api/order_join/cancel", post_data).success(function(data) {
+				console.log(data);
+				$scope.init_bill_join_show();
+			});
+
+		}
+
+	
 	};
 
 })

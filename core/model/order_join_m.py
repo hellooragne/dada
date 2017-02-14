@@ -27,6 +27,7 @@ class order_join_m:
         pass
 
     def __del__(self):
+
         pass
 
     def add_order_join(self, data):
@@ -39,23 +40,23 @@ class order_join_m:
         weixin_img  = user.get("weixin_data").get("headimgurl")
 
 
-        sql = "insert into order_join_t (order_id, phone_id, username, picture,\
-        create_time, state) values ('%s', '%s', '%s', '%s',  now(), 'enable')" %\
-        (data['bill_id'], phone_id, weixin_name, weixin_img)
+        sql = "insert into order_join_t (order_id, phone_id, user_id, username, picture,\
+        create_time, state) values ('%s', '%s', '%s', '%s', '%s',  now(), 'enable')" %\
+        (data['bill_id'], phone_id, data['current_user_id'], weixin_name, weixin_img)
 
         print sql
         assert conn.execute_rowcount(sql)
-	pass
+        pass
 
         
     def disable_order_join(self, data):
 
-        assert conn.execute_rowcount("update order_join_t set state = 'disable' where id = %s", data['order_join_id'])
+        conn.execute_rowcount("update order_join_t set state = 'disable' where order_join_id = %s", data['order_join_id'])
         pass
 
 
     def enable_order_join(self, data):
-        assert conn.execute_rowcount("update order_join_t set state = 'disable' where id = %s", data['order_join_id'])
+        assert conn.execute_rowcount("update order_join_t set state = 'enable' where order_join_id = %s", data['order_join_id'])
         pass
 
 

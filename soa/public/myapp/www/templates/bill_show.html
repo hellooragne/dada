@@ -1,4 +1,4 @@
-<ion-view view-title="活动详情">
+<ion-view view-title="萌搭搭">
   <ion-content>
 
 		<div class="list">
@@ -24,13 +24,23 @@
                </div>
 
 
-			   <a ng-class='{"item item-avatar highlight":true}' href="" ng-repeat="t in bill_join_list  track by $index">
-				    <img src="{{t.picture}}">
-				    <h2>{{t.username}}</h2>
-				    <p class="">{{t.create_time}}</p>
-				    <p>{{t.phone_id}}</p>
+			   <div class="row"  ng-repeat="t in bill_join_list  track by $index">
+				   <div class="col">
+					   <a ng-class='{"item item-avatar": t.state === "enable", "item item-avatar highlight": t.state === "disable"}' href="">
+							<img src="{{t.picture}}">
+							<h2>{{t.username}}</h2>
+							<p class="">{{t.create_time}}</p>
+							<p>{{t.phone_id}}</p>
 
-				</a>
+						</a>
+				   </div>
+
+				   <div class="col col-25 " ng-show="t.user_id == user_id && t.state == 'enable'">
+						<button class="button button-block button-assertive button-small" ng-click="cancel_bill(t.order_join_id)">
+						   取消
+						 </button>
+				   </div>
+				</div>
 
 
 
@@ -40,10 +50,6 @@
 				   <button class="button button-block button-positive" ng-click="bill_join()">
 					   加入活动
 					 </button>
-				   <!--
-				   <i class="icon ion-music-note"></i>
-				   加入活动
-				   -->
 			   </a>
 		</div>
 		</div>
