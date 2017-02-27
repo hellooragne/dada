@@ -71,8 +71,8 @@ application = tornado.web.Application([
 
     #hmeng
     (r"/order", order.OrderHandler),
-    (r"/api/order/new", order.NewAPIHandler),
     (r"/api/order/test", order.TestHandler),
+    (r"/api/order/new", order.NewAPIHandler),
     (r"/api/order/cancel", order.CancelAPIHandler),
     (r"/api/order/status", order.StatusAPIHandler),
     (r"/api/order/get", order.GetOrderHandler),

@@ -3,9 +3,9 @@ import tornado.web
 
 from wechat_sdk import WechatConf
 conf = WechatConf(
-    token='test',
-    appid='wx2bed1fab33851e41',
-    appsecret='bca8be10d8b03030b32333cc50e6b538',
+    token='newtest',
+    appid='wx7f638d2d85dc480f',
+    appsecret='059a902c7b8a29ba36bff3dd20c224cd',
     encrypt_mode='safe',
 )
 

@@ -2,6 +2,21 @@
 
    <ion-header-bar class="bar-subheader">
 
+
+	<div class="container-wrap">
+		<div class="container">
+			<button ng-click="change_location('1')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '1' }">淞虹路</button>
+   			<button ng-click="change_location('2')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '2' }">虹桥</button>
+   			<button ng-click="change_location('3')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '3' }">漕河泾</button>
+   			<button ng-click="change_location('4')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '4' }">中山公园</button>
+   			<button ng-click="change_location('5')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '5' }">张江</button>
+   			<button ng-click="change_location('6')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '6' }">陆家嘴</button>
+   			<button ng-click="change_location('7')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '7' }">徐家汇</button>
+		</div>
+	</div>
+   
+   <!--
+   	<ion-scroll zooming="true" direction="xy" style="width: 500px; height: 500px">
 	  <ion-row>
 		<ion-col>
    			<button ng-click="change_location('1')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '1' }">淞虹路</button>
@@ -18,8 +33,15 @@
 		<ion-col>
    			<button ng-click="change_location('5')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '5' }">张江</button>
 		</ion-col>
+		<ion-col>
+   			<button ng-click="change_location('6')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '6' }">陆家嘴</button>
+		</ion-col>
+		<ion-col>
+   			<button ng-click="change_location('7')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '7' }">徐家汇</button>
+		</ion-col>
   	  </ion-row>
-		
+	</ion-scroll>
+	-->
     </ion-header-bar>  
 
 
@@ -33,7 +55,7 @@
 	  
 	
     <ion-list>
-      <ion-item class="item item-thumbnail-left" ng-repeat="t in playlists track by $index" href="#/app/playlists/{{t.order_id}}">
+      <ion-item class="item item-thumbnail-left" ng-repeat="t in playlists track by $index" href="#/app/playlist/{{t.order_id}}">
 		
 	  <img src="{{t.picture}}" wight="80px" height="100px">
 
@@ -58,20 +80,10 @@
 	-->
   </ion-content>
 
-  <!--
-<div class="bar bar-footer">
-	<button class="button button-clear">添加</button>
-</div>
-	-->
+  
 
 
 <ion-footer-bar align-title="left" class="bar-positive">
-
-    <!--
-    <div class="buttons" ng-click="chosen_group()">
-		    <button class="button">{{bill.group_name}}</button>
-	</div>
-	-->
 
 	<h1 class="title"></h1>
 	

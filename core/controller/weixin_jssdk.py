@@ -29,10 +29,19 @@ class WeixinJSSDK(object):
     @classmethod
     @tornado.gen.coroutine
     def get_value(cls, full_url):
+        print "get_value"
         sign = WeixinJSSDKSign(cls.jsapi_ticket, cls.timestamp, full_url)
         cls.wx_ret = sign.sign()
         cls.nonceStr         = cls.wx_ret['nonceStr']
         cls.signature        = cls.wx_ret['signature']
+
+        print "full url:" + full_url 
+        print "jsapi_ticket :" + cls.jsapi_ticket 
+        print "signature:" + cls.signature
+        print "timestamp:" + str(cls.timestamp)
+        print "nonce:" + cls.nonceStr
+        
+
 
 class WeixinJSSDKSign(object):
     def __init__(self, jsapi_ticket, timestamp, url):
@@ -69,11 +78,15 @@ def update_access_token():
     url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token="+WeixinJSSDK.access_token+"&type=jsapi"
     response = yield http_client.fetch(url)
     data = tornado.escape.json_decode(response.body)
+    print data
     WeixinJSSDK.jsapi_ticket = data.get('ticket')
 
     # for client in DataWebSocket.subscribers:
     #     client.write_message(json_encode(["WEIXIN_ACCESS_TOKEN", WeixinJSSDK.access_token, WeixinJSSDK.timestamp, WeixinJSSDK.jsapi_ticket]))
+    #print "timestamp" + str(WeixinJSSDK.timestamp)
+    #print "nonceStr" + WeixinJSSDK.nonceStr
+    #print "signature" + WeixinJSSDK.signature
 
 
-tornado.ioloop.PeriodicCallback(update_access_token, 3600*1000).start()
+tornado.ioloop.PeriodicCallback(update_access_token, 3600*2000).start()
 tornado.ioloop.IOLoop.instance().add_callback(update_access_token)

@@ -1,5 +1,9 @@
-<ion-view view-title="Search">
-  <ion-content>
-    <h1>Search</h1>
-  </ion-content>
+<ion-view title="萌搭搭">
+
+<ion-content scroll="true" overflow-scroll="true" class="header iframe-issue">
+<iframe id="mainContent" ng-src="{{jumpurl}}" style="width:100%;height:100%" security="restricted" sandbox="allow-same-origin allow-scripts"></iframe>
+</ion-content>
+<!--
+<iframe id="mainContent" onload="resizeFrame('mainContent')" ng-src="{{special_offer_detail.jumpurl}}" scrolling=yes frameBorder=0 scroll="true" min-height="100%" width="100%" height="100%" style="height:100%;"></iframe>
+-->
 </ion-view>

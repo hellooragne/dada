@@ -1,57 +1,62 @@
 <ion-view view-title="萌搭搭">
   <ion-content>
 
+		<a href='http://u.ctrip.com/union/CtripRedirect.aspx?TypeID=2&AllianceID=29637&sid=468701&ouid=&app=0102F00&jumpUrl=http://www.ctrip.com' target='_blank' ><img style="width:100%" src='img/share.jpg' border='0' /></a>
 		<div class="list">
+			
+			<div class="list card">
 
-		<div class="list card">
-               <div class="item item-avatar">
-                   <img src="{{playlist.picture}}">
-                   <h2>{{playlist.bill_name}}</h2>
-				   <p>
-				   时间 {{playlist.start_time}}
-					</p>
-				   <p>
-				   出发地 {{playlist.s_from}}
-                   </p>
-				   <p>
-                   目的地 {{playlist.s_to}}
-                   </p>
-					
-					<p>
-                   人数 {{playlist.seat_number}}
-                   </p>
-			   
-               </div>
-
-
-			   <div class="row"  ng-repeat="t in bill_join_list  track by $index">
-				   <div class="col">
-					   <a ng-class='{"item item-avatar": t.state === "enable", "item item-avatar highlight": t.state === "disable"}' href="">
-							<img src="{{t.picture}}">
-							<h2>{{t.username}}</h2>
-							<p class="">{{t.create_time}}</p>
-							<p>{{t.phone_id}}</p>
-
-						</a>
+				<div ng-class='{"item item-avatar":true, "highlight":playlist.state === "disable"}'>
+					   <img src="{{playlist.picture}}">
+					   <h2>{{playlist.bill_name}}</h2>
+					   <p>
+					   时间 {{playlist.start_time}}
+						</p>
+					   <p>
+					   出发地 {{playlist.s_from}}
+					   </p>
+					   <p>
+					   目的地 {{playlist.s_to}}
+					   </p>
+						
+						<p>
+					   人数 {{playlist.seat_number}}
+					   </p>
+					   
+					   <button class="button button-block button-assertive button-small col-20" ng-click="cancel_bill(playlist.order_id)" ng_show='playlist.user_id == user_id && playlist.state === "enable"'>
+							   取消
+					   </button>
 				   </div>
 
-				   <div class="col col-25 " ng-show="t.user_id == user_id && t.state == 'enable'">
-						<button class="button button-block button-assertive button-small" ng-click="cancel_bill(t.order_join_id)">
-						   取消
+
+				   <div class="row"  ng-repeat="t in bill_join_list  track by $index">
+					   <div class="col">
+						   <a ng-class='{"item item-avatar": t.state === "enable", "item item-avatar highlight": t.state === "disable"}' >
+								<img src="{{t.picture}}">
+								<h2>{{t.username}}</h2>
+								<p class="">{{t.create_time}}</p>
+								<p>{{t.phone_id}}</p>
+
+							</a>
+					   </div>
+
+					   <div class="col col-20" ng-show="t.user_id == user_id && t.state == 'enable'">
+							<button class="button button-block button-assertive button-small" ng-click="cancel_bill_join(t.order_join_id)">
+							   取消
+							 </button>
+					   </div>
+					</div>
+
+
+
+				   <a class="item item-icon-left assertive" >
+
+					   <i class="icon ion-heart"></i>
+					   <button class="button button-block button-positive" ng-click="bill_join()">
+						   加入活动
 						 </button>
-				   </div>
-				</div>
-
-
-
-			   <a class="item item-icon-left assertive" >
-
-				   <i class="icon ion-heart"></i>
-				   <button class="button button-block button-positive" ng-click="bill_join()">
-					   加入活动
-					 </button>
-			   </a>
-		</div>
+				   </a>
+			</div>
 		</div>
 
   </ion-content>

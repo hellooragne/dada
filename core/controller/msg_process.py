@@ -90,142 +90,16 @@ class DateEncoder(json.JSONEncoder ):
             return obj.__str__()  
         return json.JSONEncoder.default(self, obj)  
 
-class OrderHandler(WebRequest):
-    def get(self):
-        if not self.current_user:
-            self.redirect("/auth/weixin?redirect=/order")
-            return
-        self.user_id = self.current_user.get("id")
-        self.user = get_user(self.user_id)
-        if not self.user.get("mobile"):
-            self.redirect("/bind_community_mobile")
-            return
-        community_id = self.user.get("community_id")
-        self.community = {}
-        if community_id:
-            self.community = conn.get("SELECT * FROM communities WHERE id = %s", community_id)
-        self.render("../template/order/order.htm")
-
-class StatusAPIHandler(WebRequest):
-    def post(self):
-        global message_queue, users, orders
-        if not self.current_user:
-            return
-
-        self.user_id = self.current_user.get("id")
-        timestamp = self.get_argument("timestamp", "")
-        if timestamp:
-            new_messages = [message for message in message_queue if message["timestamp"] > float(timestamp)]
-            if new_messages:
-                self.finish(new_messages[0])
-            else:
-                self._auto_finish = False
-
-                user = users.get(self.user_id, {})
-                clients = user.setdefault("clients", set())
-                clients.add(self)
-                users[self.user_id] = user
-                # order_ids = user.get("order_ids", [])
-                # for order_id in order_ids:
-                #     user_id = orders[order_id]["user_id"]
-                #     clients = users[user_id].get("clients", set())
-                #     clients.add(self)
-                #     users[user_id]["clients"] = clients
-        else:
-            user = users.get(self.user_id, {})
-            # order_ids = user.get("order_ids", [])
-            self.finish({"orders": [order for order in orders.values()], "timestamp": time.time()})
-
-    def on_connection_close(self):
-        global message_queue, users, orders
-        user = users.get(self.user_id, {})
-        clients = user.setdefault("clients", set())
-        if self in clients:
-            clients.remove(self)
-        users[self.user_id] = user
-
-        self.finish()
-
-class NewAPIHandler(WebRequest):
-    def post(self):
-        global users, orders, message_queue
-
-        if not self.current_user:
-            return
-
-        user_id = self.current_user.get("id")
-
-        user = users.get(user_id, {})
-        order_ids = user.get("order_ids", [])
-
-        print "add to db"
-        if len(order_ids) < 1:
-            order_id = uuid.uuid4().hex
-            orders[order_id] = {k:v[0] for k, v in self.request.body_arguments.iteritems()}
-            orders[order_id]["order_id"] = order_id
-            orders[order_id]["user_id"] = user_id
-
-            order_ids.insert(0, order_id)
-            user["order_ids"] = order_ids
-            users[user_id] = user
-
-
-        #add to db
-	    order_model = order_m()
-	    data = json.loads(self.request.body)
-	    order_model.add_order(data)
-
-        message = {"orders": [orders[order_id]], "timestamp": time.time()}
-        message_queue.append(message)
-
-        for user in users.values():
-            for client in user.get("clients", set()):
-                client.finish(message)
-            user["clients"] = set()
-
-        pprint.pprint(users)
-        self.finish(orders[order_id])
-
-
-
-class CancelAPIHandler(WebRequest):
-    def post(self):
-        global users, orders, message_queue
-        if not self.current_user:
-            return
-
-        user_id = self.current_user.get("id")
-
-        user = users.get(user_id, {})
-        order_ids = user.get("order_ids", [])
-        if len(order_ids) >= 1:
-            order_id = order_ids.pop(0)
-            order = orders.pop(order_id)
-            user["order_ids"] = order_ids
-            users[user_id] = user
-
-            #add to db
-	    order_model = order_m()
-	    data = json.loads(self.request.body)
-	    order_model.disable_order(data)
-
-        message = {"order_to_cancel": order, "timestamp": time.time()}
-        for user in users.values():
-            for client in user.get("clients", set()):
-                client.finish(message)
-            user["clients"] = set()
-
-        self.finish({})
-
 
 class MessageHandler(tornado.web.RequestHandler):
-    MESSAGE_SIGNATURE_TOKEN = "test"
+    MESSAGE_SIGNATURE_TOKEN = "newtest"
     USER_INFO_URL           = "https://api.weixin.qq.com/cgi-bin/user/info"
 
     def check_message_signature(self):
         signature = self.get_argument("signature", None)
         timestamp = self.get_argument("timestamp", None)
         nonce = self.get_argument("nonce", None)
+        
         if signature and timestamp and nonce:
             param = sorted([self.MESSAGE_SIGNATURE_TOKEN, timestamp, nonce])
             sha = hashlib.sha1("".join(param)).hexdigest()
@@ -235,8 +109,10 @@ class MessageHandler(tornado.web.RequestHandler):
 
     @gen.coroutine
     def post(self):
+        print "recv message signature"
 
         if not self.check_message_signature():
+            print "check failed"
             self.finish()
             return
 
@@ -287,54 +163,54 @@ class MessageHandler(tornado.web.RequestHandler):
             user_digital_id = index_login["id"]
 
         if request['xml'].get('Event', "") in ["subscribe", "SCAN"]:
-            content = u'欢迎您关注"美天保养", 您的用户号是 %s' % user_id
+            content = u'欢迎您关注, 您的用户号是 %s' % user_id
 
         elif request['xml'].get('Event', "") == "unsubscribe":
             self.finish()
             return
 
-        elif request['xml'].get('MsgType') == "voice":
-            assert request['xml']['Format'] == "amr"
-            media_id = request['xml']['MediaId']
+        elif request['xml'].get('MsgType') == "text" or  request['xml'].get('MsgType') == "voice" or request['xml'].get('MsgType') == "image":
 
-            recognition = request['xml'].get('Recognition', '')
-            logger.info(recognition)
+        
+            user_id = nomagic.auth.get_user_id_by_login("weixin:" + request['xml']['FromUserName'])
 
-            if index_login:
-                if recognition:
-                    content = u'"%s" 如有误, 请再讲一遍' % recognition
+            user = get_user(user_id)
 
-                    user_id = index_login["entity_id"]
-                    user = get_user(user_id)
-                    community_id = user.get("community_id", "0")
-                    tasks = conn.query("SELECT * FROM tasks WHERE user_id = %s AND status = 0", user_id)
-                    if tasks:
-                        task_id = tasks[0]["id"]
-                        conn.execute("UPDATE tasks SET voice = %s WHERE id = %s", recognition, task_id)
-                    else:
-                        conn.execute("INSERT INTO tasks (license, content, voice, datetime, user_id, community_id) VALUES ('', %s, %s, '0000-01-01 00:00:00', %s, %s)", "", recognition, user_id, community_id)
-
-                else:
-                    content = u'对比起, 请再讲一遍'
-            else:
-                content = u'您还没有签约美天保养, 签约时请提供用户号 %s' % user_digital_id
-
-        elif request['xml'].get('MsgType') == "text":
-
+            weixin_name  = user.get("name")
 
             http_client = tornado.httpclient.AsyncHTTPClient()
 
-            data = {
-                    "touser": request['xml']['FromUserName'],
-                    "msgtype":"text",
-                    "text":
-                    {
-                        "content":"Hello World"
-                    }
-                    }
-            data_send = urllib.urlencode(data)
 
-            yield WeixinJSSDK.get_value(self.request.full_url())
+            data_send = ""
+
+            if  request['xml'].get('MsgType') == "text":
+                data = u'{ \
+                        "touser": "%s",\
+                        "msgtype":"text",\
+                        "text":\
+                        {\
+                            "content":"%s"\
+                        }\
+                        }' % (request['xml']['FromUserName'], weixin_name + " : " + request['xml']['Content'])
+                data_send = data
+
+            if  request['xml'].get('MsgType') == "image":
+                data = u'{ \
+                        "touser": "%s",\
+                        "msgtype":"image",\
+                        "image":\
+                            {\
+                             "media_id":"%s"\
+                        }' % (request['xml']['FromUserName'], request['xml']['MediaId'])
+                data_send = data
+
+            #data_send = urllib.urlencode(data)
+
+            logger.info(data_send)
+
+            yield WeixinJSSDK.get_value("http://app.doubilol.com/myapp/www/")
+
+            #yield WeixinJSSDK.get_value(self.request.full_url())
             access_token = WeixinJSSDK.access_token
 
             url = u"https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %  access_token
@@ -385,13 +261,14 @@ class MessageHandler(tornado.web.RequestHandler):
                 </Articles>
                 </xml>""" % (to_user_name, from_user_name, create_time, title, description, doc_img_url, url)
         else:
-            response = u"""<xml>
-                <ToUserName><![CDATA[%s]]></ToUserName>
-                <FromUserName><![CDATA[%s]]></FromUserName>
-                <CreateTime>%s</CreateTime>
-                <MsgType><![CDATA[text]]></MsgType>
-                <Content><![CDATA[%s]]></Content>
-                </xml>""" % (to_user_name, from_user_name, create_time, content)
+            response = ""
+            #response = u"""<xml>
+            #    <ToUserName><![CDATA[%s]]></ToUserName>
+            #    <FromUserName><![CDATA[%s]]></FromUserName>
+            #    <CreateTime>%s</CreateTime>
+            #    <MsgType><![CDATA[text]]></MsgType>
+            #    <Content><![CDATA[%s]]></Content>
+            #    </xml>""" % (to_user_name, from_user_name, create_time, content)
         self.finish(response)
 
     def get(self):

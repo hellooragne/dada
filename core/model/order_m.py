@@ -15,6 +15,7 @@ import hashlib
 import urllib
 import copy
 
+import datetime
 
 from setting import conn
 
@@ -37,24 +38,24 @@ class order_m:
         weixin_img   = user.get("weixin_data").get("headimgurl")
 
         sql = "insert into order_t (group_id, order_name, s_from,\
-                s_to, start_time, phone_id, seat_number, s_type, create_time, username,\
-                picture, state) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', now(), '%s', '%s', 'enable')" %\
+                s_to, start_time, phone_id, seat_number, s_type, create_time, user_id, username,\
+                picture, state) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 'enable')" %\
                 (data['group_id'], data['order_name'], data['s_from'], data['s_to'], data['start_time'], data['phone_id'], \
-                data['seat_number'], data['s_type'], weixin_name, weixin_img)
+                data['seat_number'], data['s_type'], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), data['current_user_id'], weixin_name, weixin_img)
 
         print sql
         assert conn.execute_rowcount(sql)
         pass
 
 
-    def disable_order(self):
+    def disable_order(self, data):
 
         assert conn.execute_rowcount("update order_t set state = 'disable' where order_id = %s", data['order_id'])
 
         pass
 
 
-    def enable_order(self):
+    def enable_order(self, data):
 
         assert conn.execute_rowcount("update order_t set state = 'enable' where order_id = %s", data['order_id'])
 

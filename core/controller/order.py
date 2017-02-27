@@ -129,28 +129,6 @@ class StatusAPIHandler(WebRequest):
             clients.remove(self)
         users[self.user_id] = user
 
-# class UpdateAPIHandler(WebRequest):
-#     def get(self):
-#         self.post()
-#
-#     def post(self):
-#         global users, orders, message_queue
-#         if not self.current_user:
-#             return
-#
-#         order_id = self.get_argument("order_id")
-#
-#         message = {"orders":[orders[order_id]], "timestamp": time.time()}
-#         message_queue.append(message)
-#         user_id = orders[order_id]["user_id"]
-#         user = users.get(user_id, {})
-#
-#         for client in user.get("clients", set()):
-#             client.finish(message)
-#         user["clients"] = set()
-#
-#         self.finish()
-
 class NewAPIHandler(WebRequest):
     def post(self):
         global users, orders, message_queue
@@ -164,18 +142,6 @@ class NewAPIHandler(WebRequest):
         order_ids = user.get("order_ids", [])
 
         print "add to db"
-        """
-        if len(order_ids) < 1:
-            order_id = uuid.uuid4().hex
-            orders[order_id] = {k:v[0] for k, v in self.request.body_arguments.iteritems()}
-            orders[order_id]["order_id"] = order_id
-            orders[order_id]["user_id"] = user_id
-
-            order_ids.insert(0, order_id)
-            user["order_ids"] = order_ids
-            users[user_id] = user
-
-        """
 
         #add to db
         order_model = order_m()
@@ -184,19 +150,7 @@ class NewAPIHandler(WebRequest):
         data['current_user_id'] = current_user_id;
         order_model.add_order(data)
 
-        """
-        message = {"orders": [orders[order_id]], "timestamp": time.time()}
-        message_queue.append(message)
-
-        for user in users.values():
-            for client in user.get("clients", set()):
-                client.finish(message)
-            user["clients"] = set()
-
-        pprint.pprint(users)
-        """
         self.finish()
-
 
 
 class CancelAPIHandler(WebRequest):
@@ -208,23 +162,12 @@ class CancelAPIHandler(WebRequest):
         user_id = self.current_user.get("id")
 
         user = users.get(user_id, {})
-        order_ids = user.get("order_ids", [])
-        if len(order_ids) >= 1:
-            order_id = order_ids.pop(0)
-            order = orders.pop(order_id)
-            user["order_ids"] = order_ids
-            users[user_id] = user
-
-            #add to db
-	    order_model = order_m()
-	    data = json.loads(self.request.body)
-	    order_model.disable_order(data)
-
-        message = {"order_to_cancel": order, "timestamp": time.time()}
-        for user in users.values():
-            for client in user.get("clients", set()):
-                client.finish(message)
-            user["clients"] = set()
+        
+        #add to db
+        order_model = order_m()
+        data = json.loads(self.request.body)
+        data['user_id'] = user_id
+        order_model.disable_order(data)
 
         self.finish({})
 
@@ -267,6 +210,24 @@ class GetOneOrderHandler(WebRequest):
 
         self.finish(json.dumps(order_res, cls=DateEncoder))
 
+class GetMyOrderHandler(WebRequest):
+    def post(self):
+        global users, orders, message_queue
+
+        if not self.current_user:
+            return
+
+        user_id = self.current_user.get("id")
+
+        #get from db
+        order_model = order_m()
+        data      = json.loads(self.request.body)
+        order_res = order_model.get_my_order(data)
+
+        print json.dumps(order_res, cls=DateEncoder)
+
+        self.finish(json.dumps(order_res, cls=DateEncoder))
+
 
 class TestHandler(WebRequest):
     def get(self):
@@ -280,5 +241,4 @@ class TestHandler(WebRequest):
         print data['name']
 
         self.finish('{"test":"ok"}')
-
 

@@ -16,6 +16,8 @@ import urllib
 import copy
 
 
+import datetime
+
 from setting import conn
 
 from nomagic.cache import get_user, get_users, update_user, get_doc, get_docs, update_doc
@@ -41,8 +43,8 @@ class order_join_m:
 
 
         sql = "insert into order_join_t (order_id, phone_id, user_id, username, picture,\
-        create_time, state) values ('%s', '%s', '%s', '%s', '%s',  now(), 'enable')" %\
-        (data['bill_id'], phone_id, data['current_user_id'], weixin_name, weixin_img)
+        create_time, state) values ('%s', '%s', '%s', '%s', '%s',  '%s', 'enable')" %\
+        (data['bill_id'], phone_id, data['current_user_id'], weixin_name, weixin_img, datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
 
         print sql
         assert conn.execute_rowcount(sql)
