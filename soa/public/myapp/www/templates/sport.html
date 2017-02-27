@@ -1,0 +1,83 @@
+<ion-view view-title="球类活动">
+
+   <ion-header-bar class="bar-subheader">
+
+	  <ion-row>
+		<ion-col>
+   			<button ng-click="change_location('100000001')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '100000001' }">羽毛球</button>
+		</ion-col>
+		<ion-col>
+   			<button ng-click="change_location('100000002')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '100000002' }">乒乓球</button>
+		</ion-col>
+		<ion-col>
+   			<button ng-click="change_location('100000003')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '100000003' }">篮球</button>
+		</ion-col>
+		<ion-col>
+   			<button ng-click="change_location('100000004')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '100000004' }">骑行</button>
+		</ion-col>
+		<ion-col>
+   			<button ng-click="change_location('100000005')" ng-class="{'button button-light':true, 'button button-positive': bill.group_id === '100000005' }">跑步</button>
+		</ion-col>
+  	  </ion-row>
+		
+    </ion-header-bar>  
+
+
+  <ion-content>
+
+    <ion-refresher
+  		pulling-text="下拉刷新..."
+  		on-refresh="doRefresh()">
+    </ion-refresher>
+
+	  
+	
+    <ion-list>
+      <ion-item class="item item-thumbnail-left" ng-repeat="t in playlists track by $index" href="#/app/playlist/{{t.order_id}}">
+		
+	  <img src="{{t.picture}}" wight="80px" height="100px">
+
+	  <h2>{{t.order_name}}</h2>
+
+	  <p>组织人:{{t.username}}</p>
+	  <p>
+	  出发地:{{t.s_from}}
+	  &nbsp  
+	  目的地:{{t.s_to}}
+	  </p>
+	  <p>出发时间:{{t.start_time}}</p>
+	  <p>座位:{{t.seat_number}}</p>
+
+      </ion-item>
+    </ion-list>
+	<!--
+	<ion-infinite-scroll
+		on-infinite="loadMore()"
+		distance="1%">
+	</ion-infinite-scroll>
+	-->
+  </ion-content>
+
+  <!--
+<div class="bar bar-footer">
+	<button class="button button-clear">添加</button>
+</div>
+	-->
+
+
+<ion-footer-bar align-title="left" class="bar-positive">
+
+    <!--
+    <div class="buttons" ng-click="chosen_group()">
+		    <button class="button">{{bill.group_name}}</button>
+	</div>
+	-->
+
+	<h1 class="title"></h1>
+	
+
+	<div class="buttons" ng-click="create_bill()">
+		<button class="button">创建活动</button>
+	</div>
+</ion-footer-bar>
+</ion-view>
