@@ -37,6 +37,10 @@ app.all('*', function(req, res, next) {
     next();
 });
 
+process.on('uncaughtException', function (err) {
+	    log.info('exception');
+		log.info(err.stack);
+});
 
 proxy.on('error', function (error, req, res) {
     var json;

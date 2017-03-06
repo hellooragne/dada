@@ -1,0 +1,48 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">创建信息</h1>
+    <div class="buttons">
+      <button class="button button-stable" ng-click="closeblog()">关闭</button>
+    </div>
+  </ion-header-bar>
+  <ion-content>
+      <div class="list">
+
+        <label class="item item-input item-floating-label">
+          <input type="text" placeholder="标题" ng-model="blog.title">
+        </label>
+
+		<label class="item">
+		  <textarea id="txtArea" placeholder="内容" rows="10" cols="70" ng-model="blog.context"></textarea>
+        </label>
+
+		
+		<label class="item">
+			{{picture_list}}
+
+		</label>
+		
+		<label class="item" ng-repeat="t in picture_list  track by $index">
+			<!--
+			<img class="full-image" style="height:300px" src="{{t}}">
+			-->
+			{{t}}
+		</div>
+
+		
+		<label class="item">
+          <button class="button button-block button-positive" ng-click="set_pic()">设置图片</button>
+        </label>
+		
+        <label class="item">
+          <button class="button button-block button-assertive" ng-click="submit_f()">确定</button>
+        </label>
+
+		
+		<ion-list ng-show='create_result != ""'>
+			<ion-item>{{create_result}}</ion-item>
+		</ion-list>
+
+      </div>
+  </ion-content>
+</ion-modal-view>

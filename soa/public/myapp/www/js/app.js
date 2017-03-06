@@ -56,6 +56,17 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
     controller: 'AppCtrl'
   })
 
+
+  .state('app.order', {
+	  url: '/order/:location/:pId',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/order.html',
+          controller: 'order'
+        }
+      }
+    })
+
   .state('app.tabs', {
 	  url: '/tabs/:pId',
       views: {
@@ -72,6 +83,27 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
       'menuContent': {
         templateUrl: 'templates/search.html',
         controller: 'search'
+      }
+    }
+  })
+
+
+  .state('app.blog_list', {
+    url: '/blog_list/:location/:pId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/blog_list.html',
+        controller: 'blog_list'
+      }
+    }
+  })
+
+ .state('app.blog_show', {
+    url: '/blog_show/:pId',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/blog_show.html',
+        controller: 'blog_show'
       }
     }
   })

@@ -1,0 +1,46 @@
+<ion-view view-title="萌搭搭">
+
+   <!--
+   <ion-header-bar class="bar-subheader">
+
+   </ion-header-bar>  
+   -->
+
+
+  <ion-content>
+
+    <ion-refresher
+  		pulling-text="下拉刷新..."
+  		on-refresh="doRefresh()">
+    </ion-refresher>
+
+	  
+	
+    <ion-list>
+      <ion-item class="item item-thumbnail-left" ng-repeat="t in playlists track by $index" href="#/app/blog_show/{{t.id}}">
+		
+	  <img src="{{t.picture}}" wight="80px" height="100px">
+
+	  <h2>{{t.title}}</h2>
+
+	  <p>{{t.desc_t}}</p>
+
+	  <p>{{t.context}}</p>
+
+      </ion-item>
+    </ion-list>
+  </ion-content>
+
+  
+
+
+	<ion-footer-bar align-title="left" class="bar-positive">
+
+		<h1 class="title"></h1>
+
+		<div class="buttons" ng-click="create_bill()">
+			<button class="button">发布信息</button>
+		</div>
+	</ion-footer-bar>
+
+</ion-view>

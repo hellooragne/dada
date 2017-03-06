@@ -51,6 +51,7 @@ angular.module('starter.controllers', [])
     }, 1000);
 	*/
 
+	/*
 	var url = encodeURI("/core/user/login?phone_id=" + $scope.loginData.phone_id + "&password=" + $scope.loginData.password);
 	console.log(url)
 
@@ -73,6 +74,7 @@ angular.module('starter.controllers', [])
 			$scope.result = "用户名或密码错误";	
 		}
 	});
+	*/
 
 	
   };
@@ -119,6 +121,7 @@ angular.module('starter.controllers', [])
 		return;
 	}
 
+	/*
 	var url = encodeURI("/core/user/add?phone_id=" + $scope.registerData.phone_id + "&password=" + $scope.registerData.password 
 		+ "&username=" + $scope.registerData.username + "&picture=img/" + picture_id + ".jpg" + "&sex=" + $scope.registerData.sex);
 	console.log(url)
@@ -139,6 +142,7 @@ angular.module('starter.controllers', [])
 			$scope.register_result = "用户名重复注册";	
 		}
 	});
+	*/
   };
 
 
@@ -182,20 +186,8 @@ angular.module('starter.controllers', [])
 
   $scope.bill_init = function() {
 
-	  $scope.playlists = {};
+	  $scope.playlists = [];
   
-	  var url = encodeURI("/core/bill/get?group_id=" + $scope.bill.group_id);
-	  console.log(url)
-
-	  $http.get(url).success(function(data) {
-		  console.log(data);
-		  $scope.playlists = data;
-	  })
-	 .finally(function() {
-		  // 停止广播ion-refresher
-		  $scope.$broadcast('scroll.refreshComplete');
-	  })
-
 
 	 $http.get("/api/fake_login?id=7bfeff73c95b43fbabdd0c098e229bcc").success(function(data) {
 	 	console.log("fake login");
@@ -287,20 +279,6 @@ angular.module('starter.controllers', [])
 
 	console.log($scope.bill.start_time);
 
-	/*
-	var url = encodeURI("/core/bill/add?group_id=" + $scope.bill.group_id+ "&bill_name=" + $scope.bill.bill_name + "&s_from=" + $scope.bill.s_from + "&s_to=" + $scope.bill.s_to + "&seat_number=" + $scope.bill.seat_number + "&start_time=" + new Date($scope.bill.start_time) + "&s_type=driver"
-		+ "&phone_id=" + $rootScope.phone_id);
-	console.log(url)
-
-
-
-	$http.get(url).success(function(data) {
-		console.log(data);
-
-		$scope.closeBill();
-  	  	$scope.bill_init();
-	});
-	*/
 
 	if ($rootScope.phone_id == null) {
 		$scope.bill.phone_id = "";
@@ -503,59 +481,13 @@ angular.module('starter.controllers', [])
 })
 
 //55555555555555555
-//
+
 .controller('tabs', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, myweixin) {
-
-	/*
-
-	wx.config({
-				debug: true, 
-				appId: 'wx7f638d2d85dc480f', 
-				signature: '25e7cd39957ae919a74f04eb6b800879519be89a',
-				timestamp: 1488188721, 
-				nonceStr: '4kGw2IQWrgme4tm', 
-				jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage'] 
-			});
-
-
-
-	console.log("rest");
-
-	wx.error(function(res){
-		alert(location.href.split('#')[0])
-		console.log(res);
-	});
-
-	wx.ready(function(){
-
-		wx.onMenuShareAppMessage({
-			title: 'test', // 分享标题
-			desc: 'test', // 分享描述
-			link: 'http://app.doubilol.com/myapp/www/#/app/tabs/1', // 分享链接
-			imgUrl: '', // 分享图标
-			type: 'link', // 分享类型,music、video或link，不填默认为link
-			dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
-			success: function () { 
-				// 用户确认分享后执行的回调函数
-
-				alert('success');
-			},
-			cancel: function () { 
-				// 用户取消分享后执行的回调函数
-			}
-		});
-	});
-
-	*/
 
 	myweixin.set_title("test title");
 	myweixin.set_desc("test new desc");
 
 	console.log($stateParams.pId);
-
-	/*
-	console.log($ionicTabsDelegate.selectedIndex());
-	*/
 
 	$scope.$on("$ionicView.loaded", function(event, data){
 
@@ -576,29 +508,60 @@ angular.module('starter.controllers', [])
 		window.location.href = "#/app/search/1";
 	};
 
-})
 
-.controller('search', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, $sce) {
-
-	console.log($stateParams.pId);
-
-	//$scope.jumpurl = $stateParams.pId;
-
-    $scope.jumpurl = $sce.trustAsResourceUrl($rootScope.jumpurl);
+	/*
+	$scope.uploadFiles = function (files) {
+		$scope.files = files;
+		if (files && files.length) {
+			Upload.upload({
+				url: '/api/upload',
+				data: {
+					files: files
+				}
+			}).then(function (response) {
+				$timeout(function () {
+					$scope.result = response.data;
+				});
+			}, function (response) {
+				if (response.status > 0) {
+					$scope.errorMsg = response.status + ': ' + response.data;
+				}
+			}, function (evt) {
+				$scope.progress = 
+				Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
+			});
+		}
+	};
+	*/
 	
 
+	$scope.uploadFiles = function (files) {
+		myweixin.set_pic();
+		/*
+		if (files && files.length) {
+			for (var i = 0; i < files.length; i++) {
+				Upload.upload({url: '/api/upload', data: {file: files[i]}});
+			}
+		}
+		*/
+	};
+
 })
 
-/*sport*/
+.controller('blog_list', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, $sce, myweixin) {
 
-.controller('sport', function($rootScope, $scope, $ionicModal, $timeout, $http) {
+  console.log($stateParams.pId);
+  console.log($stateParams.location);
+
   $scope.playlists = [
     
   ];
 
+  $scope.picture_list = [];
+
 
   $scope.bill = {};
-  $scope.bill.group_id   = "100000001";
+  $scope.bill.group_id   = $stateParams.pId;
 
 
   $scope.create_result = "";
@@ -613,19 +576,8 @@ angular.module('starter.controllers', [])
 
   $scope.bill_init = function() {
 
-	  $scope.playlists = {};
+	 $scope.playlists = [];
   
-	  var url = encodeURI("/core/bill/get?group_id=" + $scope.bill.group_id);
-	  console.log(url)
-
-	  $http.get(url).success(function(data) {
-		  console.log(data);
-		  $scope.playlists = data;
-	  })
-	 .finally(function() {
-		  $scope.$broadcast('scroll.refreshComplete');
-	  })
-
 
 	 $http.get("/api/fake_login?id=7bfeff73c95b43fbabdd0c098e229bcc").success(function(data) {
 	 	console.log("fake login");
@@ -636,7 +588,7 @@ angular.module('starter.controllers', [])
   	});
 
 
-	$http.post("/api/order/get", '{"group_id":"' + $scope.bill.group_id + '"}').success(function(data) {
+	$http.post("/api/blog/get", '{"group_id":"' + $scope.bill.group_id + '"}').success(function(data) {
 	 	console.log("order get");
 		console.log(data);
 
@@ -645,109 +597,325 @@ angular.module('starter.controllers', [])
   };
 
   $scope.bill_init();
-  
 
-  $scope.getData = function() {
-  	$scope.bill_init();
-  };
 
-  $ionicModal.fromTemplateUrl('templates/bill_create.html', {
+  $ionicModal.fromTemplateUrl('templates/blog_create.html', {
     scope: $scope
   }).then(function(modal) {
     $scope.modal = modal;
   });
 
+  // Triggered in the login modal to close it
   $scope.closeBill = function() {
     $scope.modal.hide();
   };
 
+  /*
+  $scope.login = function() {
+    $scope.modal.show();
+  };
+  */
 
   $scope.create_bill = function() {
 
 	$scope.modal.show();
-	/*
-	if ($rootScope.Islogin != 1) {
-		$rootScope.login();
-	} else {
+  };
+
+
+  $scope.set_pic = function() {
+	  myweixin.set_pic(function(res) {
+	  	$scope.picture_list =  res;
+		alert("get res");
+		alert($scope.picture_list);
+	  });
+  };
+
+  $scope.submit_f = function() {
+	  console.log("submit_f");
+  
+	  var data = {
+	 	city : "shanghai",
+		group_id : $stateParams.pId,
+		title :  $scope.bill.title,
+		desc_t : $scope.bill.context,
+		context : $scope.bill.context,
+		picture_list : JSON.stringify($scope.picture_list),
+		phone_id : "123456789" 
+
+	  };
+
+	  $http.post("/api/blog/new", data).success(function(data) {
+	 	console.log("order get");
+		console.log(data);
+
+  	  });
+  };
+  
+})
+
+.controller('blog_show', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, $sce, myweixin) {
+
+  console.log($stateParams.pId);
+
+  $scope.playlist = {};
+
+  $scope.bill = {};
+  $scope.bill_join_list = {};
+
+  $scope.bill.group_id = 1;
+
+
+
+  $scope.init_bill_show = function() {
+
+
+	  $http.post("/api/blog/getone", '{"id":"' + $stateParams.pId + '"}').success(function(data) {
+		  console.log("order get");
+		  console.log(data);
+
+
+		  $scope.playlist = data[0];
+
+
+		  myweixin.set_title($scope.playlist.title);
 	
+		  myweixin.set_desc($scope.playlist.desc_t);
+
+		  myweixin.set_imgurl($scope.playlist.picture);
+
+
+
+		  $scope.playlist.picture_list = JSON.parse($scope.playlist.picture_list);
+	  });
+
+  };
+
+  $scope.init_bill_show(); 
+  
+})
+
+.controller('search', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, $sce) {
+
+	console.log($stateParams.pId);
+
+	//$scope.jumpurl = $stateParams.pId;
+
+    $scope.jumpurl = $sce.trustAsResourceUrl($rootScope.jumpurl);
+	
+
+})
+
+
+.controller('order', function($rootScope, $scope, $stateParams, $ionicModal, $timeout, $http) {
+
+	console.log($stateParams.pId);
+	console.log($stateParams.location);
+
+	$scope.info_type  = "1";
+	$scope.group_id = $stateParams.pId;
+
+	$scope.change_info_type = function(g) {
+
+		$scope.info_type = g;
+
+		$scope.bill_init();
+	};
+
+	/*order*/
+
+	$scope.bill = {};
+
+	$scope.bill_list = [
+
+	];
+
+	$scope.create_result = "";
+ 
+	$scope.bill_init = function() {
+
+		$scope.playlists = [];
+
+		$http.get("/api/fake_login?id=7bfeff73c95b43fbabdd0c098e229bcc").success(function(data) {
+			console.log("fake login");
+			console.log(data);
+
+			$rootScope.user_id = "7bfeff73c95b43fbabdd0c098e229bcc";
+			$rootScope.Islogin  = 1;
+		});
+
+
+		$http.post("/api/order/get", '{"group_id":"' + $scope.group_id + '"}').success(function(data) {
+			console.log("order get");
+			console.log(data);
+
+			$scope.bill_list = data;
+		});
+	};
+
+	$scope.bill_init();
+  
+
+	$scope.getData = function() {
+		$scope.bill_init();
+	};
+
+	$ionicModal.fromTemplateUrl('templates/bill_create.html', {
+		scope: $scope
+	}).then(function(modal) {
+		$scope.modal = modal;
+	});
+
+	$scope.closeBill = function() {
+		$scope.modal.hide();
+	};
+
+	$scope.create_bill = function() {
+
 		$scope.modal.show();
-	}
-	*/
-  };
+	};
 
-  $scope.create_bill_on = function() {
+	$scope.create_bill_on = function() {
 
-	/*
-    $timeout(function() {
-      $scope.closeBill();
-  	  $scope.bill_init();
-    }, 2000);
-	*/
+		console.log(Date.parse($scope.bill.start_time));
+		console.log(Date.parse(Date()));
 
-	console.log(Date.parse($scope.bill.start_time));
-	console.log(Date.parse(Date()));
+		$scope.bill.group_id = $scope.group_id;
 
-	console.log(parseInt(Date.parse($scope.bill.start_time)) - parseInt(Date.parse(Date())));
+		console.log(parseInt(Date.parse($scope.bill.start_time)) - parseInt(Date.parse(Date())));
 
-	if ((parseInt(Date.parse($scope.bill.start_time)) - parseInt(Date.parse(Date()))) >=  (24 * 60 * 60 * 1000000 * 2)) {
+		if ((parseInt(Date.parse($scope.bill.start_time)) - parseInt(Date.parse(Date()))) >=  (24 * 60 * 60 * 1000000 * 2)) {
 
-		$scope.create_result = "请输入两天内时间";	
-		return;
-	}
+			$scope.create_result = "请输入两天内时间";	
+			return;
+		}
 
-	if ((parseInt(Date.parse($scope.bill.start_time)) - parseInt(Date.parse(Date()))) <=  0) {
-		$scope.create_result = "请输入两天内时间";	
-		return;
-	}
+		if ((parseInt(Date.parse($scope.bill.start_time)) - parseInt(Date.parse(Date()))) <=  0) {
+			$scope.create_result = "请输入两天内时间";	
+			return;
+		}
 
 
 
-	if ($scope.bill.group_id == undefined || $scope.bill.order_name == undefined || $scope.bill.s_from == undefined || $scope.bill.s_to == undefined || $scope.bill.seat_number == undefined) {
-			
-		$scope.create_result = "请输入全部信息";	
-		return;
-	}
+		if ($scope.bill.group_id == undefined || $scope.bill.order_name == undefined || $scope.bill.s_from == undefined || $scope.bill.s_to == undefined || $scope.bill.seat_number == undefined) {
 
-	console.log($scope.bill.start_time);
+			$scope.create_result = "请输入全部信息";	
+			return;
+		}
 
-	/*
-	var url = encodeURI("/core/bill/add?group_id=" + $scope.bill.group_id+ "&bill_name=" + $scope.bill.bill_name + "&s_from=" + $scope.bill.s_from + "&s_to=" + $scope.bill.s_to + "&seat_number=" + $scope.bill.seat_number + "&start_time=" + new Date($scope.bill.start_time) + "&s_type=driver"
-		+ "&phone_id=" + $rootScope.phone_id);
-	console.log(url)
+		console.log($scope.bill.start_time);
 
 
+		if ($rootScope.phone_id == null) {
+			$scope.bill.phone_id = "";
+		} else {
+			$scope.bill.phone_id = $rootScope.phone_id;
+		}
 
-	$http.get(url).success(function(data) {
-		console.log(data);
 
-		$scope.closeBill();
-  	  	$scope.bill_init();
+		//$scope.bill.start_time = moment($scope.bill.start_time).subtract(8, 'hour').format("YYYY-MM-DD HH:mm:ss");
+		$scope.bill.start_time = moment($scope.bill.start_time).format("YYYY-MM-DD HH:mm:ss");
+
+		$scope.bill.s_type = "driver";
+
+		$http.post("/api/order/new", $scope.bill).success(function(data) {
+			console.log(data);
+
+			$scope.closeBill();
+			$scope.bill_init();
+
+		});
+	};
+
+
+	$scope.doRefresh = function() {
+		$scope.bill_init();
+	};
+ 
+
+	/*blog*/
+
+	$scope.blog_list = [];
+
+	$scope.picture_list = [];
+
+
+	$scope.blog = {};
+	$scope.blog.group_id   = $stateParams.pId;
+
+
+	$scope.create_result = "";
+
+	$scope.blog_init = function() {
+
+		$scope.blog_list = [];
+
+
+		$http.get("/api/fake_login?id=7bfeff73c95b43fbabdd0c098e229bcc").success(function(data) {
+			console.log("fake login");
+			console.log(data);
+
+			$rootScope.user_id = "7bfeff73c95b43fbabdd0c098e229bcc";
+			$rootScope.Islogin  = 1;
+		});
+
+
+		$http.post("/api/blog/get", '{"group_id":"' + $scope.group_id + '"}').success(function(data) {
+			console.log("order get");
+			console.log(data);
+
+			$scope.blog_list = data;
+		});
+	};
+
+	$scope.blog_init();
+
+
+	$ionicModal.fromTemplateUrl('templates/blog_create.html', {
+		scope: $scope
+	}).then(function(modal) {
+		$scope.blog_modal = modal;
 	});
-	*/
 
-	if ($rootScope.phone_id == null) {
-		$scope.bill.phone_id = "";
-	} else {
-		$scope.bill.phone_id = $rootScope.phone_id;
-	}
-
-	
-	$scope.bill.start_time = moment($scope.bill.start_time).subtract(8, 'hour').format("YYYY-MM-DD HH:mm:ss");
-
-	$scope.bill.s_type = "driver";
-
-	$http.post("/api/order/new", $scope.bill).success(function(data) {
-		console.log(data);
-	
-		$scope.closeBill();
-  	  	$scope.bill_init();
-
-	});
-  };
+	$scope.closeblog = function() {
+		$scope.blog_modal.hide();
+	};
 
 
-  $scope.doRefresh = function() {
-  	  $scope.bill_init();
-  };
+	$scope.create_blog = function() {
 
-});
+		$scope.blog_modal.show();
+	};
+
+
+	$scope.set_pic = function() {
+		myweixin.set_pic(function(res) {
+			$scope.picture_list =  res;
+			alert($scope.picture_list);
+		});
+	};
+
+	$scope.submit_f = function() {
+		console.log("submit_f");
+
+		var data = {
+			city : "shanghai",
+			group_id : $stateParams.pId,
+			title :  $scope.blog.title,
+			desc_t : $scope.blog.context,
+			context : $scope.blog.context,
+			picture_list : JSON.stringify($scope.picture_list),
+			phone_id : "123456789" 
+
+		};
+
+		$http.post("/api/blog/new", data).success(function(data) {
+			console.log("order get");
+			console.log(data);
+
+		});
+	};
+
+	$scope.BlogRefresh = function() {
+		$scope.blog_init();
+	};
+})

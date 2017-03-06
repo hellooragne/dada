@@ -84,7 +84,7 @@ orders = {
 message_queue = []
 
 
-class DateEncoder(json.JSONEncoder ):  
+class DateEncoder(json.JSONEncoder):  
     def default(self, obj):  
         if isinstance(obj, datetime):  
             return obj.__str__()  
@@ -208,7 +208,6 @@ class MessageHandler(tornado.web.RequestHandler):
 
             logger.info(data_send)
 
-            yield WeixinJSSDK.get_value("http://app.doubilol.com/myapp/www/")
 
             #yield WeixinJSSDK.get_value(self.request.full_url())
             access_token = WeixinJSSDK.access_token
@@ -276,3 +275,36 @@ class MessageHandler(tornado.web.RequestHandler):
             echostr = self.get_argument("echostr")
             self.finish(echostr)
 
+
+class UploadHandler(tornado.web.RequestHandler):
+    def post(self):
+        print "-------------"
+        print self.request.files.keys()
+        print "-------------"
+        file1 = self.request.files['files[0]'][0]
+        original_fname = file1['filename']
+        output_file = open("/home/cccloud/git/dada/soa/public/upload/" + original_fname, 'wb')
+        output_file.write(file1['body'])
+
+        self.finish("file " + original_fname + " is uploaded")
+
+
+class WeixinConfigHandler(tornado.web.RequestHandler):
+    def post(self):
+        print self.request.body
+
+        data = json.loads(self.request.body)
+        print data
+        weixin_url = data['weixin_url']
+        WeixinJSSDK.get_value(weixin_url)
+
+        res = {
+                "debug": "true",
+                "appId": 'wx7f638d2d85dc480f',
+                "signature": WeixinJSSDK.signature,
+                "timestamp": WeixinJSSDK.timestamp,
+                "nonceStr": WeixinJSSDK.nonceStr,
+                "jsApiList": ['onMenuShareTimeline', 'onMenuShareAppMessage', 'chooseImage', 'uploadImage']
+                }
+
+        self.finish(res)

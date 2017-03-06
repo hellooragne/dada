@@ -1,12 +1,16 @@
 <ion-view view-title="萌搭搭">
 
-<!--
 <div class="bar bar-header bar-positive">
 	<h1 class="title">bar-positive</h1>
 </div>
--->
 
-<ion-content>
+
+<ion-content has-header="true">
+
+	<header class="bar bar-header ">
+		<h1 class="page-header">Route</h1>
+		</header>
+
 </ion-content>
 
 
@@ -21,15 +25,112 @@
 		<ion-content has-header="true">
 
 		
+			<div class="row">
 
-		  <div class="list">
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a href="#/app/order/shanghai/1">
+							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
+							<span style="display:block; text-align:center"> 靓衣</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a ng-click="jump('http://www.baidu.com')">
+							<img  src="img/my.jpg" class="yj"  width="40" height="40" />
+							<span style="display:block; text-align:center">  靓衣</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a href="">
+							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
+							<span style="display:block; text-align:center">  靓衣</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a href="">
+							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
+							<span style="display:block; text-align:center">  靓衣</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a href="">
+							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
+							<span style="display:block; text-align:center">  靓衣</span>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a href="#/app/order/shanghai/1">
+							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
+							<span style="display:block; text-align:center"> 靓衣</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a ng-click="jump('http://www.baidu.com')">
+							<img  src="img/my.jpg" class="yj"  width="40" height="40" />
+							<span style="display:block; text-align:center">  靓衣</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a href="">
+							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
+							<span style="display:block; text-align:center">  靓衣</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a href="">
+							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
+							<span style="display:block; text-align:center">  靓衣</span>
+						</a>
+					</div>
+				</div>
+				
+				<div class="col">
+					<div style="float: left; display:inline; list-style:list-style-image">
+						<a href="">
+							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
+							<span style="display:block; text-align:center">  靓衣</span>
+						</a>
+					</div>
+				</div>
+			</div>
 			  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://www.meituan.com')">
+		  <div class="list">
+
+			  
+		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/order/shanghai/1">
 			  <img src="img/my.jpg">
 			  <h2>内部推荐</h2>
 			  <p>搭友推荐</p>
 
 
+			  <!--
 			  <div class="row row-no-padding" style="padding: 1px">
 				  <div class="col col-33"><img height="80"  width="80" src="img/my.jpg"></div>
 				  <div class="col col-33"><img height="80"  width="80" src="img/1.jpg"></div>
@@ -47,6 +148,7 @@
 				  <div class="col col-33"><img height="80"  width="80" src="img/8.jpg"></div>
 				  <div class="col col-33"><img height="80"  width="80" src="img/9.jpg"></div>
 			  </div>
+			  -->
 			  
 			  <p>Back off, man. I'm a scientist.</p>
 		  </ion-item>
@@ -75,7 +177,7 @@
 
 	    <div class="list">
 			
-		   <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://www.meituan.com')">
+		   <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/2">
 			  <img src="img/my.jpg">
 			  <h2>内部推荐</h2>
 			  <p>搭友推荐</p>
@@ -123,7 +225,7 @@
 		<div class="list">
 
 			
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://www.meituan.com')">
+		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/3">
 			  <img src="img/my.jpg">
 			  <h2>内部推荐</h2>
 			  <p>搭友推荐</p>
@@ -162,7 +264,7 @@
 	
 		<div class="list">
 
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="">
+		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/4">
 			  <img src="img/my.jpg">
 			  <h2>内部推荐</h2>
 			  <p>搭友推荐</p>
@@ -219,7 +321,7 @@
 	
 		<div class="list">
 
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="">
+		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/5">
 			  <img src="img/my.jpg">
 			  <h2>内部推荐</h2>
 			  <p>搭友推荐</p>
@@ -286,7 +388,7 @@
 
 		<div class="list">
 			
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="">
+		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/6">
 			  <img src="img/my.jpg">
 			  <h2>内部推荐</h2>
 			  <p>搭友推荐</p>
@@ -338,7 +440,7 @@
 	
 		<div class="list">
 			
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="">
+		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/7">
 			  <img src="img/my.jpg">
 			  <h2>内部推荐</h2>
 			  <p>搭友推荐</p>
@@ -374,7 +476,7 @@
 		<div class="list">
 
 		 
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="">
+		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/8">
 			  <img src="img/my.jpg">
 			  <h2>内部推荐</h2>
 			  <p>搭友推荐</p>

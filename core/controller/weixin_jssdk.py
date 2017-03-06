@@ -29,11 +29,13 @@ class WeixinJSSDK(object):
     @classmethod
     @tornado.gen.coroutine
     def get_value(cls, full_url):
-        print "get_value"
         sign = WeixinJSSDKSign(cls.jsapi_ticket, cls.timestamp, full_url)
         cls.wx_ret = sign.sign()
         cls.nonceStr         = cls.wx_ret['nonceStr']
         cls.signature        = cls.wx_ret['signature']
+        signature = cls.signature
+        timestamp = cls.timestamp
+        nonceStr  = cls.nonceStr
 
         print "full url:" + full_url 
         print "jsapi_ticket :" + cls.jsapi_ticket 

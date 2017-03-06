@@ -24,43 +24,11 @@ from controller import task
 from controller import manager
 from controller import auth
 from controller import order
+from controller import blog
 from controller import order_join
 from controller import msg_process
 
 application = tornado.web.Application([
-    (r"/logout", auth.LogoutHandler),
-
-    (r"/api/weixin", weixin.MessageHandler),
-    # (r"/api/login", auth.LoginAPIHandler),
-    (r"/bind_community_mobile", auth.BindCommunityMobileHandler),
-    (r"/api/save_community", auth.SaveCommunityAPIHandler),
-    (r"/api/save_mobile", auth.SaveMobileAPIHandler),
-    (r"/auth/weixin", weixin.AuthHandler),
-    (r"/auth/simple_weixin", weixin.SimpleAuthHandler),
-
-    # (r"/api/order/dashboard_status", order.DashboardStatusAPIHandler),
-    # (r"/api/order/dashboard_change", order.DashboardChangeAPIHandler),
-
-    
-
-    (r"/login_qrcode", auth.LoginWithQRCodeHandler),
-    (r"/api/login_qrcode", auth.LoginQRCodeAPIHandler),
-    (r"/api/login_qrcode_waiting", auth.LoginWithQRCodeWaitingAPIHandler),
-    (r"/auth", auth.AuthHandler),
-
-    (r"/api/invite", manager.InviteAPIHandler),
-    (r"/invitation_accept", manager.InvitationAcceptHandler),
-    (r"/manager", manager.ManagerHandler),
-    (r"/user", task.UserHandler),
-    (r"/api/update_user", task.UpdateUserAPIHandler),
-
-    (r"/new_task", task.NewTaskHandler),
-    (r"/api/new_task", task.NewTaskAPIHandler),
-    (r"/list_tasks", task.ListTasksHandler),
-    (r"/api/confirm_task", task.ConfirmTaskAPIHandler),
-    (r"/api/finish_task", task.FinishTaskAPIHandler),
-
-    # (r"/order/dashboard", order.DashboardHandler),
 
     #hmeng
     (r"/api/weixinlogin", weixin.ApiWeixinLogin),
@@ -71,7 +39,6 @@ application = tornado.web.Application([
 
     #hmeng
     (r"/order", order.OrderHandler),
-    (r"/api/order/test", order.TestHandler),
     (r"/api/order/new", order.NewAPIHandler),
     (r"/api/order/cancel", order.CancelAPIHandler),
     (r"/api/order/status", order.StatusAPIHandler),
@@ -83,8 +50,20 @@ application = tornado.web.Application([
     (r"/api/order_join/cancel", order_join.CancelOrderJoin),
     (r"/api/order_join/get", order_join.GetOrderJoin),
 
+    (r"/api/blog/new", blog.NewAPIHandler),
+    (r"/api/blog/cancel", blog.CancelAPIHandler),
+    (r"/api/blog/get", blog.GetHandler),
+    (r"/api/blog/getone", blog.GetOneHandler),
+    (r"/api/blog/getmy", blog.GetMyHandler),
+
     #hmeng
     (r"/api/weixin_msg", msg_process.MessageHandler),
+    (r"/api/weixin_config", msg_process.WeixinConfigHandler),
+
+    
+    
+    (r"/api/upload", msg_process.UploadHandler),
+
 
 
     (r"/static/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'], default_filename='index.html')),
