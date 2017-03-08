@@ -1,27 +1,6 @@
 <ion-view view-title="萌搭搭">
-
-
   <ion-content>
-
-       
 		<div class="list">
-			
-			<div class="row">
-				<div style="float: left; display:inline; list-style:list-style-image"><a href="">
-						<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
-						<span style="display:block; text-align:center">  靓衣</span>
-					</a>
-				</div>
-
-				<div style="float: left; display:inline; list-style:list-style-image"><a href="@Url.Action("Details", new { id = item.BId })">
-						<img alt="@item.BName" class="yj"  src="img/my.jpg" width="40" height="40"  title="@item.BName"/>
-						<span style="display:block;">  靓衣</span>
-					</a>
-				</div>
-
-			</div>
-			
-			<div class="list">
 
 				<div ng-class='{"item item-avatar":true, "highlight":playlist.state === "disable"}'>
 					   <img src="{{playlist.picture}}">
@@ -34,39 +13,27 @@
 				   </div>
 
 				   <div class=""item item-body">
-					   
-					   
+					   <div class="col" ">
 
-						   <div class="col" ">
-							   
-							   <h4>{{playlist.context}} </h4>
+						   <h4>{{playlist.context}} </h4>
 
-								<div  ng-repeat="t in playlist.picture_list  track by $index">
-									<img class="full-image" style="height:300px" src="{{t}}">
-								</div>
-
+						   <div  ng-repeat="t in playlist.picture_list  track by $index">
+							   <img class="full-image" style="" src="{{t}}">
 						   </div>
-
-						   
 					   </div>
-
-					   
-
-					</div>
+				   </div>
+			   </div>
 
 
+			   <!--
+			   <a class="item item-icon-left assertive" >
+				   <i class="icon ion-heart"></i>
+				   <button class="button button-block button-positive" ng-click="bill_join()">
+					   加入活动
+				   </button>
+			   </a>
+			   -->
 
-
-
-				   <a class="item item-icon-left assertive" >
-
-					   <i class="icon ion-heart"></i>
-					   <button class="button button-block button-positive" ng-click="bill_join()">
-						   加入活动
-						 </button>
-				   </a>
-			</div>
 		</div>
-
   </ion-content>
 </ion-view>

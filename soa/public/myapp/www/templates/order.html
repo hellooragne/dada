@@ -1,80 +1,94 @@
 <ion-view view-title="萌搭搭">
 
-   <ion-header-bar class="bar-subheader">
-
-
-	<div class="container-wrap">
+<ion-header-bar class="bar-subheader">
+	<div class="">
 		<div class="container">
 			<button ng-click="change_info_type('1')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '1' }">活动圈</button>
-   			<button ng-click="change_info_type('2')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '2' }">信息圈</button>
-   			<button ng-click="change_info_type('3')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '3' }">投票圈</button>
+			<button ng-click="change_info_type('2')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '2' }">图文圈</button>
+			<button ng-click="change_info_type('3')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '3' }">投票圈</button>
+			<button ng-click="change_info_type('4')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '4' }">群聊圈</button>
 		</div>
 	</div>
-   
-    </ion-header-bar>  
+</ion-header-bar>  
 
 
-  <ion-content ng_show='info_type === "1"'>
+<ion-content ng_show='info_type === "1"'>
+  <ion-refresher
+		pulling-text="下拉刷新..."
+		on-refresh="doRefresh()">
+  </ion-refresher>
 
-    <ion-refresher
-  		pulling-text="下拉刷新..."
-  		on-refresh="doRefresh()">
-    </ion-refresher>
+  <ion-list>
+    <ion-item class="item item-thumbnail-left" ng-repeat="t in bill_list track by $index" href="#/app/playlist/{{t.order_id}}">
+  	
+    <img src="{{t.picture}}" wight="80px" height="100px">
 
-    <ion-list>
-      <ion-item class="item item-thumbnail-left" ng-repeat="t in bill_list track by $index" href="#/app/playlist/{{t.order_id}}">
-		
-	  <img src="{{t.picture}}" wight="80px" height="100px">
+    <h2>{{t.order_name}}</h2>
 
-	  <h2>{{t.order_name}}</h2>
+    <p>组织人:{{t.username}}</p>
+    <p>
+    出发地:{{t.s_from}}
+    &nbsp  
+    目的地:{{t.s_to}}
+    </p>
+    <p>出发时间:{{t.start_time}}</p>
+    <p>座位:{{t.seat_number}}</p>
 
-	  <p>组织人:{{t.username}}</p>
-	  <p>
-	  出发地:{{t.s_from}}
-	  &nbsp  
-	  目的地:{{t.s_to}}
-	  </p>
-	  <p>出发时间:{{t.start_time}}</p>
-	  <p>座位:{{t.seat_number}}</p>
-
-      </ion-item>
-    </ion-list>
-	
-  </ion-content>
-
+    </ion-item>
+  </ion-list>
   
-  <ion-content  ng_show='info_type === "2"'>
-    <ion-refresher
-  		pulling-text="下拉刷新..."
-  		on-refresh="BlogRefresh()">
-    </ion-refresher>
-	
-    <ion-list>
-      <ion-item class="item item-thumbnail-left" ng-repeat="t in blog_list track by $index" href="#/app/blog_show/{{t.id}}">
-		
-	  <img src="{{t.picture}}" wight="80px" height="100px">
-
-	  <h2>{{t.title}}</h2>
-
-	  <p>{{t.desc_t}}</p>
-
-	  <p>{{t.context}}</p>
-
-      </ion-item>
-    </ion-list>
-  </ion-content>
+</ion-content>
 
 
+<ion-content  ng_show='info_type === "2"'>
+  <ion-refresher
+		pulling-text="下拉刷新..."
+		on-refresh="BlogRefresh()">
+  </ion-refresher>
   
+  <ion-list>
+    <ion-item class="item item-thumbnail-left" ng-repeat="t in blog_list track by $index" href="#/app/blog_show/{{t.id}}">
+  	
+    <img src="{{t.picture}}" wight="80px" height="100px">
 
+    <h2>{{t.title}}</h2>
 
-<ion-footer-bar align-title="left" class="bar-positive">
+    <p>{{t.desc_t}}</p>
 
+    <p>{{t.context}}</p>
+
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-content  ng_show='info_type === "4"'>
+<div class="list">
+
+	<div class=""item item-body">
+		<div class="col" ">
+			<h4>本圈群聊房间号: g{{group_id}}</h4>
+			<h4>在公众号中输入表情和房间号开始群聊 </h4>
+
+			<img class="full-image" style="" src="img/talk.jpg">
+		</div>
+	</div>
+	<div class=""item item-body">
+		<div class="col" ">
+
+			<h4>在公众号中输入表情后停止群聊 </h4>
+
+			<img class="full-image" style="" src="img/stop_talk.jpg">
+		</div>
+	</div>
+</div>
+</ion-content>
+
+<ion-footer-bar align-title="left" class="bar-positive" >
 	<h1 class="title"></h1>
-	
 
-	<div class="buttons" ng-click="create_bill()">
-		<button class="button">创建活动</button>
+	<div class="buttons" ng-click="create_common()">
+		<button class="button">创建</button>
 	</div>
 </ion-footer-bar>
+
 </ion-view>

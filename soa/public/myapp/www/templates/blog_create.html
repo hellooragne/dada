@@ -16,20 +16,6 @@
 		  <textarea id="txtArea" placeholder="内容" rows="10" cols="70" ng-model="blog.context"></textarea>
         </label>
 
-		
-		<label class="item">
-			{{picture_list}}
-
-		</label>
-		
-		<label class="item" ng-repeat="t in picture_list  track by $index">
-			<!--
-			<img class="full-image" style="height:300px" src="{{t}}">
-			-->
-			{{t}}
-		</div>
-
-		
 		<label class="item">
           <button class="button button-block button-positive" ng-click="set_pic()">设置图片</button>
         </label>

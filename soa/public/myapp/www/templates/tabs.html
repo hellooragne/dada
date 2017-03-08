@@ -1,529 +1,352 @@
 <ion-view view-title="萌搭搭">
 
-<div class="bar bar-header bar-positive">
-	<h1 class="title">bar-positive</h1>
+<ion-header-bar class="bar-subheader">
+<div class="container-wrap">
+	<div class="container">
+		<button ng-click="change_info_type('1')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '1' }">靓衣圈</button>
+		<button ng-click="change_info_type('2')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '2' }">美食圈</button>
+		<button ng-click="change_info_type('3')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '3' }">旅游圈</button>
+		<button ng-click="change_info_type('4')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '4' }">出行圈</button>
+		<button ng-click="change_info_type('5')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '5' }">乐玩圈</button>
+		<button ng-click="change_info_type('6')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '6' }">职场圈</button>
+	</div>
+</div>
+</ion-header-bar>
+
+<ion-content ng-show='info_type === "1"'>
+
+<div class="row-top-p">
+	<div class="row">
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('https://wqs.jd.com/portal/wx/wallet/index_v2.shtml?ptag=17003.4.1&ptype=3')">
+					<img  src="http://img3.imgtn.bdimg.com/it/u=176276523,3322713302&fm=214&gp=0.jpg"  class="yj"  width="40" height="40" />
+					<span class="yy">京东在线</span>
+				</a>
+			</div>
+		</div>
+
+	</div>
 </div>
 
+<div class="row-top-p">
+	<div class="row">
+		<div class="col-20" >
+			<div class="jj">
+				<a ng-href="#/app/order/shanghai/1">
+					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
+					<span class="yy">靓衣</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+</ion-content>
 
-<ion-content has-header="true">
+<ion-content ng_show='info_type === "2"'>
 
-	<header class="bar bar-header ">
-		<h1 class="page-header">Route</h1>
-		</header>
+<div class="row-top-p">
+	<div class="row">
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://www.meituan.com')">
+					<img  src="http://www.kubikeji.com/uploads/150929/1-15092Z93921244.jpg" class="yj"  width="40" height="40" />
+					<span class="yy">美团</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('https://m.ctrip.com/webapp/you/foods/2.html?new=1&from=https%3A%2F%2Fm.ctrip.com%2Fhtml5%2F%3Fsourceid%3D497%26allianceid%3D4897%26sid%3D182042%26utm_source%3Dbaidu%26utm_medium%3Dcpc%26utm_campaign%3Dbaidu497%26sepopup%3D2')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy">美食林</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('https://m.dianping.com/shoplist/1/d/1/c/10/s/s_-1?from=m_nav_1_meishi')">
+					<img  src="http://static.leiphone.com/uploads/2012/01/primaryImage.png" width="40" height="40"  class="yj"  />
+					<span class="yy">大众点评</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row-top-p">
+	<div class="row">
+		<div class="col-20" >
+			<div class="jj">
+				<a ng-href="'#/app/order/shanghai/2'">
+					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
+					<span class="yy">内部推荐</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+</ion-content>
+
+<ion-content ng_show='info_type === "3"'>
+<div class="row-top-p">
+	<div class="row">
+
+		<div class="col-20" >
+			<div class="jj">
+				<a ng-click="jump('http://m.ctrip.com/html5/you/?allianceid=29637&sid=468701&ouid=H5B2Bonline&sourceid=2055&Popup=close&autoawaken=close&from=http%3A%2F%2Fm.ctrip.com%2Fwebapp%2Fmkt%2Fb2b-online%2Fmarketing_strategy')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy"> 携程攻略</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://m.ctrip.com/html5/hotel/?allianceid=29637&sid=468701&ouid=H5B2Bonline&sourceid=2055&Popup=close&autoawaken=close&from=http%3A%2F%2Fm.ctrip.com%2Fwebapp%2Fmkt%2Fb2b-online%2Fmarketing_hotel')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg" class="yj"  width="40" height="40"  class="yj"  />
+					<span class="yy">携程酒店</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://i.meituan.com/awp/h5/hotel/search/search.html?stid_b=1&cevent=imt%2Fhomepage%2Fcategory1%2F20')">
+					<img  src="http://www.kubikeji.com/uploads/150929/1-15092Z93921244.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy"> 美团酒店</span>
+				</a>
+			</div>
+		</div>
+
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://m.ctrip.com/webapp/diyfhxsdp/dpindex?allianceid=29637&sid=468701&ouid=H5B2Bonline&sourceid=2055&Popup=close&autoawaken=close&from=http://m.ctrip.com/webapp/mkt/b2b-online/marketing_trip')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy"> 自由行</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('https://m.ctrip.com/webapp/pinplay/home?source=dangjiquna&isHideNavBar=YES&from=https%3A%2F%2Fm.ctrip.com%2Fhtml5%2F%3Fsourceid%3D497%26allianceid%3D4897%26sid%3D182042%26utm_source%3Dbaidu%26utm_medium%3Dcpc%26utm_campaign%3Dbaidu497%26sepopup%3D2')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy">当季去哪</span>
+				</a>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="row-top-p">
+	<div class="row">
+		<div class="col-20" >
+			<div class="jj">
+				<a ng-href="#/app/order/shanghai/3">
+					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
+					<span class="yy">内部推荐</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
 
 </ion-content>
 
 
-<ion-tabs>
+<ion-content ng_show='info_type === "4"'>
+<div class="row-top-p">
+	<div class="row">
 
-	<!--111-->
-    <ion-tab title="衣">
-	
-		<header class="bar bar-header ">
-		<h1 class="page-header">Route</h1>
-		</header>
-		<ion-content has-header="true">
-
-		
-			<div class="row">
-
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a href="#/app/order/shanghai/1">
-							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
-							<span style="display:block; text-align:center"> 靓衣</span>
-						</a>
-					</div>
-				</div>
-				
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a ng-click="jump('http://www.baidu.com')">
-							<img  src="img/my.jpg" class="yj"  width="40" height="40" />
-							<span style="display:block; text-align:center">  靓衣</span>
-						</a>
-					</div>
-				</div>
-				
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a href="">
-							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
-							<span style="display:block; text-align:center">  靓衣</span>
-						</a>
-					</div>
-				</div>
-				
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a href="">
-							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
-							<span style="display:block; text-align:center">  靓衣</span>
-						</a>
-					</div>
-				</div>
-				
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a href="">
-							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
-							<span style="display:block; text-align:center">  靓衣</span>
-						</a>
-					</div>
-				</div>
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://common.diditaxi.com.cn/general/webEntry?wx=true&channel=mengdada#/')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488422116&di=b33f5d52612ea34bda25408ba6f5730b&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.th7.cn%2Fd%2Ffile%2Fp%2F2015%2F10%2F16%2F6826788348330b6e97f368cfc5ed0eaf.jpg" class="yj"  width="40" height="40"  class="yj"  />
+					<span class="yy">滴滴</span>
+				</a>
 			</div>
-
-			<div class="row">
-
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a href="#/app/order/shanghai/1">
-							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
-							<span style="display:block; text-align:center"> 靓衣</span>
-						</a>
-					</div>
-				</div>
-				
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a ng-click="jump('http://www.baidu.com')">
-							<img  src="img/my.jpg" class="yj"  width="40" height="40" />
-							<span style="display:block; text-align:center">  靓衣</span>
-						</a>
-					</div>
-				</div>
-				
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a href="">
-							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
-							<span style="display:block; text-align:center">  靓衣</span>
-						</a>
-					</div>
-				</div>
-				
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a href="">
-							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
-							<span style="display:block; text-align:center">  靓衣</span>
-						</a>
-					</div>
-				</div>
-				
-				<div class="col">
-					<div style="float: left; display:inline; list-style:list-style-image">
-						<a href="">
-							<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png" width="40" height="40" />
-							<span style="display:block; text-align:center">  靓衣</span>
-						</a>
-					</div>
-				</div>
-			</div>
-			  
-		  <div class="list">
-
-			  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/order/shanghai/1">
-			  <img src="img/my.jpg">
-			  <h2>内部推荐</h2>
-			  <p>搭友推荐</p>
-
-
-			  <!--
-			  <div class="row row-no-padding" style="padding: 1px">
-				  <div class="col col-33"><img height="80"  width="80" src="img/my.jpg"></div>
-				  <div class="col col-33"><img height="80"  width="80" src="img/1.jpg"></div>
-				  <div class="col col-33"><img height="80"  width="80" src="img/2.jpg"></div>
-			  </div>
-			  
-			  <div class="row row-no-padding" style="padding: 1px">
-				  <div class="col col-33"><img height="80"  width="80" src="img/3.jpg"></div>
-				  <div class="col col-33"><img height="80"  width="80" src="img/4.jpg"></div>
-				  <div class="col col-33"><img height="80"  width="80" src="img/5.jpg"></div>
-			  </div>
-			  
-			  <div class="row row-no-padding"  style="padding: 1px">
-				  <div class="col col-33"><img height="80"  width="80" src="img/7.jpg"></div>
-				  <div class="col col-33"><img height="80"  width="80" src="img/8.jpg"></div>
-				  <div class="col col-33"><img height="80"  width="80" src="img/9.jpg"></div>
-			  </div>
-			  -->
-			  
-			  <p>Back off, man. I'm a scientist.</p>
-		  </ion-item>
-			  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://www.baidu.com')">
-			  <img src="img/my.jpg">
-			  <h2>靓衣</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
 		</div>
 
-		</ion-content>
-	
-	</ion-tab>
-	
-	<!--222-->
-    <ion-tab title="食">
-		
-		<header class="bar bar-header ">
-		<h1 class="page-header">Route</h1>
-		</header>
-		<ion-content has-header="true">
-
-	    <div class="list">
-			
-		   <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/2">
-			  <img src="img/my.jpg">
-			  <h2>内部推荐</h2>
-			  <p>搭友推荐</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://www.meituan.com')">
-			<img src="http://www.kubikeji.com/uploads/150929/1-15092Z93921244.jpg">
-			  <h2>美团</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			  <i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-		 
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('https://m.ctrip.com/webapp/you/foods/2.html?new=1&from=https%3A%2F%2Fm.ctrip.com%2Fhtml5%2F%3Fsourceid%3D497%26allianceid%3D4897%26sid%3D182042%26utm_source%3Dbaidu%26utm_medium%3Dcpc%26utm_campaign%3Dbaidu497%26sepopup%3D2')">
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg">
-			  <h2>美食林</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>	 
-
-
-		  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('https://m.dianping.com/shoplist/1/d/1/c/10/s/s_-1?from=m_nav_1_meishi')">
-			  <img src="http://static.leiphone.com/uploads/2012/01/primaryImage.png">
-			  <h2>大众点评</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-	   </div>
-		</ion-content>
-
-	</ion-tab>
-
-
-	<!--333-->
-	
-    <ion-tab title="住">
-	
-		<header class="bar bar-header">
-		<h1 class="page-header">Route</h1>
-		</header>
-		<ion-content has-header="true">
-
-		<div class="list">
-
-			
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/3">
-			  <img src="img/my.jpg">
-			  <h2>内部推荐</h2>
-			  <p>搭友推荐</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-		  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://m.ctrip.com/html5/hotel/?allianceid=29637&sid=468701&ouid=H5B2Bonline&sourceid=2055&Popup=close&autoawaken=close&from=http%3A%2F%2Fm.ctrip.com%2Fwebapp%2Fmkt%2Fb2b-online%2Fmarketing_hotel')">
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg">
-			  <h2>携程酒店</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://i.meituan.com/awp/h5/hotel/search/search.html?stid_b=1&cevent=imt%2Fhomepage%2Fcategory1%2F20')">
-			<img src="http://www.kubikeji.com/uploads/150929/1-15092Z93921244.jpg">
-			  <h2>美团酒店</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			  <i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
-   		</div>
-
-		</ion-content>
-	</ion-tab>
-
-	<!--4444-->
-    <ion-tab title="行">
-	
-	    <header class="bar bar-header">
-		<h1 class="page-header">Route</h1>
-		</header>
-		<ion-content has-header="true">
-
-	
-		<div class="list">
-
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/4">
-			  <img src="img/my.jpg">
-			  <h2>内部推荐</h2>
-			  <p>搭友推荐</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://common.diditaxi.com.cn/general/webEntry?wx=true&channel=mengdada#/')">
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488422116&di=b33f5d52612ea34bda25408ba6f5730b&imgtype=jpg&er=1&src=http%3A%2F%2Fwww.th7.cn%2Fd%2Ffile%2Fp%2F2015%2F10%2F16%2F6826788348330b6e97f368cfc5ed0eaf.jpg">
-			  <h2>滴滴</h2>
-			  <p>滴滴出行</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://m.ctrip.com/html5/flight/?allianceid=29637&sid=468701&ouid=H5B2Bonline&sourceid=2055&Popup=close&autoawaken=close&fromurl=http%3A%2F%2Fm.ctrip.com%2Fwebapp%2Fmkt%2Fb2b-online%2Fmarketing_flight')">
-			<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg">
-			  <h2>携程机票</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			  <i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
-		  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('https://m.ctrip.com/webapp/car/index?s=ctrip&from=https%3A%2F%2Fm.ctrip.com%2Fhtml5%2F%3Fsourceid%3D497%26allianceid%3D4897%26sid%3D182042%26utm_source%3Dbaidu%26utm_medium%3Dcpc%26utm_campaign%3Dbaidu497%26sepopup%3D2')">
-			<img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg">
-			  <h2>携程租车</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			  <i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-		 
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://www.meituan.com')">
-			  <img src="img/my.jpg">
-			  <h2>萌搭</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
-	   </div>
-
-	   </ion-content>
-
-	</ion-tab>
-
-
-	<!--5555-->
-    <ion-tab title="娱">
-	
-	    <header class="bar bar-header">
-		<h1 class="page-header">Route</h1>
-		</header>
-		<ion-content has-header="true">
-
-	
-		<div class="list">
-
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/5">
-			  <img src="img/my.jpg">
-			  <h2>内部推荐</h2>
-			  <p>搭友推荐</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://www.qiushibaike.com/?ref=wxnav')">
-			<img src="http://xianse.cc/upload/201410/0123271568.350x350.jpg">
-			  <h2>糗事百科</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			  <i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
-		  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://www.qiushibaike.com/gif/6.html?ref=wxnav')">
-			<img src="http://xianse.cc/upload/201410/0123271568.350x350.jpg">
-			  <h2>糗事美女</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			  <i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-		 
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://video.m.baidu.com/?from=wise_nav#/index/meizhi?_k=16falb')">
-			  <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3754145903,2278646549&fm=23&gp=0.jpg">
-			  <h2>美女视频</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-		 
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://video.m.baidu.com/?from=wise_nav#/index/doubiju?_k=klc251')">
-			  <img src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3754145903,2278646549&fm=23&gp=0.jpg">
-			  <h2>搞笑视频</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
-
-		  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://m.news.baidu.com/news?fr=mohome&ssid=0&from=1015097f&uid=&pu=sz%40320_1001%2Cta%40iphone_2_6.0_3_537&bd_page_type=1#/newslist/widthNav/info/%E5%A8%B1%E4%B9%90?_k=l8agrh')">
-
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488032887306&di=239307c4b10247ff4d750821c0383160&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160929%2F83ba80845a564039b81d39ce62a403e9_th.jpg">
-			  <h2>八卦新闻</h2>
-			  <p>Back off, man. I'm a scientist.</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
-
-	   </div>
-
-	   </ion-content>
-
-	</ion-tab>
-
-	<!--6666-->
-    <ion-tab title="职">
-	
-	    <header class="bar bar-header">
-		<h1 class="page-header">Route</h1>
-		</header>
-		<ion-content has-header="true">
-
-		<div class="list">
-			
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/6">
-			  <img src="img/my.jpg">
-			  <h2>内部推荐</h2>
-			  <p>搭友推荐</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://m.51job.com/')">
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488033595208&di=d2c54355550c278f719663bd4c927119&imgtype=0&src=http%3A%2F%2Fim1.tongbu.com%2Fappicon%2Fapp%2F644%2F44%2F415443644_6E4E9F15.png%3Fthp20150828131004">
-			  <h2>51job</h2>
-			  <p>51job 前程无忧</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-		  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('http://m.zhaopin.com/')">
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488033920387&di=03058020cb6a0b221e93cfca40824e83&imgtype=0&src=http%3A%2F%2Fwww.pc6.com%2Fup%2F2014-6%2F201463102243.png">
-			  <h2>智联招聘</h2>
-			  <p>智联招聘</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-		  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('https://m.liepin.com/')">
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488632544&di=268fa5dcda2aab91f30d9ad372bc75d1&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.9ht.com%2Fup%2F2015-2%2F20152320859.jpg">
-			  <h2>猎聘网</h2>
-			  <p>猎聘网</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-
-
-
-	   </div>
-
-	   </ion-content>
-
-	</ion-tab>
-
-	
-	<!--7777-->
-    <ion-tab title="购">
-	
-	    <header class="bar bar-header">
-		<h1 class="page-header">Route</h1>
-		</header>
-		<ion-content has-header="true">
-
-	
-		<div class="list">
-			
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/7">
-			  <img src="img/my.jpg">
-			  <h2>内部推荐</h2>
-			  <p>搭友推荐</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('https://wqs.jd.com/portal/wx/wallet/index_v2.shtml?ptag=17003.4.1&ptype=3')">
-			 <img src="http://img3.imgtn.bdimg.com/it/u=176276523,3322713302&fm=214&gp=0.jpg">
-			  <h2>jd</h2>
-			  <p>京东在线</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-		  
-
-
-	   </div>
-
-	   </ion-content>
-
-	</ion-tab>
-
-	
-	<!--8888-->
-    <ion-tab title="游">
-	
-	    <header class="bar bar-header">
-		<h1 class="page-header">Route</h1>
-		</header>
-		<ion-content has-header="true">
-
-	
-		<div class="list">
-
-		 
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" href="#/app/blog_list/shanghai/8">
-			  <img src="img/my.jpg">
-			  <h2>内部推荐</h2>
-			  <p>搭友推荐</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-
-		  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('
-		  http://m.ctrip.com/webapp/diyfhxsdp/dpindex?allianceid=29637&sid=468701&ouid=H5B2Bonline&sourceid=2055&Popup=close&autoawaken=close&from=http://m.ctrip.com/webapp/mkt/b2b-online/marketing_trip')">
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg">
-			  <h2>携程自由行</h2>
-			  <p>ctrip</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-
-		  </ion-item>
-
-
-		 
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('
-		  https://m.ctrip.com/webapp/pinplay/home?source=dangjiquna&isHideNavBar=YES&from=https%3A%2F%2Fm.ctrip.com%2Fhtml5%2F%3Fsourceid%3D497%26allianceid%3D4897%26sid%3D182042%26utm_source%3Dbaidu%26utm_medium%3Dcpc%26utm_campaign%3Dbaidu497%26sepopup%3D2')">
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg">
-			  <h2>当季去哪</h2>
-			  <p>ctrip</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-		  
-		  <ion-item class="item-remove-animate item-avatar item-icon-right" type="item-text-wrap" ng-click="jump('
-		  http://m.ctrip.com/html5/you/?allianceid=29637&sid=468701&ouid=H5B2Bonline&sourceid=2055&Popup=close&autoawaken=close&from=http%3A%2F%2Fm.ctrip.com%2Fwebapp%2Fmkt%2Fb2b-online%2Fmarketing_strategy')">
-			  <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg">
-			  <h2>携程攻略</h2>
-			  <p>ctrip</p>
-			<i class="icon ion-chevron-right icon-accessory"></i>
-		  </ion-item>
-
-	   </div>
-
-	   </ion-content>
-
-	</ion-tab>
-
-
-
-
-
-</ion-tabs>
-
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://m.ctrip.com/html5/flight/?allianceid=29637&sid=468701&ouid=H5B2Bonline&sourceid=2055&Popup=close&autoawaken=close&fromurl=http%3A%2F%2Fm.ctrip.com%2Fwebapp%2Fmkt%2Fb2b-online%2Fmarketing_flight')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy"> 携程机票</span>
+				</a>
+			</div>
+		</div>
+
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://m.ctrip.com/html5/flight/?allianceid=29637&sid=468701&ouid=H5B2Bonline&sourceid=2055&Popup=close&autoawaken=close&fromurl=http%3A%2F%2Fm.ctrip.com%2Fwebapp%2Fmkt%2Fb2b-online%2Fmarketing_flighthttps://m.ctrip.com/webapp/car/index?s=ctrip&from=https%3A%2F%2Fm.ctrip.com%2Fhtml5%2F%3Fsourceid%3D497%26allianceid%3D4897%26sid%3D182042%26utm_source%3Dbaidu%26utm_medium%3Dcpc%26utm_campaign%3Dbaidu497%26sepopup%3D2')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1487827314298&di=7b9939b6ca4150bb89c4fcd96d97385d&imgtype=0&src=http%3A%2F%2Fwww.ceoqh.com%2Fuploadfile%2F20150529%2F20150529100209196.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy"> 携程租车</span>
+				</a>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+<div class="row-top-p">
+	<div class="row">
+		<div class="col-20" >
+			<div class="jj">
+				<a ng-href="#/app/order/shanghai/2">
+					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
+					<span class="yy">内部推荐</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a href="#/app/order/shanghai/2">
+					<img  src="img/my.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy"> 淞虹路</span>
+				</a>
+			</div>
+		</div>
+
+
+		<div class="col-20">
+			<div class="jj">
+				<a href="#/app/order/shanghai/2">
+					<img  src="img/my.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy"> 虹桥</span>
+				</a>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+</ion-content>
+
+<ion-content ng_show='info_type === "5"'>
+<div class="row-top-p">
+	<div class="row">
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://www.qiushibaike.com/?ref=wxnav')">
+					<img  src="http://xianse.cc/upload/201410/0123271568.350x350.jpg" class="yj"  width="40" height="40"  class="yj"  />
+					<span class="yy">糗事百科</span>
+				</a>
+			</div>
+		</div>
+
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://www.qiushibaike.com/gif/6.html?ref=wxnav')">
+					<img  src="http://xianse.cc/upload/201410/0123271568.350x350.jpg" class="yj"  width="40" height="40"  class="yj"  />
+					<span class="yy">糗事美女</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://video.m.baidu.com/?from=wise_nav#/index/meizhi?_k=16falb')">
+					<img  src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3754145903,2278646549&fm=23&gp=0.jpg" class="yj"  width="40" height="40" />
+					<span class="yy">美女视频</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://video.m.baidu.com/?from=wise_nav#/index/doubiju?_k=klc251')">
+					<img  src="https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=3754145903,2278646549&fm=23&gp=0.jpg" class="yj"  width="40" height="40" />
+					<span class="yy">搞笑视频</span>
+				</a>
+			</div>
+		</div>
+
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://m.news.baidu.com/news?fr=mohome&ssid=0&from=1015097f&uid=&pu=sz%40320_1001%2Cta%40iphone_2_6.0_3_537&bd_page_type=1#/newslist/widthNav/info/%E5%A8%B1%E4%B9%90?_k=l8agrh')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488032887306&di=239307c4b10247ff4d750821c0383160&imgtype=0&src=http%3A%2F%2Fimg.mp.itc.cn%2Fupload%2F20160929%2F83ba80845a564039b81d39ce62a403e9_th.jpg" class="yj"  width="40" height="40" />
+					<span class="yy">八卦新闻</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row-top-p">
+	<div class="row">
+		<div class="col-20" >
+			<div class="jj">
+				<a ng-href="#/app/order/shanghai/3">
+					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
+					<span class="yy">内部推荐</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+</ion-content>
+
+
+<ion-content ng_show='info_type === "6"'>
+<div class="row-top-p">
+	<div class="row">
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://m.51job.com/')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488033595208&di=d2c54355550c278f719663bd4c927119&imgtype=0&src=http%3A%2F%2Fim1.tongbu.com%2Fappicon%2Fapp%2F644%2F44%2F415443644_6E4E9F15.png%3Fthp20150828131004" class="yj"  width="40" height="40" />
+					<span class="yy">前程无忧</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('http://m.zhaopin.com/')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488033920387&di=03058020cb6a0b221e93cfca40824e83&imgtype=0&src=http%3A%2F%2Fwww.pc6.com%2Fup%2F2014-6%2F201463102243.png" width="40" height="40"  class="yj"  />
+					<span class="yy"> 智联招聘</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="col-20">
+			<div class="jj">
+				<a ng-click="jump('https://m.liepin.com/')">
+					<img  src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1488632544&di=268fa5dcda2aab91f30d9ad372bc75d1&imgtype=jpg&er=1&src=http%3A%2F%2Fpic.9ht.com%2Fup%2F2015-2%2F20152320859.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy"> 猎聘网</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="row-top-p">
+	<div class="row">
+		<div class="col-20" >
+			<div class="jj">
+				<a ng-href="#/app/order/shanghai/3">
+					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
+					<span class="yy">内部推荐</span>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+</ion-content>
 
 </ion-view>

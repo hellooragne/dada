@@ -484,66 +484,19 @@ angular.module('starter.controllers', [])
 
 .controller('tabs', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, myweixin) {
 
-	myweixin.set_title("test title");
-	myweixin.set_desc("test new desc");
 
 	console.log($stateParams.pId);
 
-	$scope.$on("$ionicView.loaded", function(event, data){
+	$scope.info_type  = "1";
 
-		console.log("loaded");
-
-		$ionicTabsDelegate.select(parseInt($stateParams.pId));
-
-		console.log($ionicTabsDelegate.selectedIndex());
-	});
-
-	$scope.selectTabWithIndex = function(index) {
-		$ionicTabsDelegate.select(index);
-	}
+	$scope.change_info_type = function(g) {
+		$scope.info_type = g;
+	};
 
 	$scope.jump = function(url) {
 
 		$rootScope.jumpurl = url;
 		window.location.href = "#/app/search/1";
-	};
-
-
-	/*
-	$scope.uploadFiles = function (files) {
-		$scope.files = files;
-		if (files && files.length) {
-			Upload.upload({
-				url: '/api/upload',
-				data: {
-					files: files
-				}
-			}).then(function (response) {
-				$timeout(function () {
-					$scope.result = response.data;
-				});
-			}, function (response) {
-				if (response.status > 0) {
-					$scope.errorMsg = response.status + ': ' + response.data;
-				}
-			}, function (evt) {
-				$scope.progress = 
-				Math.min(100, parseInt(100.0 * evt.loaded / evt.total));
-			});
-		}
-	};
-	*/
-	
-
-	$scope.uploadFiles = function (files) {
-		myweixin.set_pic();
-		/*
-		if (files && files.length) {
-			for (var i = 0; i < files.length; i++) {
-				Upload.upload({url: '/api/upload', data: {file: files[i]}});
-			}
-		}
-		*/
 	};
 
 })
@@ -706,7 +659,7 @@ angular.module('starter.controllers', [])
 })
 
 
-.controller('order', function($rootScope, $scope, $stateParams, $ionicModal, $timeout, $http) {
+.controller('order', function($rootScope, $scope, $stateParams, $ionicModal, $timeout, $http, myweixin) {
 
 	console.log($stateParams.pId);
 	console.log($stateParams.location);
@@ -890,7 +843,6 @@ angular.module('starter.controllers', [])
 	$scope.set_pic = function() {
 		myweixin.set_pic(function(res) {
 			$scope.picture_list =  res;
-			alert($scope.picture_list);
 		});
 	};
 
@@ -913,9 +865,22 @@ angular.module('starter.controllers', [])
 			console.log(data);
 
 		});
+
+		$scope.closeblog();
+		$scope.blog_init();
 	};
 
 	$scope.BlogRefresh = function() {
 		$scope.blog_init();
+	};
+
+	$scope.create_common = function() {
+		if ($scope.info_type  == "1") {
+			$scope.create_bill();
+		}
+
+		if ($scope.info_type  == "2") {
+			$scope.create_blog();
+		}
 	};
 })

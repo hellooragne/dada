@@ -65,7 +65,7 @@ class blog_m:
 
     def get_blog(self, data):
 
-        sql = "select * from blog_t where group_id = %s  order by create_time" %(data['group_id'])
+        sql = "select * from blog_t where group_id = %s  order by create_time desc" %(data['group_id'])
         print sql
 
         result = conn.query(sql)

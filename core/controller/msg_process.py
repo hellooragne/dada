@@ -299,7 +299,7 @@ class WeixinConfigHandler(tornado.web.RequestHandler):
         WeixinJSSDK.get_value(weixin_url)
 
         res = {
-                "debug": "true",
+                "debug": False,
                 "appId": 'wx7f638d2d85dc480f',
                 "signature": WeixinJSSDK.signature,
                 "timestamp": WeixinJSSDK.timestamp,
