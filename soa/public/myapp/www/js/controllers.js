@@ -1,15 +1,12 @@
 angular.module('starter.controllers', [])
 
-.controller('AppCtrl', function($rootScope, $scope, $ionicModal, $timeout, $http) {
+.controller('AppCtrl', function($rootScope, $scope, $ionicModal, $timeout, $http, myweixin) {
 
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+  $scope.$on('$ionicView.enter', function(e) {
 
-  // Form data for the login modal
+	  
+  });
+
   $scope.loginData = {};
   $scope.registerData = {};
 
@@ -34,52 +31,29 @@ angular.module('starter.controllers', [])
     $rootScope.register_result = "";
   };
 
-  // Open the login modal
   $rootScope.login = function() {
-    $scope.modal.show();
+
+	  if (myweixin.is_login() == true) {
+		  $rootScope.Islogin  = 1;
+		  $rootScope.user_data = myweixin.get_user_data();
+	  }
+
+	  $scope.modal.show();
   };
 
-  // Perform the login action when the user submits the login form
+  if (myweixin.is_login() == true) {
+
+	  $rootScope.Islogin  = 1;
+	  $rootScope.user_data = myweixin.get_user_data();
+  }
+
   $rootScope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
 
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-	/*
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-	*/
-
-	/*
-	var url = encodeURI("/core/user/login?phone_id=" + $scope.loginData.phone_id + "&password=" + $scope.loginData.password);
-	console.log(url)
-
-	$http.get(url).success(function(data) {
-		console.log(data[0].is_match);
-
-		if (data[0].is_match == 1) {
-
-			$rootScope.phone_id = $scope.loginData.phone_id;
-			$rootScope.password=  $scope.loginData.password;
-			$rootScope.username = data[0].username;
-			$rootScope.picture  = data[0].picture;
-			$rootScope.Islogin  = 1;
-
-
-      		$scope.closeLogin();
-
-			console.log($rootScope.phone_id);
-		} else {
-			$scope.result = "用户名或密码错误";	
-		}
-	});
-	*/
-
-	
   };
 
   $rootScope.login_out = function() {
+	  
+	  myweixin.weixin_logout();
 
 	  $rootScope.phone_id = "";
 	  $rootScope.password=  "";
@@ -92,61 +66,6 @@ angular.module('starter.controllers', [])
   };
 
 
-
-  $rootScope.doRegister = function() {
-
-	console.log($scope.registerData.sex);
-	var picture_id = 0;
-	var myDate = new Date();
-
-	if ($scope.registerData.sex == 'male') {
-
-		picture_id = parseInt(myDate.getMilliseconds())%10; 
-	} else {
-	
-		$scope.registerData.sex = 'female';
-
-		picture_id = parseInt(myDate.getMilliseconds())%10 + 10000; 
-	}
-  
-	if ($scope.registerData.phone_id == ""  || $scope.registerData.phone_id.length != 11) {
-	
-		$scope.register_result = "请输入正确的手机号码";	
-		return;
-	}
-
-	if ($scope.registerData.password == "") {
-	
-		$scope.register_result = "请输入正确的密码";	
-		return;
-	}
-
-	/*
-	var url = encodeURI("/core/user/add?phone_id=" + $scope.registerData.phone_id + "&password=" + $scope.registerData.password 
-		+ "&username=" + $scope.registerData.username + "&picture=img/" + picture_id + ".jpg" + "&sex=" + $scope.registerData.sex);
-	console.log(url)
-
-	$http.get(url).success(function(data) {
-		console.log(data);
-
-		if (data.affectedRows == 1) {
-
-			$rootScope.phone_id = $scope.registerData.phone_id;
-			$rootScope.password = $scope.registerData.password;
-			$rootScope.username = $scope.registerData.username;
-			$rootScope.picture  = "img/" + picture_id + ".jpg";
-			$rootScope.Islogin  = 1;
-
-      		$scope.closeLogin();
-		} else {
-			$scope.register_result = "用户名重复注册";	
-		}
-	});
-	*/
-  };
-
-
-
   $scope.my_bill = function() {
 
 	  if ($rootScope.Islogin != 1) {
@@ -157,156 +76,6 @@ angular.module('starter.controllers', [])
   };
 })
 
-
-/*222222222222*/
-
-.controller('PlaylistsCtrl', function($rootScope, $scope, $stateParams, $ionicModal, $timeout, $http) {
-
-  console.log($stateParams.pId);
-  console.log($stateParams.location);
-
-  $scope.playlists = [
-    
-  ];
-
-
-  $scope.bill = {};
-  $scope.bill.group_id   = $stateParams.pId;
-
-
-  $scope.create_result = "";
-
-
-  $scope.change_location = function(g) {
-			
-  		$scope.bill.group_id = g;
-
-  		$scope.bill_init();
-  };
-
-  $scope.bill_init = function() {
-
-	  $scope.playlists = [];
-  
-
-	 $http.get("/api/fake_login?id=7bfeff73c95b43fbabdd0c098e229bcc").success(function(data) {
-	 	console.log("fake login");
-		console.log(data);
-
-		$rootScope.user_id = "7bfeff73c95b43fbabdd0c098e229bcc";
-	  	$rootScope.Islogin  = 1;
-  	});
-
-
-	$http.post("/api/order/get", '{"group_id":"' + $scope.bill.group_id + '"}').success(function(data) {
-	 	console.log("order get");
-		console.log(data);
-
-		$scope.playlists = data;
-  	});
-  };
-
-  $scope.bill_init();
-  
-
-  $scope.getData = function() {
-  	$scope.bill_init();
-  };
-
-    // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/bill_create.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeBill = function() {
-    $scope.modal.hide();
-  };
-
-  /*
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-  */
-
-  $scope.create_bill = function() {
-
-	$scope.modal.show();
-	/*
-	if ($rootScope.Islogin != 1) {
-		$rootScope.login();
-	} else {
-	
-		$scope.modal.show();
-	}
-	*/
-  };
-
-  $scope.create_bill_on = function() {
-
-	/*
-    $timeout(function() {
-      $scope.closeBill();
-  	  $scope.bill_init();
-    }, 2000);
-	*/
-
-	console.log(Date.parse($scope.bill.start_time));
-	console.log(Date.parse(Date()));
-
-	console.log(parseInt(Date.parse($scope.bill.start_time)) - parseInt(Date.parse(Date())));
-
-	if ((parseInt(Date.parse($scope.bill.start_time)) - parseInt(Date.parse(Date()))) >=  (24 * 60 * 60 * 1000000 * 2)) {
-
-		$scope.create_result = "请输入两天内时间";	
-		return;
-	}
-
-	if ((parseInt(Date.parse($scope.bill.start_time)) - parseInt(Date.parse(Date()))) <=  0) {
-		$scope.create_result = "请输入两天内时间";	
-		return;
-	}
-
-
-
-	if ($scope.bill.group_id == undefined || $scope.bill.order_name == undefined || $scope.bill.s_from == undefined || $scope.bill.s_to == undefined || $scope.bill.seat_number == undefined) {
-			
-		$scope.create_result = "请输入全部信息";	
-		return;
-	}
-
-	console.log($scope.bill.start_time);
-
-
-	if ($rootScope.phone_id == null) {
-		$scope.bill.phone_id = "";
-	} else {
-		$scope.bill.phone_id = $rootScope.phone_id;
-	}
-
-	
-	//$scope.bill.start_time = moment($scope.bill.start_time).subtract(8, 'hour').format("YYYY-MM-DD HH:mm:ss");
-	$scope.bill.start_time = moment($scope.bill.start_time).format("YYYY-MM-DD HH:mm:ss");
-
-	$scope.bill.s_type = "driver";
-
-	$http.post("/api/order/new", $scope.bill).success(function(data) {
-		console.log(data);
-	
-		$scope.closeBill();
-  	  	$scope.bill_init();
-
-	});
-  };
-
-
-  $scope.doRefresh = function() {
-  	  $scope.bill_init();
-  };
-
-})
 
 /*33333333333*/
 .controller('PlaylistCtrl', function($rootScope, $scope, $stateParams, $timeout, $http) {
@@ -403,7 +172,6 @@ angular.module('starter.controllers', [])
 			});
 
 		}
-
 	
 	};
 
@@ -421,9 +189,6 @@ angular.module('starter.controllers', [])
 
   $scope.bill = {};
   $scope.bill.group_id = 1;
-
-
-
 
   $scope.bill_init = function() {
   
@@ -484,10 +249,15 @@ angular.module('starter.controllers', [])
 
 .controller('tabs', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, myweixin) {
 
+	myweixin.weixin_login(function(user_id) {
+		$http.get("/api/fake_login?id=" + user_id).success(function(data) {
+			myweixin.set_user_data(data);
+		});
+	});
 
 	console.log($stateParams.pId);
 
-	$scope.info_type  = "1";
+	$scope.info_type  = $stateParams.pId;
 
 	$scope.change_info_type = function(g) {
 		$scope.info_type = g;
@@ -498,137 +268,23 @@ angular.module('starter.controllers', [])
 		$rootScope.jumpurl = url;
 		window.location.href = "#/app/search/1";
 	};
-
 })
 
-.controller('blog_list', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, $sce, myweixin) {
-
-  console.log($stateParams.pId);
-  console.log($stateParams.location);
-
-  $scope.playlists = [
-    
-  ];
-
-  $scope.picture_list = [];
-
-
-  $scope.bill = {};
-  $scope.bill.group_id   = $stateParams.pId;
-
-
-  $scope.create_result = "";
-
-
-  $scope.change_location = function(g) {
-			
-  		$scope.bill.group_id = g;
-
-  		$scope.bill_init();
-  };
-
-  $scope.bill_init = function() {
-
-	 $scope.playlists = [];
-  
-
-	 $http.get("/api/fake_login?id=7bfeff73c95b43fbabdd0c098e229bcc").success(function(data) {
-	 	console.log("fake login");
-		console.log(data);
-
-		$rootScope.user_id = "7bfeff73c95b43fbabdd0c098e229bcc";
-	  	$rootScope.Islogin  = 1;
-  	});
-
-
-	$http.post("/api/blog/get", '{"group_id":"' + $scope.bill.group_id + '"}').success(function(data) {
-	 	console.log("order get");
-		console.log(data);
-
-		$scope.playlists = data;
-  	});
-  };
-
-  $scope.bill_init();
-
-
-  $ionicModal.fromTemplateUrl('templates/blog_create.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeBill = function() {
-    $scope.modal.hide();
-  };
-
-  /*
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-  */
-
-  $scope.create_bill = function() {
-
-	$scope.modal.show();
-  };
-
-
-  $scope.set_pic = function() {
-	  myweixin.set_pic(function(res) {
-	  	$scope.picture_list =  res;
-		alert("get res");
-		alert($scope.picture_list);
-	  });
-  };
-
-  $scope.submit_f = function() {
-	  console.log("submit_f");
-  
-	  var data = {
-	 	city : "shanghai",
-		group_id : $stateParams.pId,
-		title :  $scope.bill.title,
-		desc_t : $scope.bill.context,
-		context : $scope.bill.context,
-		picture_list : JSON.stringify($scope.picture_list),
-		phone_id : "123456789" 
-
-	  };
-
-	  $http.post("/api/blog/new", data).success(function(data) {
-	 	console.log("order get");
-		console.log(data);
-
-  	  });
-  };
-  
-})
 
 .controller('blog_show', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, $sce, myweixin) {
 
   console.log($stateParams.pId);
 
-  $scope.playlist = {};
-
-  $scope.bill = {};
-  $scope.bill_join_list = {};
-
-  $scope.bill.group_id = 1;
-
+  $scope.playlist = [];
 
 
   $scope.init_bill_show = function() {
-
 
 	  $http.post("/api/blog/getone", '{"id":"' + $stateParams.pId + '"}').success(function(data) {
 		  console.log("order get");
 		  console.log(data);
 
-
 		  $scope.playlist = data[0];
-
 
 		  myweixin.set_title($scope.playlist.title);
 	
@@ -636,15 +292,53 @@ angular.module('starter.controllers', [])
 
 		  myweixin.set_imgurl($scope.playlist.picture);
 
-
-
 		  $scope.playlist.picture_list = JSON.parse($scope.playlist.picture_list);
 	  });
 
   };
 
   $scope.init_bill_show(); 
+
+
+  $scope.jump = function(url) {
+
+	    console.log(url);
+
+		$rootScope.jumpurl = url;
+		window.location.href = "#/app/search/1";
+  };
+
+  $scope.bill = {};
+
+  $scope.blog_commit = function() {
+
+	  var commit = {
+		  group_id : $scope.playlist.group_id,
+		  blog_id  : $stateParams.pId,
+		  commit_t : $scope.bill.commit_t,
+	  };
+ 
+	  $http.post("/api/blog/addcommit", commit).success(function(data) {
+  		$scope.bill = {};
+  		$scope.commit_show();
+	  });
+  };
+
+
+  $scope.commit_list = [];
+
+  $scope.commit_show = function() {
   
+	  var commit = {
+		  blog_id  : $stateParams.pId,
+	  };
+ 
+	  $http.post("/api/blog/getcommit", commit).success(function(data) {
+			$scope.commit_list = data;
+	  });
+  };
+
+  $scope.commit_show();
 })
 
 .controller('search', function($rootScope, $scope, $ionicModal, $stateParams, $ionicTabsDelegate, $timeout, $http, $sce) {
@@ -654,8 +348,6 @@ angular.module('starter.controllers', [])
 	//$scope.jumpurl = $stateParams.pId;
 
     $scope.jumpurl = $sce.trustAsResourceUrl($rootScope.jumpurl);
-	
-
 })
 
 
@@ -664,8 +356,17 @@ angular.module('starter.controllers', [])
 	console.log($stateParams.pId);
 	console.log($stateParams.location);
 
-	$scope.info_type  = "1";
+	$scope.info_type  = "2";
 	$scope.group_id = $stateParams.pId;
+
+
+	$scope.$on('$ionicView.enter', function(e) {
+
+		myweixin.set_title("萌搭搭 群聊搭友");
+		myweixin.set_desc("这里有你想要的圈子和搭友，快来看看吧");
+		myweixin.set_imgurl("http://app.doubilol.com/img/my.jpg");
+
+	});
 
 	$scope.change_info_type = function(g) {
 
@@ -688,15 +389,7 @@ angular.module('starter.controllers', [])
 
 		$scope.playlists = [];
 
-		$http.get("/api/fake_login?id=7bfeff73c95b43fbabdd0c098e229bcc").success(function(data) {
-			console.log("fake login");
-			console.log(data);
-
-			$rootScope.user_id = "7bfeff73c95b43fbabdd0c098e229bcc";
-			$rootScope.Islogin  = 1;
-		});
-
-
+	
 		$http.post("/api/order/get", '{"group_id":"' + $scope.group_id + '"}').success(function(data) {
 			console.log("order get");
 			console.log(data);
@@ -803,20 +496,16 @@ angular.module('starter.controllers', [])
 		$scope.blog_list = [];
 
 
-		$http.get("/api/fake_login?id=7bfeff73c95b43fbabdd0c098e229bcc").success(function(data) {
-			console.log("fake login");
-			console.log(data);
-
-			$rootScope.user_id = "7bfeff73c95b43fbabdd0c098e229bcc";
-			$rootScope.Islogin  = 1;
-		});
-
-
 		$http.post("/api/blog/get", '{"group_id":"' + $scope.group_id + '"}').success(function(data) {
 			console.log("order get");
 			console.log(data);
 
 			$scope.blog_list = data;
+
+			for (var i = 0; i < $scope.blog_list.length; i++) {
+			
+				$scope.blog_list[i].picture_list = JSON.parse($scope.blog_list[i].picture_list);
+			}
 		});
 	};
 
@@ -846,6 +535,8 @@ angular.module('starter.controllers', [])
 		});
 	};
 
+	$scope.blog.s_url = "";
+
 	$scope.submit_f = function() {
 		console.log("submit_f");
 
@@ -853,10 +544,11 @@ angular.module('starter.controllers', [])
 			city : "shanghai",
 			group_id : $stateParams.pId,
 			title :  $scope.blog.title,
-			desc_t : $scope.blog.context,
+			desc_t : $scope.blog.context.substring(0, 20),
 			context : $scope.blog.context,
+			s_url : $scope.blog.s_url,
 			picture_list : JSON.stringify($scope.picture_list),
-			phone_id : "123456789" 
+			phone_id : "" 
 
 		};
 
@@ -875,6 +567,11 @@ angular.module('starter.controllers', [])
 	};
 
 	$scope.create_common = function() {
+		if (myweixin.is_login() == false) {
+		
+			window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx7f638d2d85dc480f&redirect_uri=http%3a%2f%2fapp.doubilol.com%2f&response_type=code&scope=snsapi_userinfo&state=123#wechat_redirect";
+		}
+
 		if ($scope.info_type  == "1") {
 			$scope.create_bill();
 		}
@@ -882,5 +579,30 @@ angular.module('starter.controllers', [])
 		if ($scope.info_type  == "2") {
 			$scope.create_blog();
 		}
+	};
+
+
+	/*chat*/
+
+	$scope.join_chat = function() {
+	
+		var data = {
+			group_id : $scope.group_id,
+		};
+
+		$http.post("/api/weixin_join", data).success(function(data) {
+
+		});
+	};
+
+	$scope.exit_chat = function() {
+	
+		var data = {
+			group_id : $scope.group_id,
+		};
+
+		$http.post("/api/weixin_exit", data).success(function(data) {
+
+		});
 	};
 })

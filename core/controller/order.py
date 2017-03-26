@@ -176,13 +176,6 @@ class GetOrderHandler(WebRequest):
     def post(self):
         global users, orders, message_queue
 
-        if not self.current_user:
-            return
-
-        user_id = self.current_user.get("id")
-
-        #get from db
-        print "get from db"
         order_model = order_m()
         data      = json.loads(self.request.body)
         order_res = order_model.get_order(data)
@@ -196,12 +189,6 @@ class GetOneOrderHandler(WebRequest):
     def post(self):
         global users, orders, message_queue
 
-        if not self.current_user:
-            return
-
-        user_id = self.current_user.get("id")
-
-        #get from db
         order_model = order_m()
         data      = json.loads(self.request.body)
         order_res = order_model.get_one_order(data)

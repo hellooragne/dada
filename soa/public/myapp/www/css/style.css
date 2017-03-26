@@ -77,3 +77,30 @@
 	color:#000000;
 }
 
+
+.pn {
+	display: block;
+	-webkit-margin-before: 1em;
+	-webkit-margin-after: 1em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	font-size: 16px;
+}
+
+
+.pn2 {
+	display: block;
+	font-size: 2em;
+	-webkit-margin-before: 0.67em;
+	-webkit-margin-after: 0.67em;
+	-webkit-margin-start: 0px;
+	-webkit-margin-end: 0px;
+	font-weight: bold;
+
+	margin-bottom: 2px;
+	color: #444;
+	font-size: 18px;
+	font-weight: 700;
+}
+
+

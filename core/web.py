@@ -55,16 +55,17 @@ application = tornado.web.Application([
     (r"/api/blog/get", blog.GetHandler),
     (r"/api/blog/getone", blog.GetOneHandler),
     (r"/api/blog/getmy", blog.GetMyHandler),
+    
+    (r"/api/blog/addcommit", blog.AddCommitHandler),
+    (r"/api/blog/getcommit", blog.GetCommitHandler),
 
     #hmeng
     (r"/api/weixin_msg", msg_process.MessageHandler),
     (r"/api/weixin_config", msg_process.WeixinConfigHandler),
+    (r"/api/weixin_join", msg_process.WeixinJoinHandler),
+    (r"/api/weixin_exit", msg_process.WeixinOutHandler),
 
-    
-    
     (r"/api/upload", msg_process.UploadHandler),
-
-
 
     (r"/static/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'], default_filename='index.html')),
 ], **settings)

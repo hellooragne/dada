@@ -37,11 +37,11 @@ class WeixinJSSDK(object):
         timestamp = cls.timestamp
         nonceStr  = cls.nonceStr
 
-        print "full url:" + full_url 
-        print "jsapi_ticket :" + cls.jsapi_ticket 
-        print "signature:" + cls.signature
-        print "timestamp:" + str(cls.timestamp)
-        print "nonce:" + cls.nonceStr
+       #print "full url:" + full_url 
+       #print "jsapi_ticket :" + cls.jsapi_ticket 
+       #print "signature:" + cls.signature
+       #print "timestamp:" + str(cls.timestamp)
+       #print "nonce:" + cls.nonceStr
         
 
 

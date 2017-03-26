@@ -1,6 +1,6 @@
 angular.module('starter.services', [])
 
-.factory('myweixin', function($http) {
+.factory('myweixin', function($http, $localStorage) {
 
 	var weixin = {
 
@@ -12,6 +12,7 @@ angular.module('starter.services', [])
 			_this.desc  = "";
 			_this.link  = "";
 			_this.imgurl = "";
+			_this.user_data = null;
 			
 
 			$http.post("/api/weixin_config", '{"weixin_url":"' + location.href.split('#')[0] + '"}').success(function(data) {
@@ -31,10 +32,11 @@ angular.module('starter.services', [])
 			var _this = this;
 
 			wx.ready(function(){
+				
 				wx.onMenuShareAppMessage({
 					title: _this.title, // 分享标题
 					desc: _this.desc, // 分享描述
-					link: location.href, // 分享链接
+					link: location.href.split('#')[0].split("?")[0]+"#"+location.href.split('#')[1], // 分享链接
 					imgUrl: _this.imgurl, // 分享图标
 					type: 'link', // 分享类型,music、video或link，不填默认为link
 					dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
@@ -98,6 +100,69 @@ angular.module('starter.services', [])
 							}
 					}
 			});
+		},
+
+		parseQueryString : function(str) {
+			var reg = /(([^?&=]+)(?:=([^?&=]*))*)/g;
+			var result = {};
+			var match;
+			var key;
+			var value;
+			while (match = reg.exec(str)) {
+				key = match[2];
+				value = match[3] || '';
+				result[key] = decodeURIComponent(value);
+			}
+			return result;
+		},
+
+		weixin_logout : function() {
+			var _this = this;	
+			$localStorage.user_id = null;
+		},
+
+		weixin_login : function(cb) {
+			var _this = this;	
+			if ($localStorage.user_id != null) {
+
+				cb($localStorage.user_id);
+
+			} else {
+
+				code = _this.parseQueryString(location.href.split('#')[0])['code'];
+
+				if (code != null) {
+
+					$http.get("/api/weixinlogin?code=" + code).success(function(data) {
+
+						_this.login_data = data;
+
+						$localStorage.user_id = data.user_id;
+
+						cb($localStorage.user_id);
+
+					});
+				}
+			}
+		},
+
+		is_login : function() {
+			var _this = this;	
+			if ($localStorage.user_id == null) {
+				return false;
+			} else {
+				return true;	
+			}
+		},
+
+		get_user_data : function() {
+			var _this = this;	
+			return _this.user_data;
+		},
+
+		set_user_data : function(user_data) {
+			var _this = this;	
+			_this.user_data = user_data;
 		}
 
 	};

@@ -222,7 +222,6 @@ class AuthHandler(WebRequest):
         data = json_decode(response.body)
 
 
-        print response.body
         weixin_openid = data.get('openid')
         if not weixin_openid:
             self.redirect("/auth/weixin?redirect=%s" % url_escape(self.redirect_url))
@@ -288,6 +287,7 @@ class ApiWeixinLogin(WebRequest):
     @gen.coroutine
     def get(self):
         code = self.get_argument('code', None)
+        logger.info("code: " + code)
         self.redirect_url = self.get_argument("redirect", "/")
         if not code:
             self.redirect(self.get_authorization_code('snsapi_userinfo'))
@@ -304,11 +304,11 @@ class ApiWeixinLogin(WebRequest):
         url = '%s?%s' % (self.WEIXIN_ACCESS_TOKEN_URL, urllib.urlencode(sorted(args.items())))
         response = yield http_client.fetch(url)
 
-        #Use openid&access_token get user_info
         data = json_decode(response.body)
         weixin_openid = data.get('openid')
+        logger.info(data)
+
         if not weixin_openid:
-            self.redirect("/auth/weixin?redirect=%s" % url_escape(self.redirect_url))
             return
 
         args = {
@@ -319,6 +319,8 @@ class ApiWeixinLogin(WebRequest):
         url = 'https://api.weixin.qq.com/sns/userinfo?' + urllib.urlencode(sorted(args.items()))
         response = yield http_client.fetch(url)
         data = json_decode(response.body)
+        logger.info("user_data : " + str(data))
+
         weixin_unionid = data.get('unionid', '')
         login_openid = "weixin:%s" % weixin_openid
         login_unionid = "unionid:%s" % weixin_unionid
@@ -342,8 +344,8 @@ class ApiWeixinLogin(WebRequest):
                 assert conn.execute_rowcount("INSERT INTO index_login (login, entity_id) VALUES(%s, %s)", login_unionid, user_id)
 
         self.set_secure_cookie("user", json_encode({"id": user_id}))
+        data['user_id'] = user_id
         self.finish(data)
-
 
 
 class SimpleAuthHandler(WebRequest):
@@ -367,6 +369,8 @@ class SimpleAuthHandler(WebRequest):
     def get(self):
         code = self.get_argument('code', None)
         self.redirect_url = self.get_argument("redirect", "/")
+
+        
         if not code:
             self.redirect(self.get_authorization_code('snsapi_base'))
             return
@@ -383,6 +387,7 @@ class SimpleAuthHandler(WebRequest):
         response = yield http_client.fetch(url)
 
         data = json_decode(response.body)
+        logger.info(data)
         weixin_openid = data.get('openid')
         if not weixin_openid:
             self.redirect("/auth/simple_weixin?redirect=%s" % tornado.escape.url_escape(self.redirect_url))

@@ -1,39 +1,59 @@
 <ion-view view-title="萌搭搭">
-  <ion-content>
-		<div class="list">
 
-				<div ng-class='{"item item-avatar":true, "highlight":playlist.state === "disable"}'>
-					   <img src="{{playlist.picture}}">
-					   <h2>{{playlist.title}}</h2>
-					   
-					   <p>
-					   {{playlist.desc_t}}
-					   </p>
-					   
-				   </div>
+<header class="bar bar-header ">
 
-				   <div class=""item item-body">
-					   <div class="col" ">
+</header>
 
-						   <h4>{{playlist.context}} </h4>
+<ion-content has-header="true">
+<div class="list">
 
-						   <div  ng-repeat="t in playlist.picture_list  track by $index">
-							   <img class="full-image" style="" src="{{t}}">
-						   </div>
-					   </div>
-				   </div>
-			   </div>
+	<div ng-class='{"item item-avatar":true, "highlight":playlist.state === "disable"}'>
+		<img src="{{playlist.picture}}">
+		<div class="pn2">{{playlist.title}}</div>
 
+	</div>
 
-			   <!--
-			   <a class="item item-icon-left assertive" >
-				   <i class="icon ion-heart"></i>
-				   <button class="button button-block button-positive" ng-click="bill_join()">
-					   加入活动
-				   </button>
-			   </a>
-			   -->
+	<div class=""item item-body">
+		<div class="col" ">
 
+			<div class="pn">{{playlist.context}} </div>
+
+			<div  ng-repeat="t in playlist.picture_list  track by $index">
+				<img class="full-image" style="" src="{{t}}">
+			</div>
 		</div>
-  </ion-content>
+	</div>
+
+
+	<div class="item  tabs tabs-icon-left">
+
+		<a class="tab-item" ng-href="{{playlist.s_url}}" ng-show="playlist.url != '' ">
+			<i class="icon ion-share"> </i>
+			原文链接
+		</a>
+	</div>
+
+	<div class="item item-input-inset">
+		<label class="item-input-wrapper">
+			<input type="text" placeholder="评论" ng-model="bill.commit_t">
+		</label>
+		<button class="button button-small" ng-click="blog_commit()">
+			提交
+		</button>
+	</div>
+
+	
+	<ion-list>
+	<ion-item class="item  item-avatar" ng-repeat="t in commit_list track by $index">
+
+	<img src="{{t.picture}}" wight="80px" height="100px">
+
+	<h2>{{t.username}}</h2>
+
+	<p>{{t.commit_t}}</p>
+	</ion-item>
+	</ion-list>
+
+</div>
+</ion-content>
 </ion-view>

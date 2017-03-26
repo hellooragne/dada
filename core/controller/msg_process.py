@@ -23,6 +23,8 @@ import tornado.httpclient
 from setting import settings
 from setting import conn
 
+from chat_mgr import chat_mgr
+
 from datetime import datetime
 
 
@@ -95,6 +97,8 @@ class MessageHandler(tornado.web.RequestHandler):
     MESSAGE_SIGNATURE_TOKEN = "newtest"
     USER_INFO_URL           = "https://api.weixin.qq.com/cgi-bin/user/info"
 
+    chat_mgr_m = chat_mgr()
+
     def check_message_signature(self):
         signature = self.get_argument("signature", None)
         timestamp = self.get_argument("timestamp", None)
@@ -125,15 +129,15 @@ class MessageHandler(tornado.web.RequestHandler):
 
         weixin_openid = to_user_name
         login_openid = "weixin:%s" % weixin_openid
-        #content = u'欢迎您关注"美天保养"'
         content_type = "text"
-        if request['xml'].get('MsgType', "") in ["voice", "text"] or request['xml'].get('Event', "") in ["subscribe", "SCAN"]:
+
+        if request['xml'].get('Event', "") in ["subscribe", "SCAN"]:
+            content = u'欢迎您关注, 您的用户号是 %s' % user_id
             yield WeixinJSSDK.get_value(self.request.full_url())
             access_token = WeixinJSSDK.access_token
 
             http_client = tornado.httpclient.AsyncHTTPClient()
             url = '%s?access_token=%s&openid=%s&lang=zh_CN' % (self.USER_INFO_URL, access_token, weixin_openid)
-            print url
             response = yield http_client.fetch(url)
             data = json_decode(response.body)
             weixin_unionid = data.get('unionid', '')
@@ -162,16 +166,12 @@ class MessageHandler(tornado.web.RequestHandler):
         if index_login:
             user_digital_id = index_login["id"]
 
-        if request['xml'].get('Event', "") in ["subscribe", "SCAN"]:
-            content = u'欢迎您关注, 您的用户号是 %s' % user_id
-
         elif request['xml'].get('Event', "") == "unsubscribe":
             self.finish()
             return
 
-        elif request['xml'].get('MsgType') == "text" or  request['xml'].get('MsgType') == "voice" or request['xml'].get('MsgType') == "image":
+        if request['xml'].get('MsgType') == "text" or  request['xml'].get('MsgType') == "voice" or request['xml'].get('MsgType') == "image" or request['xml'].get('MsgType') == "video":
 
-        
             user_id = nomagic.auth.get_user_id_by_login("weixin:" + request['xml']['FromUserName'])
 
             user = get_user(user_id)
@@ -180,47 +180,129 @@ class MessageHandler(tornado.web.RequestHandler):
 
             http_client = tornado.httpclient.AsyncHTTPClient()
 
-
             data_send = ""
 
             if  request['xml'].get('MsgType') == "text":
-                data = u'{ \
-                        "touser": "%s",\
-                        "msgtype":"text",\
-                        "text":\
-                        {\
-                            "content":"%s"\
-                        }\
-                        }' % (request['xml']['FromUserName'], weixin_name + " : " + request['xml']['Content'])
-                data_send = data
 
-            if  request['xml'].get('MsgType') == "image":
-                data = u'{ \
-                        "touser": "%s",\
-                        "msgtype":"image",\
-                        "image":\
-                            {\
-                             "media_id":"%s"\
-                        }' % (request['xml']['FromUserName'], request['xml']['MediaId'])
-                data_send = data
+                if "/::)" in request['xml']['Content'][0:5]:
+                    print request['xml']['Content'][4:]
 
-            #data_send = urllib.urlencode(data)
+                    group_id = self.chat_mgr_m.get(request['xml']['FromUserName'])
+                    if group_id != None:
+                        self.chat_mgr_m.out(request['xml']['FromUserName'])
+                        self.chat_mgr_m.delete(group_id, request['xml']['FromUserName'])
 
-            logger.info(data_send)
+                    self.chat_mgr_m.add(request['xml']['Content'][4:], request['xml']['FromUserName'])
+                    self.chat_mgr_m.join(request['xml']['FromUserName'], request['xml']['Content'][4:])
+
+                    content = u'欢迎进 %s房' %  request['xml']['Content'][4:]
+
+                    response = u"""<xml>
+                        <ToUserName><![CDATA[%s]]></ToUserName>
+                        <FromUserName><![CDATA[%s]]></FromUserName>
+                        <CreateTime>%s</CreateTime>
+                        <MsgType><![CDATA[text]]></MsgType>
+                        <Content><![CDATA[%s]]></Content>
+                        </xml>""" % (to_user_name, from_user_name, create_time, content)
+
+                    self.finish(response)
+                    return
+
+                elif  "/::X" in request['xml']['Content'][0:5]:
+                    group_id = self.chat_mgr_m.get(request['xml']['FromUserName'])
+                    if group_id == None:
+                        group_id = '' 
+                    self.chat_mgr_m.out(request['xml']['FromUserName'])
+                    self.chat_mgr_m.delete(group_id, request['xml']['FromUserName'])
+
+                    content = u'欢迎退%s房' %  group_id
+
+                    response = u"""<xml>
+                        <ToUserName><![CDATA[%s]]></ToUserName>
+                        <FromUserName><![CDATA[%s]]></FromUserName>
+                        <CreateTime>%s</CreateTime>
+                        <MsgType><![CDATA[text]]></MsgType>
+                        <Content><![CDATA[%s]]></Content>
+                        </xml>""" % (to_user_name, from_user_name, create_time, content)
+                    self.finish(response)
+                    return
+                else:
+                    group_id = self.chat_mgr_m.get(request['xml']['FromUserName'])
+                    members = self.chat_mgr_m.members(group_id)
+
+                    for m in members:
+                        if m !=  request['xml']['FromUserName']:
+                    
+                            data = u'{ \
+                                    "touser": "%s",\
+                                    "msgtype":"text",\
+                                    "text":\
+                                    {\
+                                        "content":"%s"\
+                                    }\
+                                    }' % (m, weixin_name + " : " + request['xml']['Content'])
+                            data_send = data
+
+                            access_token = WeixinJSSDK.access_token
+
+                            url = u"https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %  access_token
+
+                            response = yield http_client.fetch(url, method='POST', body=data_send)
+
+                    self.finish()
+                    return
+
+            if  request['xml'].get('MsgType') in ["image", "video", "voice"]:
+
+                group_id = self.chat_mgr_m.get(request['xml']['FromUserName'])
+                members = self.chat_mgr_m.members(group_id)
+
+                logger.info(members)
+                logger.info(request['xml']['FromUserName'])
+
+                for m in members:
+
+                    if m !=  request['xml']['FromUserName']:
+
+                        data = u'{ \
+                                "touser": "%s",\
+                                "msgtype":"text",\
+                                "text":\
+                                {\
+                                    "content":"%s"\
+                                }\
+                                }' % (m, weixin_name + " : " + request['xml'].get('MsgType'))
+                        data_send = data
+
+                        access_token = WeixinJSSDK.access_token
+
+                        url = u"https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %  access_token
+
+                        response = yield http_client.fetch(url, method='POST', body=data_send)
+
+                        data = u'{ \
+                                "touser": "%s",\
+                                "msgtype":"%s",\
+                                "%s":\
+                                    {\
+                                     "media_id":"%s"\
+                                    }\
+                                }' % (m, request['xml'].get('MsgType'), request['xml'].get('MsgType'), request['xml']['MediaId'])
 
 
-            #yield WeixinJSSDK.get_value(self.request.full_url())
-            access_token = WeixinJSSDK.access_token
+                        data_send = data
 
-            url = u"https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %  access_token
+                        logger.info(data_send)
+                        
+                        access_token = WeixinJSSDK.access_token
 
-            logger.info(url)
-            response = yield http_client.fetch(url, method='POST', body=data_send)
+                        url = u"https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %  access_token
 
-            logger.info(response.body)
-            self.finish()
-            return
+                        logger.info(url)
+                        response = yield http_client.fetch(url, method='POST', body=data_send)
 
+                self.finish()
+                return
 
 
         if request['xml'].get('EventKey'):
@@ -288,11 +370,49 @@ class UploadHandler(tornado.web.RequestHandler):
 
         self.finish("file " + original_fname + " is uploaded")
 
+class WeixinJoinHandler(WebRequest):
+    def post(self):
+        
+        chat_mgr_m = chat_mgr()
+
+        self.user_id = self.current_user.get("id")
+
+        user = get_user(self.user_id)
+        openid = user.get("weixin")
+
+        data     = json.loads(self.request.body)
+        group_id_new = data['group_id']
+
+        group_id = chat_mgr_m.get(openid)
+        if group_id != None:
+            chat_mgr_m.out(openid)
+            chat_mgr_m.delete(group_id, openid)
+
+        chat_mgr_m.add(group_id_new, openid)
+        chat_mgr_m.join(openid, group_id_new)
+
+        self.finish()
+
+class WeixinOutHandler(WebRequest):
+    def post(self):
+
+        chat_mgr_m = chat_mgr()
+
+        self.user_id = self.current_user.get("id")
+
+        user = get_user(self.user_id)
+        openid = user.get("weixin")
+
+        group_id = chat_mgr_m.get(openid)
+        if group_id == None:
+            group_id = '' 
+        chat_mgr_m.out(openid)
+        chat_mgr_m.delete(group_id, openid)
+
+        self.finish()
 
 class WeixinConfigHandler(tornado.web.RequestHandler):
     def post(self):
-        print self.request.body
-
         data = json.loads(self.request.body)
         print data
         weixin_url = data['weixin_url']

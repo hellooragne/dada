@@ -1,10 +1,9 @@
 <ion-view view-title="萌搭搭">
 
 <ion-header-bar class="bar-subheader">
-<div class="container-wrap">
+<div class="">
 	<div class="container">
-		<button ng-click="change_info_type('1')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '1' }">靓衣圈</button>
-		<button ng-click="change_info_type('2')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '2' }">美食圈</button>
+		<button ng-click="change_info_type('1')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '1' }">生活圈</button>
 		<button ng-click="change_info_type('3')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '3' }">旅游圈</button>
 		<button ng-click="change_info_type('4')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '4' }">出行圈</button>
 		<button ng-click="change_info_type('5')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '5' }">乐玩圈</button>
@@ -26,29 +25,7 @@
 				</a>
 			</div>
 		</div>
-
-	</div>
-</div>
-
-<div class="row-top-p">
-	<div class="row">
-		<div class="col-20" >
-			<div class="jj">
-				<a ng-href="#/app/order/shanghai/1">
-					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
-					<span class="yy">靓衣</span>
-				</a>
-			</div>
-		</div>
-	</div>
-</div>
-</ion-content>
-
-<ion-content ng_show='info_type === "2"'>
-
-<div class="row-top-p">
-	<div class="row">
-
+		
 		<div class="col-20">
 			<div class="jj">
 				<a ng-click="jump('http://www.meituan.com')">
@@ -75,6 +52,7 @@
 				</a>
 			</div>
 		</div>
+
 	</div>
 </div>
 
@@ -82,15 +60,23 @@
 	<div class="row">
 		<div class="col-20" >
 			<div class="jj">
-				<a ng-href="'#/app/order/shanghai/2'">
-					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
-					<span class="yy">内部推荐</span>
+				<a ng-href="#/app/order/shanghai/1">
+					<img  src="img/my.jpg"  class="yj"   width="40" height="40" />
+					<span class="yy">靓衣</span>
+				</a>
+			</div>
+		</div>
+		
+		<div class="col-20" >
+			<div class="jj">
+				<a ng-href="#/app/order/shanghai/2">
+					<img  src="img/my.jpg"  class="yj"   width="40" height="40" />
+					<span class="yy">美食圈</span>
 				</a>
 			</div>
 		</div>
 	</div>
 </div>
-
 </ion-content>
 
 <ion-content ng_show='info_type === "3"'>
@@ -151,7 +137,7 @@
 		<div class="col-20" >
 			<div class="jj">
 				<a ng-href="#/app/order/shanghai/3">
-					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
+					<img  src="img/my.jpg"  class="yj"   width="40" height="40" />
 					<span class="yy">内部推荐</span>
 				</a>
 			</div>
@@ -199,18 +185,9 @@
 
 <div class="row-top-p">
 	<div class="row">
-		<div class="col-20" >
-			<div class="jj">
-				<a ng-href="#/app/order/shanghai/2">
-					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
-					<span class="yy">内部推荐</span>
-				</a>
-			</div>
-		</div>
-
 		<div class="col-20">
 			<div class="jj">
-				<a href="#/app/order/shanghai/2">
+				<a href="#/app/order/shanghai/3">
 					<img  src="img/my.jpg" width="40" height="40"  class="yj"  />
 					<span class="yy"> 淞虹路</span>
 				</a>
@@ -220,12 +197,24 @@
 
 		<div class="col-20">
 			<div class="jj">
-				<a href="#/app/order/shanghai/2">
+				<a href="#/app/order/shanghai/4">
 					<img  src="img/my.jpg" width="40" height="40"  class="yj"  />
 					<span class="yy"> 虹桥</span>
 				</a>
 			</div>
 		</div>
+
+		
+		<div class="col-20">
+			<div class="jj">
+				<a href="#/app/order/shanghai/5">
+					<img  src="img/my.jpg" width="40" height="40"  class="yj"  />
+					<span class="yy"> 漕河泾</span>
+				</a>
+			</div>
+		</div>
+
+
 
 	</div>
 </div>
@@ -289,8 +278,8 @@
 	<div class="row">
 		<div class="col-20" >
 			<div class="jj">
-				<a ng-href="#/app/order/shanghai/3">
-					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
+				<a ng-href="#/app/order/shanghai/6">
+					<img  src="img/my.jpg"  class="yj"   width="40" height="40" />
 					<span class="yy">内部推荐</span>
 				</a>
 			</div>
@@ -338,8 +327,8 @@
 	<div class="row">
 		<div class="col-20" >
 			<div class="jj">
-				<a ng-href="#/app/order/shanghai/3">
-					<img  src="https://m.tuniucdn.com/fb2/t1/G2/M00/59/73/Cii-TlfM1feIO4NtAAANXZtSasUAACDvQP3KJwAAA11506.png"  class="yj"   width="40" height="40" />
+				<a ng-href="#/app/order/shanghai/7">
+					<img  src="img/my.jpg"  class="yj"   width="40" height="40" />
 					<span class="yy">内部推荐</span>
 				</a>
 			</div>

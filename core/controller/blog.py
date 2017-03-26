@@ -107,11 +107,6 @@ class CancelAPIHandler(WebRequest):
 class GetHandler(WebRequest):
     def post(self):
 
-        if not self.current_user:
-            return
-
-        user_id = self.current_user.get("id")
-
         #get from db
         blog_model = blog_m()
         data      = json.loads(self.request.body)
@@ -125,12 +120,6 @@ class GetHandler(WebRequest):
 class GetOneHandler(WebRequest):
     def post(self):
 
-        if not self.current_user:
-            return
-
-        user_id = self.current_user.get("id")
-
-        #get from db
         blog_model = blog_m()
         data      = json.loads(self.request.body)
         current_user_id = self.current_user.get("id")
@@ -158,3 +147,35 @@ class GetMyHandler(WebRequest):
 
         self.finish(json.dumps(blog_res, cls=DateEncoder))
 
+
+class AddCommitHandler(WebRequest):
+    def post(self):
+        if not self.current_user:
+            return
+
+        user_id = self.current_user.get("id")
+
+        blog_model = blog_m()
+        data      = json.loads(self.request.body)
+        current_user_id = self.current_user.get("id")
+        data['current_user_id'] = current_user_id;
+        blog_model.add_commit(data)
+
+        self.finish()
+
+class GetCommitHandler(WebRequest):
+    def post(self):
+        if not self.current_user:
+            return
+
+        user_id = self.current_user.get("id")
+
+        blog_model = blog_m()
+        data      = json.loads(self.request.body)
+        current_user_id = self.current_user.get("id")
+        data['current_user_id'] = current_user_id;
+        blog_commit_res = blog_model.get_commit(data)
+
+        print json.dumps(blog_commit_res, cls=DateEncoder)
+
+        self.finish(json.dumps(blog_commit_res, cls=DateEncoder))

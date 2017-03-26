@@ -1,14 +1,13 @@
 <ion-view view-title="萌搭搭">
   <ion-content>
 
-		<a href='http://u.ctrip.com/union/CtripRedirect.aspx?TypeID=2&AllianceID=29637&sid=468701&ouid=&app=0102F00&jumpUrl=http://www.ctrip.com' target='_blank' ><img style="width:100%" src='img/share.jpg' border='0' /></a>
 		<div class="list">
 			
 			<div class="list card">
 
 				<div ng-class='{"item item-avatar":true, "highlight":playlist.state === "disable"}'>
 					   <img src="{{playlist.picture}}">
-					   <h2>{{playlist.bill_name}}</h2>
+					   <div class="pn2">{{playlist.order_name}}</div>
 					   <p>
 					   时间 {{playlist.start_time}}
 						</p>

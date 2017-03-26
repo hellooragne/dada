@@ -3,10 +3,9 @@
 <ion-header-bar class="bar-subheader">
 	<div class="">
 		<div class="container">
-			<button ng-click="change_info_type('1')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '1' }">活动圈</button>
 			<button ng-click="change_info_type('2')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '2' }">图文圈</button>
-			<button ng-click="change_info_type('3')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '3' }">投票圈</button>
-			<button ng-click="change_info_type('4')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '4' }">群聊圈</button>
+			<button ng-click="change_info_type('1')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '1' }">活动圈</button>
+			<button ng-click="change_info_type('5')" ng-class="{'button button-light':true, 'button button-positive':  info_type === '5' }">群聊圈</button>
 		</div>
 	</div>
 </ion-header-bar>  
@@ -19,7 +18,7 @@
   </ion-refresher>
 
   <ion-list>
-    <ion-item class="item item-thumbnail-left" ng-repeat="t in bill_list track by $index" href="#/app/playlist/{{t.order_id}}">
+    <ion-item class="item  item-avatar" ng-repeat="t in bill_list track by $index" href="#/app/playlist/{{t.order_id}}">
   	
     <img src="{{t.picture}}" wight="80px" height="100px">
 
@@ -47,7 +46,7 @@
   </ion-refresher>
   
   <ion-list>
-    <ion-item class="item item-thumbnail-left" ng-repeat="t in blog_list track by $index" href="#/app/blog_show/{{t.id}}">
+    <ion-item class="item item-avatar" ng-repeat="t in blog_list track by $index" href="#/app/blog_show/{{t.id}}">
   	
     <img src="{{t.picture}}" wight="80px" height="100px">
 
@@ -55,40 +54,43 @@
 
     <p>{{t.desc_t}}</p>
 
-    <p>{{t.context}}</p>
+	
+	<div class="row row-no-padding" style="padding: 1px">
+		<div class="col col-33"><img height="80"  width="80" src="{{t.picture_list[0]}}" ng-show = "t.picture_list[0] != null "></div>
+		<div class="col col-33" style="padding-left: 3px"><img height="80"  width="80" src="{{t.picture_list[1]}}" ng-show = "t.picture_list[1] != null "></div>
+		<div class="col col-33" style="padding-left: 3px"><img height="80"  width="80" src="{{t.picture_list[2]}}" ng-show = "t.picture_list[2] != null "></div>
+	</div>
 
     </ion-item>
   </ion-list>
 </ion-content>
 
-<ion-content  ng_show='info_type === "4"'>
+<ion-content  ng_show='info_type === "5"'>
 <div class="list">
 
 	<div class=""item item-body">
 		<div class="col" ">
-			<h4>本圈群聊房间号: g{{group_id}}</h4>
-			<h4>在公众号中输入表情和房间号开始群聊 </h4>
+			
+			<button class="button button-block button-positive button-small" ng-click="join_chat()">加入</button>
 
-			<img class="full-image" style="" src="img/talk.jpg">
-		</div>
-	</div>
-	<div class=""item item-body">
-		<div class="col" ">
+			<button class="button button-block button-assertive button-small" ng-click="exit_chat()">退出</button>
 
-			<h4>在公众号中输入表情后停止群聊 </h4>
+			<div class="pn2" style="text-align:center">点击 加入 后长按二维码开始群聊 </div>
+			<img class="full-image" style="" src="img/code.jpg">
 
-			<img class="full-image" style="" src="img/stop_talk.jpg">
 		</div>
 	</div>
 </div>
 </ion-content>
 
-<ion-footer-bar align-title="left" class="bar-positive" >
+<div ng-show="info_type != 5">
+<ion-footer-bar align-title="left" class="bar-positive">
 	<h1 class="title"></h1>
 
 	<div class="buttons" ng-click="create_common()">
 		<button class="button">创建</button>
 	</div>
 </ion-footer-bar>
+</div>
 
 </ion-view>

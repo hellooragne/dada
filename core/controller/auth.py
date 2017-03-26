@@ -500,8 +500,14 @@ class FakeLoginHandler(tornado.web.RequestHandler):
     def get(self):
         user_id = self.get_argument("id")
         user = {"id": user_id, "v":1}
+        user_data = get_user(user_id)
+
+        logger.info(user_id)
+        logger.info(user_data)
+
+        user_data['user_id'] = user_id
         self.set_secure_cookie("user", tornado.escape.json_encode(user))
-        self.finish(user)
+        self.finish(user_data)
 
 
 # class ReChaptchaAPIHandler(tornado.web.RequestHandler):

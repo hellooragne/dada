@@ -21,6 +21,10 @@ from setting import conn
 
 from nomagic.cache import get_user, get_users, update_user, get_doc, get_docs, update_doc
 
+
+import logging
+logger = logging.getLogger(__name__)
+
 class blog_m:
 
     def __init__(self):
@@ -40,13 +44,24 @@ class blog_m:
 
 
         sql = "insert into blog_t (city, group_id, title, desc_t,\
-                context, picture_list, user_id, phone_id,  create_time,  username,\
-                picture, state) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s',  'enable')" %\
-                (data['city'], data['group_id'], data['title'], data['desc_t'], data['context'], data['picture_list'], \
+                context, s_url, picture_list, user_id, phone_id,  create_time,  username,\
+                picture, state) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s','%s', '%s', '%s', '%s', '%s',  'enable'); commit" %\
+                (data['city'], data['group_id'], data['title'], data['desc_t'], data['context'], data['s_url'], data['picture_list'], \
                 data['current_user_id'], data['phone_id'], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), weixin_name, weixin_img)
 
-        print sql
+        logger.info(sql)
         assert conn.execute_rowcount(sql)
+        return
+
+        logger.info(data['desc_t'])
+
+        assert conn.execute("insert into blog_t (city, group_id, title, desc_t,\
+                context, s_url, picture_list, user_id, phone_id,  create_time,  username,\
+                picture, state) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s','%s', '%s', '%s', '%s', '%s',  '%s','enable')", \
+                [data['city'], data['group_id'], data['title'], data['desc_t'], data['context'], data['s_url'], data['picture_list'], \
+                data['current_user_id'], data['phone_id'], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), weixin_name, weixin_img])
+        
+        #assert conn.execute_rowcount(sql)
         pass
 
 
@@ -83,6 +98,29 @@ class blog_m:
         result = conn.query("select * from blog_t where user_id = ? ", data['current_user_id'])
 
         return result
+
+    def add_commit(self, data):
+        
+        user = get_user(data['current_user_id'])
+        openid = user.get("weixin")
+        weixin_name  = user.get("name")
+        weixin_img   = user.get("weixin_data").get("headimgurl")
+
+
+        sql = "insert into  blog_commit_t (group_id, blog_id, commit_t, create_time, username , picture, state) values ('%s', '%s', '%s', '%s', '%s', '%s', 'enable')" % (data['group_id'], data['blog_id'], data['commit_t'], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), weixin_name, weixin_img)
+
+        logger.info(sql)
+        assert conn.execute_rowcount(sql)
+        pass
+
+    def get_commit(self, data):
+
+        sql = "select * from blog_commit_t where blog_id = %s  order by create_time desc" %(data['blog_id'])
+
+        result = conn.query(sql)
+
+        return result
+
 
 if __name__ == '__main__':
 

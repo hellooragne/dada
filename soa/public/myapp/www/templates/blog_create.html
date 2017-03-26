@@ -13,8 +13,14 @@
         </label>
 
 		<label class="item">
-		  <textarea id="txtArea" placeholder="内容" rows="10" cols="70" ng-model="blog.context"></textarea>
+		  <textarea id="txtArea" placeholder="内容" rows="10" cols="" wrap="soft" ng-model="blog.context"></textarea>
         </label>
+
+		
+		<label class="item item-input item-floating-label">
+          <input type="text" placeholder="原文链接" ng-model="blog.s_url">
+        </label>
+
 
 		<label class="item">
           <button class="button button-block button-positive" ng-click="set_pic()">设置图片</button>
