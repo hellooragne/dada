@@ -27,15 +27,18 @@ from controller import order
 from controller import blog
 from controller import order_join
 from controller import msg_process
+from controller import map_c
 
 application = tornado.web.Application([
 
     #hmeng
     (r"/api/weixinlogin", weixin.ApiWeixinLogin),
+    (r"/api/newweixinlogin", weixin.ApiNewWeixinLogin),
     (r"/api/weixinredirect", weixin.ApiWeixinRedirect),
 
     #hmeng
     (r"/api/fake_login", auth.FakeLoginHandler),
+    (r"/api/fake_weixin_login", auth.FakeWeixinLoginHandler),
 
     #hmeng
     (r"/order", order.OrderHandler),
@@ -67,18 +70,29 @@ application = tornado.web.Application([
 
     (r"/api/upload", msg_process.UploadHandler),
 
+    (r"/api/map_c", map_c.map_c),
+
     (r"/static/(.*)", tornado.web.StaticFileHandler, dict(path=settings['static_path'], default_filename='index.html')),
 ], **settings)
 
 if __name__ == "__main__":
     # tornado.locale.load_translations(os.path.join(os.path.dirname(__file__), "csv_translations"))
+    
     tornado.options.define("port", default=8027, help="Run server on a specific port", type=int)
     tornado.options.parse_command_line()
     application.listen(tornado.options.options.port)
+    tornado.ioloop.IOLoop.instance().start()
+
+   #server = tornado.httpserver.HTTPServer(application,ssl_options={
+   #    "certfile": os.path.join(os.path.abspath("/etc/ssl/"), "server.crt"),
+   #    "keyfile": os.path.join(os.path.abspath("/etc/ssl/"), "server.key"),
+   #    })
+   #tornado.options.parse_command_line()
+   #server.listen(443)
+   #tornado.ioloop.IOLoop.instance().start()
 
     # if not settings["debug"]:
     #     secure_server = tornado.httpserver.HTTPServer(application,
     #         ssl_options={"certfile": os.path.join("/etc/ssl/", "qishu.crt"),
     #                      "keyfile": os.path.join("/etc/ssl/", "qishu.key")})
     #     secure_server.listen(8027)
-    tornado.ioloop.IOLoop.instance().start()

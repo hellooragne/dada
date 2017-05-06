@@ -32,15 +32,21 @@ class order_m:
 
     def add_order(self, data):
 
-        user = get_user(data['current_user_id'])
-        openid = user.get("weixin")
-        weixin_name  = user.get("name")
-        weixin_img   = user.get("weixin_data").get("headimgurl")
+        print data['current_user_id']
 
-        sql = "insert into order_t (group_id, order_name, s_from,\
-                s_to, start_time, phone_id, seat_number, s_type, create_time, user_id, username,\
-                picture, state) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 'enable')" %\
-                (data['group_id'], data['order_name'], data['s_from'], data['s_to'], data['start_time'], data['phone_id'], \
+        user = get_user(data['current_user_id'])
+
+        openid = user.get("weixin")
+        weixin_name  = user.get("weixin_data").get("nickName")
+        weixin_img   = user.get("weixin_data").get("avatarUrl")
+
+
+
+        sql = "insert into order_t (group_id, order_name, s_from, s_start_longitude, s_start_latitude,\
+                s_to, s_end_longitude, s_end_latitude, start_time, phone_id, seat_number, s_type, create_time, user_id, username,\
+                picture, state) values ('%s', '%s', '%s', '%s','%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', 'enable')" %\
+                (data['group_id'], data['order_name'], data['s_from'],data['s_start_longitude'], data['s_start_latitude'],\
+                data['s_to'], data['s_end_longitude'], data['s_end_latitude'], data['start_time'], data['phone_id'], \
                 data['seat_number'], data['s_type'], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), data['current_user_id'], weixin_name, weixin_img)
 
         print sql
@@ -71,6 +77,7 @@ class order_m:
         return result 
 
     def get_one_order(self, data):
+        print data['order_id']
 
         result = conn.query("select * from order_t where order_id = %s and to_days(start_time) >= to_days(now())", data['order_id'])
 

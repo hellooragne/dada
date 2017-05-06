@@ -11,3 +11,6 @@ curl http://localhost/api/fake_login?id=7bfeff73c95b43fbabdd0c098e229bcc -c cook
 
 
 curl -d '{"group_id":"1", "city":"shanghai", "title":"test", "desc_t":"test_desc", "context":"context_test", "picture_list":"['img/1.jjpg']", "user_id":"123", "username":"hello", "picture":"img/2.jpg", "phone_id":"123"}' http://localhost/api/blog/new -b ./cookie_test
+
+
+curl -d '{"origin":"31.292614,121.16414","destination":"31.210106,121.37494"}' http://localhost/api/map_c -b cookie_test

@@ -131,22 +131,16 @@ class StatusAPIHandler(WebRequest):
 
 class NewAPIHandler(WebRequest):
     def post(self):
-        global users, orders, message_queue
+        
+        data = json.loads(self.request.body)
 
-        if not self.current_user:
+        current_user_id = data["g_uuid"]
+
+        if not current_user_id:
             return
-
-        user_id = self.current_user.get("id")
-
-        user = users.get(user_id, {})
-        order_ids = user.get("order_ids", [])
-
-        print "add to db"
 
         #add to db
         order_model = order_m()
-        data = json.loads(self.request.body)
-        current_user_id = self.current_user.get("id")
         data['current_user_id'] = current_user_id;
         order_model.add_order(data)
 
@@ -156,17 +150,16 @@ class NewAPIHandler(WebRequest):
 class CancelAPIHandler(WebRequest):
     def post(self):
         global users, orders, message_queue
-        if not self.current_user:
+
+        current_user_id = data["g_uuid"]
+
+        if not current_user_id:
             return
 
-        user_id = self.current_user.get("id")
-
-        user = users.get(user_id, {})
-        
         #add to db
         order_model = order_m()
         data = json.loads(self.request.body)
-        data['user_id'] = user_id
+        data['current_user_id'] = current_user_id;
         order_model.disable_order(data)
 
         self.finish({})

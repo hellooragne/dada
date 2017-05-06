@@ -36,12 +36,13 @@ class blog_m:
 
     def add_blog(self, data):
 
-        print data['current_user_id']
         user = get_user(data['current_user_id'])
         openid = user.get("weixin")
-        weixin_name  = user.get("name")
-        weixin_img   = user.get("weixin_data").get("headimgurl")
+        weixin_name  = user.get("weixin_data").get("nickName")
+        weixin_img   = user.get("weixin_data").get("avatarUrl")
 
+
+        print data
 
         sql = "insert into blog_t (city, group_id, title, desc_t,\
                 context, s_url, picture_list, user_id, phone_id,  create_time,  username,\
@@ -103,11 +104,11 @@ class blog_m:
         
         user = get_user(data['current_user_id'])
         openid = user.get("weixin")
-        weixin_name  = user.get("name")
-        weixin_img   = user.get("weixin_data").get("headimgurl")
+        weixin_name  = user.get("weixin_data").get("nickName")
+        weixin_img   = user.get("weixin_data").get("avatarUrl")
 
 
-        sql = "insert into  blog_commit_t (group_id, blog_id, commit_t, create_time, username , picture, state) values ('%s', '%s', '%s', '%s', '%s', '%s', 'enable')" % (data['group_id'], data['blog_id'], data['commit_t'], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), weixin_name, weixin_img)
+        sql = "insert into  blog_commit_t (group_id, blog_id, group_type, commit_t, create_time, username , picture, state) values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', 'enable')" % (data['group_id'], data['blog_id'], data['group_type'], data['commit_t'], datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), weixin_name, weixin_img)
 
         logger.info(sql)
         assert conn.execute_rowcount(sql)
@@ -115,7 +116,7 @@ class blog_m:
 
     def get_commit(self, data):
 
-        sql = "select * from blog_commit_t where blog_id = %s  order by create_time desc" %(data['blog_id'])
+        sql = "select * from blog_commit_t where blog_id = '%s'  order by create_time desc " %(data['blog_id'])
 
         result = conn.query(sql)
 

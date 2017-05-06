@@ -496,6 +496,7 @@ class ResetPasswordHandler(tornado.web.RequestHandler):
 
             self.render('../template/reset_password_success.html')
 
+#hmeng
 class FakeLoginHandler(tornado.web.RequestHandler):
     def get(self):
         user_id = self.get_argument("id")
@@ -508,6 +509,40 @@ class FakeLoginHandler(tornado.web.RequestHandler):
         user_data['user_id'] = user_id
         self.set_secure_cookie("user", tornado.escape.json_encode(user))
         self.finish(user_data)
+
+
+class FakeWeixinLoginHandler(tornado.web.RequestHandler):
+    def post(self):
+
+        data = json.loads(self.request.body)
+        print data
+    
+        weixin_unionid = data.get('unionid', '')
+        login_openid = "weixin:%s" % weixin_openid
+        login_unionid = "unionid:%s" % weixin_unionid
+
+        user_id = nomagic.auth.get_user_id_by_login(login_unionid)
+        if user_id:
+            nomagic.auth.update_user(user_id, {'weixin_data': data, 'weixin': weixin_openid, 'name': data.get('nickname', '')})
+            user_id_by_openid = nomagic.auth.get_user_id_by_login(login_openid)
+            if not user_id_by_openid:
+                assert conn.execute_rowcount("INSERT INTO index_login (login, entity_id) VALUES(%s, %s)", login_openid, user_id)
+
+        else:
+            user_id = nomagic.auth.get_user_id_by_login(login_openid)
+            if user_id:
+                nomagic.auth.update_user(user_id, {'weixin_data': data, 'weixin': weixin_openid, 'name': data.get('nickname', '')})
+            else:
+                user_id, user = nomagic.auth.create_user({'weixin_data': data, 'weixin': weixin_openid, 'name': data.get('nickname', '')})
+                assert conn.execute_rowcount("INSERT INTO index_login (login, entity_id) VALUES(%s, %s)", login_openid, user_id)
+
+            if weixin_unionid:
+                assert conn.execute_rowcount("INSERT INTO index_login (login, entity_id) VALUES(%s, %s)", login_unionid, user_id)
+
+        self.set_secure_cookie("user", json_encode({"id": user_id}))
+        data['user_id'] = user_id
+        self.finish(data)
+
 
 
 # class ReChaptchaAPIHandler(tornado.web.RequestHandler):

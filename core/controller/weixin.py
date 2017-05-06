@@ -23,6 +23,8 @@ from setting import conn
 from urllib import urlencode
 from urllib import quote 
 
+from WXBizDataCrypt import WXBizDataCrypt
+
 import nomagic.auth
 from nomagic.cache import get_user, get_users, update_user, get_doc, get_docs, update_doc
 
@@ -237,6 +239,9 @@ class AuthHandler(WebRequest):
         response = yield http_client.fetch(url)
         data = json_decode(response.body)
         weixin_unionid = data.get('unionid', '')
+
+        print "weixin_unionid:" + weixin_unionid 
+
         login_openid = "weixin:%s" % weixin_openid
         login_unionid = "unionid:%s" % weixin_unionid
 
@@ -266,6 +271,100 @@ class ApiWeixinRedirect(WebRequest):
     def get(self):
         code = self.get_argument('code', None)
         self.redirect(quote("/static/myapp/www/#/app/weixin_login/" + code))
+
+#hmeng
+class ApiNewWeixinLogin(WebRequest):
+    WEIXIN_AUTH_URL         = "https://open.weixin.qq.com/connect/oauth2/authorize"
+    WEIXIN_ACCESS_TOKEN_URL = "https://api.weixin.qq.com/sns/jscode2session"
+    REQUEST_CODE_URL        = "http://meitian.meishizhibo.net/auth/weixin"
+
+    def get_authorization_code(self, scope):
+        args = {
+            'appid'            : settings['WeixinAppId'],
+            'redirect_uri'     : self.REQUEST_CODE_URL+"?redirect="+url_escape(self.redirect_url),
+            'response_type'    : 'code',
+            'scope'            : scope,
+            'state'            : 'STATE'
+        }
+        url = '%s?%s#wechat_redirect' % (self.WEIXIN_AUTH_URL, urllib.urlencode(sorted(args.items())))
+        return url
+
+    @gen.coroutine
+    def post(self):
+
+        data_index = json_decode(self.request.body)
+        logger.info("code: " + data_index['code'])
+
+        #Use code fetch weixin access_token
+        http_client = tornado.httpclient.AsyncHTTPClient()
+
+        args = {
+            'appid'      : 'wx031299794998d58e',
+            'secret'     : 'fcbfa542fc483aa70b5695adc51848bb',
+            'js_code'       : data_index['code'],
+            'grant_type' : 'authorization_code'
+        }
+        url = '%s?%s' % (self.WEIXIN_ACCESS_TOKEN_URL, urllib.urlencode(sorted(args.items())))
+        response = yield http_client.fetch(url)
+
+        data = json_decode(response.body)
+        weixin_openid = data.get('openid')
+        logger.info(data)
+
+        if not weixin_openid:
+            return
+    
+        logger.info("session_key: " + data['session_key'])
+
+        pc = WXBizDataCrypt('wx031299794998d58e', data['session_key'])
+
+        data = pc.decryptData(data_index['encryptedData'], data_index['iv'])
+        
+        logger.info(data)
+
+        weixin_unionid = data.get('unionid', '')
+        login_openid = "weixin:%s" % weixin_openid
+        login_unionid = "unionid:%s" % weixin_openid
+
+        logger.info("login_unionid: " + login_unionid)
+
+        nickName = data.get("nickName")
+
+        nickName = "%%" + nickName + "%%"
+
+
+        sql = 'select * from entities where body like "' + nickName +'" and body like "%%ddgongzhonghao%%";'
+
+        result = conn.query(sql)
+
+        print json_decode(result[0]['body'])['weixin']
+
+        if len(result) != 0:
+            data['gongzhonghao'] = json_decode(result[0]['body'])['weixin']
+
+
+        user_id = nomagic.auth.get_user_id_by_login(login_unionid)
+        if user_id:
+            nomagic.auth.update_user(user_id, {'weixin_data': data, 'weixin': weixin_openid, 'name': data.get('nickname', '')})
+            user_id_by_openid = nomagic.auth.get_user_id_by_login(login_openid)
+            if not user_id_by_openid:
+                assert conn.execute_rowcount("INSERT INTO index_login (login, entity_id) VALUES(%s, %s)", login_openid, user_id)
+
+        else:
+            user_id = nomagic.auth.get_user_id_by_login(login_openid)
+            if user_id:
+                nomagic.auth.update_user(user_id, {'weixin_data': data, 'weixin': weixin_openid, 'name': data.get('nickname', '')})
+            else:
+                user_id, user = nomagic.auth.create_user({'weixin_data': data, 'weixin': weixin_openid, 'name': data.get('nickname', '')})
+                assert conn.execute_rowcount("INSERT INTO index_login (login, entity_id) VALUES(%s, %s)", login_openid, user_id)
+
+            if weixin_unionid:
+                assert conn.execute_rowcount("INSERT INTO index_login (login, entity_id) VALUES(%s, %s)", login_unionid, user_id)
+
+        self.set_secure_cookie("user", json_encode({"id": user_id}))
+        data['user_id'] = user_id
+        self.finish(data)
+
 
 #hmeng
 class ApiWeixinLogin(WebRequest):
@@ -301,6 +400,7 @@ class ApiWeixinLogin(WebRequest):
             'code'       : code,
             'grant_type' : 'authorization_code'
         }
+
         url = '%s?%s' % (self.WEIXIN_ACCESS_TOKEN_URL, urllib.urlencode(sorted(args.items())))
         response = yield http_client.fetch(url)
 

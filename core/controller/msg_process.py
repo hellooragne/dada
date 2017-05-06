@@ -132,7 +132,7 @@ class MessageHandler(tornado.web.RequestHandler):
         content_type = "text"
 
         if request['xml'].get('Event', "") in ["subscribe", "SCAN"]:
-            content = u'欢迎您关注, 您的用户号是 %s' % user_id
+            content = u'欢迎您关注'
             yield WeixinJSSDK.get_value(self.request.full_url())
             access_token = WeixinJSSDK.access_token
 
@@ -140,8 +140,11 @@ class MessageHandler(tornado.web.RequestHandler):
             url = '%s?access_token=%s&openid=%s&lang=zh_CN' % (self.USER_INFO_URL, access_token, weixin_openid)
             response = yield http_client.fetch(url)
             data = json_decode(response.body)
-            weixin_unionid = data.get('unionid', '')
+            data['dd_type'] = "ddgongzhonghao";
+            weixin_unionid = data.get('openid', '')
             login_unionid = "unionid:%s" % weixin_unionid
+
+            print "login unionid" + login_unionid
 
             user_id = nomagic.auth.get_user_id_by_login(login_unionid)
             if user_id:
@@ -169,6 +172,7 @@ class MessageHandler(tornado.web.RequestHandler):
         elif request['xml'].get('Event', "") == "unsubscribe":
             self.finish()
             return
+
 
         if request['xml'].get('MsgType') == "text" or  request['xml'].get('MsgType') == "voice" or request['xml'].get('MsgType') == "image" or request['xml'].get('MsgType') == "video":
 
@@ -361,14 +365,19 @@ class MessageHandler(tornado.web.RequestHandler):
 class UploadHandler(tornado.web.RequestHandler):
     def post(self):
         print "-------------"
-        print self.request.files.keys()
-        print "-------------"
-        file1 = self.request.files['files[0]'][0]
-        original_fname = file1['filename']
-        output_file = open("/home/cccloud/git/dada/soa/public/upload/" + original_fname, 'wb')
-        output_file.write(file1['body'])
+        print self.request.files['file'][0].keys()
+        print self.request.files['file'][0]['content_type']
 
-        self.finish("file " + original_fname + " is uploaded")
+        print "-------------"
+
+        for x in range(0, len(self.request.files['file'])):
+            file1 = self.request.files['file'][x]
+            original_fname = self.request.arguments['filename'][0][9:]
+            print original_fname
+            output_file = open("/home/cccloud/git/dada/soa/public/myapp/www/img/" + original_fname, 'wb')
+            output_file.write(self.request.files['file'][x]['body'])
+
+        self.finish("")
 
 class WeixinJoinHandler(WebRequest):
     def post(self):
@@ -428,3 +437,27 @@ class WeixinConfigHandler(tornado.web.RequestHandler):
                 }
 
         self.finish(res)
+
+
+class WeixinInfo():
+    @gen.coroutine
+    def send(self, appid, message):
+
+        http_client = tornado.httpclient.AsyncHTTPClient()
+
+        data = u'{ \
+                "touser": "%s",\
+                "msgtype":"text",\
+                "text":\
+                {\
+                    "content":"%s"\
+                }\
+                }' % (appid,  message)
+
+        data_send = data
+
+        access_token = WeixinJSSDK.access_token
+
+        url = u"https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=%s" %  access_token
+
+        response = yield http_client.fetch(url, method='POST', body=data_send)
